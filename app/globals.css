@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+
+@theme  {
+/* Backgrounds */
+  --color-background: #0F0A1F;
+  --color-card: #1A142E;
+  
+  /* Brand Colors */
+  --color-primary: #9D50FF;
+  --color-secondary: #00F5FF;
+  
+  /* Text */
+  --color-muted: #94A3B8;
+}
+
+@layer base{
+  body{
+    background-color: var(--color-background);
+    color:white;
+  }
+}
