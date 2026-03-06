@@ -1,0 +1,1042 @@
+[
+    {
+        "id": 1,
+        "domain": "Memory",
+        "question": "Can you recall three words: Apple, Table, Sky? Which one was the second word?",
+        "options": [
+            "Apple",
+            "Table",
+            "Sky",
+            "Chair"
+        ],
+        "correct": "Table",
+        "difficulty": "easy"
+    },
+    {
+        "id": 2,
+        "domain": "Orientation",
+        "question": "What is the current year?",
+        "options": [
+            "2023",
+            "2024",
+            "2025",
+            "2026"
+        ],
+        "correct": "2025",
+        "difficulty": "easy"
+    },
+    {
+        "id": 3,
+        "domain": "Attention",
+        "question": "Calculate 100 minus 7, then minus 7 again.",
+        "options": [
+            "93, 86",
+            "86, 79",
+            "93, 85",
+            "92, 85"
+        ],
+        "correct": "93, 86",
+        "difficulty": "medium"
+    },
+    {
+        "id": 4,
+        "domain": "Executive Function",
+        "question": "If you have 3 apples and you double them, then give away 2, how many are left?",
+        "options": [
+            "2",
+            "4",
+            "6",
+            "8"
+        ],
+        "correct": "4",
+        "difficulty": "easy"
+    },
+    {
+        "id": 5,
+        "domain": "Orientation",
+        "question": "In which season does the leaves start to change color in most temperate regions?",
+        "options": [
+            "Spring",
+            "Summer",
+            "Autumn",
+            "Winter"
+        ],
+        "correct": "Autumn",
+        "difficulty": "easy"
+    },
+    {
+        "id": 6,
+        "domain": "Memory",
+        "question": "I had a blue hat. What color was my hat?",
+        "options": [
+            "Red",
+            "Blue",
+            "Green",
+            "Yellow"
+        ],
+        "correct": "Blue",
+        "difficulty": "easy"
+    },
+    {
+        "id": 7,
+        "domain": "Attention",
+        "question": "Spell the word 'WORLD' backwards.",
+        "options": [
+            "DLROW",
+            "DLRWO",
+            "DRLOW",
+            "DOLRW"
+        ],
+        "correct": "DLROW",
+        "difficulty": "medium"
+    },
+    {
+        "id": 8,
+        "domain": "Executive Function",
+        "question": "Which of these is used for both writing and drawing?",
+        "options": [
+            "Pencil",
+            "Spoon",
+            "Mirror",
+            "Compass"
+        ],
+        "correct": "Pencil",
+        "difficulty": "easy"
+    },
+    {
+        "id": 9,
+        "domain": "Orientation",
+        "question": "What is the capital of France?",
+        "options": [
+            "Berlin",
+            "London",
+            "Madrid",
+            "Paris"
+        ],
+        "correct": "Paris",
+        "difficulty": "easy"
+    },
+    {
+        "id": 10,
+        "domain": "Pattern Recognition",
+        "question": "Complete the sequence: 10, 20, 30, ?",
+        "options": [
+            "35",
+            "40",
+            "45",
+            "50"
+        ],
+        "correct": "40",
+        "difficulty": "easy"
+    },
+    {
+        "id": 11,
+        "domain": "Memory",
+        "question": "Remember these numbers: 4, 8, 2. What was the first number?",
+        "options": [
+            "2",
+            "4",
+            "8",
+            "6"
+        ],
+        "correct": "4",
+        "difficulty": "easy"
+    },
+    {
+        "id": 12,
+        "domain": "Attention",
+        "question": "Count the number of 'A's in 'BANANA'.",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4"
+        ],
+        "correct": "3",
+        "difficulty": "easy"
+    },
+    {
+        "id": 13,
+        "domain": "Memory",
+        "question": "Listen carefully: Red, Blue, Green. Which was the third color?",
+        "options": [
+            "Red",
+            "Yellow",
+            "Green",
+            "Blue"
+        ],
+        "correct": "Green",
+        "difficulty": "easy"
+    },
+    {
+        "id": 14,
+        "domain": "Orientation",
+        "question": "What is the current month?",
+        "options": [
+            "February",
+            "March",
+            "April",
+            "May"
+        ],
+        "correct": "March",
+        "difficulty": "easy"
+    },
+    {
+        "id": 15,
+        "domain": "Attention",
+        "question": "Which of these is a vegetable?",
+        "options": [
+            "Carrot",
+            "Apple",
+            "Banana",
+            "Grape"
+        ],
+        "correct": "Carrot",
+        "difficulty": "easy"
+    },
+    {
+        "id": 16,
+        "domain": "Executive Function",
+        "question": "Select the odd one out.",
+        "options": [
+            "Car",
+            "Bus",
+            "Train",
+            "Spoon"
+        ],
+        "correct": "Spoon",
+        "difficulty": "easy"
+    },
+    {
+        "id": 17,
+        "domain": "Pattern Recognition",
+        "question": "Sequence: 1, 3, 5, ?",
+        "options": [
+            "6",
+            "7",
+            "8",
+            "9"
+        ],
+        "correct": "7",
+        "difficulty": "easy"
+    },
+    {
+        "id": 18,
+        "domain": "Memory",
+        "question": "Recall these words: Bird, Plane, Cloud. Which was the first word?",
+        "options": [
+            "Plane",
+            "Bird",
+            "Sky",
+            "Cloud"
+        ],
+        "correct": "Bird",
+        "difficulty": "easy"
+    },
+    {
+        "id": 19,
+        "domain": "Orientation",
+        "question": "What day of the week is it today?",
+        "options": [
+            "Monday",
+            "Friday",
+            "Sunday",
+            "Wednesday"
+        ],
+        "correct": "Friday",
+        "difficulty": "easy"
+    },
+    {
+        "id": 20,
+        "domain": "Attention",
+        "question": "What is 15 divided by 3?",
+        "options": [
+            "3",
+            "4",
+            "5",
+            "6"
+        ],
+        "correct": "5",
+        "difficulty": "easy"
+    },
+    {
+        "id": 21,
+        "domain": "Executive Function",
+        "question": "Which item keeps you dry in the rain?",
+        "options": [
+            "Towel",
+            "Umbrella",
+            "Sunglasses",
+            "Hat"
+        ],
+        "correct": "Umbrella",
+        "difficulty": "easy"
+    },
+    {
+        "id": 22,
+        "domain": "Memory",
+        "question": "Remember: 7, 12, 19. What was the middle number?",
+        "options": [
+            "7",
+            "12",
+            "19",
+            "21"
+        ],
+        "correct": "12",
+        "difficulty": "easy"
+    },
+    {
+        "id": 23,
+        "domain": "Orientation",
+        "question": "Which planet do we live on?",
+        "options": [
+            "Mars",
+            "Earth",
+            "Venus",
+            "Jupiter"
+        ],
+        "correct": "Earth",
+        "difficulty": "easy"
+    },
+    {
+        "id": 24,
+        "domain": "Pattern Recognition",
+        "question": "Sequence: A, B, C, ?",
+        "options": [
+            "D",
+            "E",
+            "F",
+            "G"
+        ],
+        "correct": "D",
+        "difficulty": "easy"
+    },
+    {
+        "id": 25,
+        "domain": "Memory",
+        "question": "I saw a movie called 'The Lion King'. What was the title?",
+        "options": [
+            "Tiger King",
+            "Lion King",
+            "Cat King",
+            "Bear King"
+        ],
+        "correct": "Lion King",
+        "difficulty": "easy"
+    },
+    {
+        "id": 26,
+        "domain": "Attention",
+        "question": "What is 10 x 4?",
+        "options": [
+            "14",
+            "40",
+            "104",
+            "44"
+        ],
+        "correct": "40",
+        "difficulty": "easy"
+    },
+    {
+        "id": 27,
+        "domain": "Orientation",
+        "question": "Which of these is a tool for telling time?",
+        "options": [
+            "Clock",
+            "Hammer",
+            "Bottle",
+            "Brush"
+        ],
+        "correct": "Clock",
+        "difficulty": "easy"
+    },
+    {
+        "id": 28,
+        "domain": "Executive Function",
+        "question": "How many legs does a spider have?",
+        "options": [
+            "4",
+            "6",
+            "8",
+            "10"
+        ],
+        "correct": "8",
+        "difficulty": "easy"
+    },
+    {
+        "id": 29,
+        "domain": "Pattern Recognition",
+        "question": "Pattern: Up, Down, Up, ?",
+        "options": [
+            "Left",
+            "Right",
+            "Down",
+            "Center"
+        ],
+        "correct": "Down",
+        "difficulty": "easy"
+    },
+    {
+        "id": 30,
+        "domain": "Memory",
+        "question": "Remember the word 'INTELLIGENCE'. What was the first letter?",
+        "options": [
+            "I",
+            "N",
+            "T",
+            "E"
+        ],
+        "correct": "I",
+        "difficulty": "easy"
+    },
+    {
+        "id": 31,
+        "domain": "Orientation",
+        "question": "What city are we in? (Assuming user knows context, but used as general for quiz)",
+        "options": [
+            "London",
+            "New York",
+            "Mumbai",
+            "Not Applicable"
+        ],
+        "correct": "Not Applicable",
+        "difficulty": "easy"
+    },
+    {
+        "id": 32,
+        "domain": "Attention",
+        "question": "Which of these is a mammal?",
+        "options": [
+            "Shark",
+            "Whale",
+            "Ant",
+            "Eagle"
+        ],
+        "correct": "Whale",
+        "difficulty": "medium"
+    },
+    {
+        "id": 33,
+        "domain": "Memory",
+        "question": "Remember: Tiger, Elephant, Giraffe. Which was the second animal?",
+        "options": [
+            "Elephant",
+            "Tiger",
+            "Giraffe",
+            "Zebra"
+        ],
+        "correct": "Elephant",
+        "difficulty": "easy"
+    },
+    {
+        "id": 34,
+        "domain": "Executive Function",
+        "question": "If you are second in a race, what position are you?",
+        "options": [
+            "First",
+            "Second",
+            "Third",
+            "Last"
+        ],
+        "correct": "Second",
+        "difficulty": "easy"
+    },
+    {
+        "id": 35,
+        "domain": "Pattern Recognition",
+        "question": "Complete: Square, Circle, Square, ?",
+        "options": [
+            "Triangle",
+            "Circle",
+            "Rectangle",
+            "Star"
+        ],
+        "correct": "Circle",
+        "difficulty": "easy"
+    },
+    {
+        "id": 36,
+        "domain": "Memory",
+        "question": "What color is the sky on a clear day?",
+        "options": [
+            "Green",
+            "Blue",
+            "Red",
+            "Yellow"
+        ],
+        "correct": "Blue",
+        "difficulty": "easy"
+    },
+    {
+        "id": 37,
+        "domain": "Orientation",
+        "question": "In the morning, the sun rises in the...?",
+        "options": [
+            "East",
+            "West",
+            "North",
+            "South"
+        ],
+        "correct": "East",
+        "difficulty": "easy"
+    },
+    {
+        "id": 38,
+        "domain": "Attention",
+        "question": "Subtract 20 from 100.",
+        "options": [
+            "70",
+            "80",
+            "90",
+            "120"
+        ],
+        "correct": "80",
+        "difficulty": "easy"
+    },
+    {
+        "id": 39,
+        "domain": "Executive Function",
+        "question": "Which of these is used to hear sound?",
+        "options": [
+            "Ear",
+            "Eye",
+            "Nose",
+            "Mouth"
+        ],
+        "correct": "Ear",
+        "difficulty": "easy"
+    },
+    {
+        "id": 40,
+        "domain": "Pattern Recognition",
+        "question": "Sequence: Red, Green, Red, ?",
+        "options": [
+            "Blue",
+            "Green",
+            "Yellow",
+            "Orange"
+        ],
+        "correct": "Green",
+        "difficulty": "easy"
+    },
+    {
+        "id": 41,
+        "domain": "Memory",
+        "question": "Yesterday was Thursday. What day was it?",
+        "options": [
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+        ],
+        "correct": "Thursday",
+        "difficulty": "easy"
+    },
+    {
+        "id": 42,
+        "domain": "Orientation",
+        "question": "A compass points to the...?",
+        "options": [
+            "North",
+            "South",
+            "East",
+            "West"
+        ],
+        "correct": "North",
+        "difficulty": "easy"
+    },
+    {
+        "id": 43,
+        "domain": "Attention",
+        "question": "Find the sum of 8 and 9.",
+        "options": [
+            "15",
+            "16",
+            "17",
+            "18"
+        ],
+        "correct": "17",
+        "difficulty": "easy"
+    },
+    {
+        "id": 44,
+        "domain": "Executive Function",
+        "question": "Which of these is a transport vehicle?",
+        "options": [
+            "Chair",
+            "Bed",
+            "Bus",
+            "Phone"
+        ],
+        "correct": "Bus",
+        "difficulty": "easy"
+    },
+    {
+        "id": 45,
+        "domain": "Pattern Recognition",
+        "question": "Sequence: 2, 5, 8, ?",
+        "options": [
+            "9",
+            "10",
+            "11",
+            "12"
+        ],
+        "correct": "11",
+        "difficulty": "medium"
+    },
+    {
+        "id": 46,
+        "domain": "Memory",
+        "question": "Remember: 55, 66, 77. What number came after 55?",
+        "options": [
+            "66",
+            "77",
+            "88",
+            "44"
+        ],
+        "correct": "66",
+        "difficulty": "easy"
+    },
+    {
+        "id": 47,
+        "domain": "Orientation",
+        "question": "The moon appears at...?",
+        "options": [
+            "Day",
+            "Night",
+            "Morning",
+            "Noon"
+        ],
+        "correct": "Night",
+        "difficulty": "easy"
+    },
+    {
+        "id": 48,
+        "domain": "Attention",
+        "question": "What is 50 minus 15?",
+        "options": [
+            "25",
+            "35",
+            "45",
+            "55"
+        ],
+        "correct": "35",
+        "difficulty": "easy"
+    },
+    {
+        "id": 49,
+        "domain": "Executive Function",
+        "question": "Which tool is for measuring temperature?",
+        "options": [
+            "Scale",
+            "Thermometer",
+            "Ruler",
+            "Compass"
+        ],
+        "correct": "Thermometer",
+        "difficulty": "easy"
+    },
+    {
+        "id": 50,
+        "domain": "Pattern Recognition",
+        "question": "Complete: Morning, Afternoon, Evening, ?",
+        "options": [
+            "Day",
+            "Night",
+            "Dawn",
+            "Sun"
+        ],
+        "correct": "Night",
+        "difficulty": "easy"
+    },
+    {
+        "id": 51,
+        "domain": "Memory",
+        "question": "Remember: Circle, Triangle, Square. Which was first?",
+        "options": [
+            "Circle",
+            "Triangle",
+            "Square",
+            "Hexagon"
+        ],
+        "correct": "Circle",
+        "difficulty": "easy"
+    },
+    {
+        "id": 52,
+        "domain": "Orientation",
+        "question": "How many days are in a week?",
+        "options": [
+            "5",
+            "6",
+            "7",
+            "8"
+        ],
+        "correct": "7",
+        "difficulty": "easy"
+    },
+    {
+        "id": 53,
+        "domain": "Attention",
+        "question": "Count the 'E's in 'EXCELLENT'.",
+        "options": [
+            "1",
+            "2",
+            "3",
+            "4"
+        ],
+        "correct": "3",
+        "difficulty": "medium"
+    },
+    {
+        "id": 54,
+        "domain": "Executive Function",
+        "question": "Which is an fruit?",
+        "options": [
+            "Potato",
+            "Apple",
+            "Onion",
+            "Garlic"
+        ],
+        "correct": "Apple",
+        "difficulty": "easy"
+    },
+    {
+        "id": 55,
+        "domain": "Pattern Recognition",
+        "question": "Sequence: 1, 2, 4, 8, ?",
+        "options": [
+            "10",
+            "12",
+            "14",
+            "16"
+        ],
+        "correct": "16",
+        "difficulty": "medium"
+    },
+    {
+        "id": 56,
+        "domain": "Memory",
+        "question": "Remember these letters: X, Y, Z. What was the middle letter?",
+        "options": [
+            "X",
+            "Y",
+            "Z",
+            "W"
+        ],
+        "correct": "Y",
+        "difficulty": "easy"
+    },
+    {
+        "id": 57,
+        "domain": "Orientation",
+        "question": "Which ocean is the largest? (General knowledge)",
+        "options": [
+            "Atlantic",
+            "Pacific",
+            "Indian",
+            "Arctic"
+        ],
+        "correct": "Pacific",
+        "difficulty": "medium"
+    },
+    {
+        "id": 58,
+        "domain": "Attention",
+        "question": "What is 12 + 12?",
+        "options": [
+            "22",
+            "24",
+            "26",
+            "28"
+        ],
+        "correct": "24",
+        "difficulty": "easy"
+    },
+    {
+        "id": 59,
+        "domain": "Executive Function",
+        "question": "How many months are in a year?",
+        "options": [
+            "10",
+            "12",
+            "14",
+            "24"
+        ],
+        "correct": "12",
+        "difficulty": "easy"
+    },
+    {
+        "id": 60,
+        "domain": "Pattern Recognition",
+        "question": "Complete: Small, Medium, Large, ?",
+        "options": [
+            "Tiny",
+            "Huge",
+            "Extra Large",
+            "Mini"
+        ],
+        "correct": "Extra Large",
+        "difficulty": "easy"
+    },
+    {
+        "id": 61,
+        "domain": "Memory",
+        "question": "I have 5 fingers on one hand. How many?",
+        "options": [
+            "4",
+            "5",
+            "6",
+            "10"
+        ],
+        "correct": "5",
+        "difficulty": "easy"
+    },
+    {
+        "id": 62,
+        "domain": "Orientation",
+        "question": "Ice is made of frozen...?",
+        "options": [
+            "Milk",
+            "Juice",
+            "Water",
+            "Air"
+        ],
+        "correct": "Water",
+        "difficulty": "easy"
+    },
+    {
+        "id": 63,
+        "domain": "Attention",
+        "question": "Divide 20 by 4.",
+        "options": [
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "correct": "5",
+        "difficulty": "easy"
+    },
+    {
+        "id": 64,
+        "domain": "Executive Function",
+        "question": "Which sense uses the nose?",
+        "options": [
+            "Sight",
+            "Hearing",
+            "Smell",
+            "Taste"
+        ],
+        "correct": "Smell",
+        "difficulty": "easy"
+    },
+    {
+        "id": 65,
+        "domain": "Pattern Recognition",
+        "question": "Sequence: 3, 6, 9, ?",
+        "options": [
+            "10",
+            "11",
+            "12",
+            "13"
+        ],
+        "correct": "12",
+        "difficulty": "easy"
+    },
+    {
+        "id": 66,
+        "domain": "Memory",
+        "question": "Look at the word 'MEMORY'. How many letters?",
+        "options": [
+            "4",
+            "5",
+            "6",
+            "7"
+        ],
+        "correct": "6",
+        "difficulty": "easy"
+    },
+    {
+        "id": 67,
+        "domain": "Orientation",
+        "question": "Where is the Eiffel Tower? (City)",
+        "options": [
+            "London",
+            "Berlin",
+            "Paris",
+            "Rome"
+        ],
+        "correct": "Paris",
+        "difficulty": "easy"
+    },
+    {
+        "id": 68,
+        "domain": "Attention",
+        "question": "What is 15 + 15?",
+        "options": [
+            "20",
+            "25",
+            "30",
+            "35"
+        ],
+        "correct": "30",
+        "difficulty": "easy"
+    },
+    {
+        "id": 69,
+        "domain": "Executive Function",
+        "question": "Which of these is a pet?",
+        "options": [
+            "Lion",
+            "Dog",
+            "Shark",
+            "Wolf"
+        ],
+        "correct": "Dog",
+        "difficulty": "easy"
+    },
+    {
+        "id": 70,
+        "domain": "Pattern Recognition",
+        "question": "Complete: Cold, Cool, Warm, ?",
+        "options": [
+            "Dry",
+            "Hot",
+            "Icy",
+            "Windy"
+        ],
+        "correct": "Hot",
+        "difficulty": "easy"
+    },
+    {
+        "id": 71,
+        "domain": "Memory",
+        "question": "Remember: 101, 202, 303. Which was in the middle?",
+        "options": [
+            "101",
+            "202",
+            "303",
+            "404"
+        ],
+        "correct": "202",
+        "difficulty": "easy"
+    },
+    {
+        "id": 72,
+        "domain": "Orientation",
+        "question": "A triangle has how many sides?",
+        "options": [
+            "2",
+            "3",
+            "4",
+            "5"
+        ],
+        "correct": "3",
+        "difficulty": "easy"
+    },
+    {
+        "id": 73,
+        "domain": "Attention",
+        "question": "Subtract 50 from 100.",
+        "options": [
+            "25",
+            "50",
+            "75",
+            "100"
+        ],
+        "correct": "50",
+        "difficulty": "easy"
+    },
+    {
+        "id": 74,
+        "domain": "Executive Function",
+        "question": "Which body part is for walking?",
+        "options": [
+            "Hand",
+            "Leg",
+            "Arm",
+            "Head"
+        ],
+        "correct": "Leg",
+        "difficulty": "easy"
+    },
+    {
+        "id": 75,
+        "domain": "Pattern Recognition",
+        "question": "Sequence: Z, Y, X, ?",
+        "options": [
+            "V",
+            "W",
+            "A",
+            "U"
+        ],
+        "correct": "W",
+        "difficulty": "medium"
+    },
+    {
+        "id": 76,
+        "domain": "Memory",
+        "question": "Remember: Book, Pen, Desk. Which was the third word?",
+        "options": [
+            "Book",
+            "Chair",
+            "Desk",
+            "Pen"
+        ],
+        "correct": "Desk",
+        "difficulty": "easy"
+    },
+    {
+        "id": 77,
+        "domain": "Orientation",
+        "question": "Stars are visible during the...?",
+        "options": [
+            "Day",
+            "Night",
+            "Noon",
+            "Dawn"
+        ],
+        "correct": "Night",
+        "difficulty": "easy"
+    },
+    {
+        "id": 78,
+        "domain": "Attention",
+        "question": "Add 7 + 7 + 7.",
+        "options": [
+            "14",
+            "21",
+            "28",
+            "35"
+        ],
+        "correct": "21",
+        "difficulty": "easy"
+    },
+    {
+        "id": 79,
+        "domain": "Executive Function",
+        "question": "Which of these is a computer part?",
+        "options": [
+            "Mouse",
+            "Chair",
+            "Shoe",
+            "Pillow"
+        ],
+        "correct": "Mouse",
+        "difficulty": "easy"
+    },
+    {
+        "id": 80,
+        "domain": "Pattern Recognition",
+        "question": "Complete: Start, Middle, ?",
+        "options": [
+            "Center",
+            "End",
+            "Beginning",
+            "Finish"
+        ],
+        "correct": "End",
+        "difficulty": "easy"
+    }
+]

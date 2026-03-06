@@ -46,11 +46,21 @@ h4 {
 
 /* --- DYNAMIC UI EFFECTS --- */
 
+.shadow-glow {
+  box-shadow: 0 0 40px rgba(214, 27, 125, 0.4);
+}
+
 /* Glassmorphism utility */
 .glass-panel {
   background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-panel-ultra {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(50px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Wavy Backgrounds */
