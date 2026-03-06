@@ -244,11 +244,16 @@ export default function Home() {
 
     // Smooth scroll for anchors
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+      anchor.addEventListener('click', (e) => {
         e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
-        });
+        const target = e.currentTarget as HTMLAnchorElement;
+        const href = target.getAttribute('href');
+        if (href) {
+          const el = document.querySelector(href);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
       });
     });
   }, []);
