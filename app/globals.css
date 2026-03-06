@@ -1,8 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap');
-
-@source "./**/*.{ts,tsx}";
-@source "../components/**/*.{ts,tsx}";
 
 @theme {
   --color-primary: #D61B7D;
@@ -15,6 +11,9 @@
   /* Creamy White */
   --color-dark: #3D2C2E;
   /* Deep Cocoa */
+
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-fraunces);
 }
 
 :root {
@@ -31,7 +30,7 @@
 body {
   background-color: var(--light);
   color: var(--dark);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter), sans-serif;
   overflow-x: hidden;
   line-height: 1.6;
 }
@@ -40,7 +39,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-fraunces), serif;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
