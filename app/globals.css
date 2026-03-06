@@ -1,16 +1,16 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap');
 
 @source "./**/*.{ts,tsx}";
 @source "../components/**/*.{ts,tsx}";
 
 @theme {
-  --color-primary: #FF5C8E;
-  /* Vibrant Pink */
-  --color-secondary: #FFB84C;
-  /* Warm Orange */
+  --color-primary: #D61B7D;
+  /* YoBe Pink */
+  --color-secondary: #F58220;
+  /* YoBe Orange */
   --color-accent: #A1C45A;
-  /* Sage Green */
+  /* YoBe Green */
   --color-light: #FFF8F0;
   /* Creamy White */
   --color-dark: #3D2C2E;
@@ -18,8 +18,8 @@
 }
 
 :root {
-  --primary: #FF5C8E;
-  --secondary: #FFB84C;
+  --primary: #D61B7D;
+  --secondary: #F58220;
   --accent: #A1C45A;
   --light: #FFF8F0;
   --dark: #3D2C2E;
@@ -33,6 +33,7 @@ body {
   color: var(--dark);
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
+  line-height: 1.6;
 }
 
 h1,
@@ -41,6 +42,7 @@ h3,
 h4 {
   font-family: 'Fraunces', serif;
   font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 /* Wavy Backgrounds */
@@ -55,30 +57,62 @@ h4 {
   mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,218.7C960,235,1056,213,1152,186.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z" fill="black"></path></svg>');
 }
 
-/* YoBe style buttons */
+/* Vibrant Buttons */
 .yobe-btn {
   background: white;
   color: var(--dark);
-  padding: 12px 28px;
+  padding: 14px 32px;
   border-radius: 9999px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  font-size: 0.75rem;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  font-size: 0.875rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
   border: 2px solid white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
 }
 
 .yobe-btn:hover {
-  transform: scale(1.05) translateY(-2px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05) translateY(-3px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
 }
 
 .yobe-btn-primary {
   background: var(--yobe-pink);
   color: white;
   border-color: var(--yobe-pink);
+  box-shadow: 0 6px 20px rgba(214, 27, 125, 0.3);
+}
+
+.yobe-btn-primary:hover {
+  box-shadow: 0 10px 30px rgba(214, 27, 125, 0.5);
+  filter: brightness(1.1);
+}
+
+.glow-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.glow-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.glow-btn:hover::after {
+  opacity: 1;
 }
 
 /* Organic Cards */
@@ -86,13 +120,15 @@ h4 {
   background: white;
   border-radius: 40px;
   padding: 40px;
-  transition: all 0.4s ease;
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .organic-card:hover {
-  transform: translateY(-8px) rotate(1deg);
+  transform: translateY(-12px) rotate(1.5deg);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
 }
 
 .organic-card::after {
@@ -101,11 +137,34 @@ h4 {
   top: 0;
   left: 0;
   right: 0;
-  height: 8px;
+  height: 10px;
   background: var(--yobe-pink);
+}
+
+/* Accessibility & Spacing */
+.section-spacing {
+  padding-top: 120px;
+  padding-bottom: 120px;
+}
+
+.accessible-heading {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 0.95;
+  color: var(--dark);
+}
+
+.accessible-p {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: rgba(61, 44, 46, 0.85);
 }
 
 /* Custom Scroll Handling */
 html {
   scroll-behavior: smooth;
+}
+
+::selection {
+  background-color: var(--yobe-yellow);
+  color: var(--dark);
 }
