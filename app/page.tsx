@@ -43,7 +43,7 @@ const Navbar = () => {
           <span className="font-bold text-lg md:text-xl tracking-tighter text-[#3D2C2E]">Espirit <span className="gradient-text font-black">Invento</span></span>
         </motion.div>
 
-        <div className="hidden lg:flex items-center gap-8 font-black uppercase text-[9px] md:text-[10px] tracking-[0.1em] text-[#3D2C2E]/60">
+        <div className="hidden lg:flex items-center gap-8 font-black uppercase text-[9px] md:text-[10px] tracking-[0.1em] text-[#1A1A1A]">
           <Link href="#how" className="hover:text-[#D61B7D] transition-all">How it works</Link>
           <Link href="#domains" className="hover:text-[#D61B7D] transition-all">Domains</Link>
           <Link href="#ai-tech" className="hover:text-[#D61B7D] transition-all">AI Tech</Link>
@@ -61,7 +61,7 @@ const Navbar = () => {
 
 const FloatingShapes = () => (
   <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-    <motion.div animate={{ y: [0, -40, 0], x: [0, 20, 0], rotate: [0, 90, 0] }} transition={{ duration: 15, repeat: Infinity }} className="absolute顶-[10%] left-[5%] w-32 h-32 bg-pink-500/10 blur-[60px] rounded-full" />
+    <motion.div animate={{ y: [0, -40, 0], x: [0, 20, 0], rotate: [0, 90, 0] }} transition={{ duration: 15, repeat: Infinity }} className="absolute top-[10%] left-[5%] w-32 h-32 bg-pink-500/10 blur-[60px] rounded-full" />
     <motion.div animate={{ y: [0, 60, 0], x: [0, -30, 0] }} transition={{ duration: 20, repeat: Infinity }} className="absolute bottom-[15%] right-[10%] w-64 h-64 bg-orange-400/10 blur-[80px] rounded-full" />
     <motion.div animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} className="absolute top-[30%] right-[20%] w-[300px] h-[300px] border border-pink-500/5 rounded-full" />
   </div>

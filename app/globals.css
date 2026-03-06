@@ -21,15 +21,17 @@
   --secondary: #F58220;
   --accent: #A1C45A;
   --light: #FFF8F0;
-  --dark: #3D2C2E;
+  --dark: #1A1A1A;
+  /* Darkened to near black for visibility */
   --yobe-pink: #D61B7D;
   --yobe-orange: #F58220;
   --yobe-yellow: #FFCB05;
 }
 
 body {
-  background-color: var(--light);
-  color: var(--dark);
+  background-color: #FFF8F0;
+  color: #1A1A1A;
+  /* Explicitly set to near black */
   font-family: var(--font-inter), sans-serif;
   overflow-x: hidden;
   line-height: 1.5;
@@ -40,7 +42,9 @@ h2,
 h3,
 h4 {
   font-family: var(--font-fraunces), serif;
-  font-weight: 700;
+  font-weight: 800;
+  color: #1A1A1A;
+  /* Explicitly set to near black */
   letter-spacing: -0.02em;
 }
 
@@ -50,11 +54,10 @@ h4 {
   box-shadow: 0 0 40px rgba(214, 27, 125, 0.4);
 }
 
-/* Glassmorphism utility */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .glass-panel-ultra {
@@ -113,7 +116,7 @@ h4 {
 /* Vibrant Buttons */
 .yobe-btn {
   background: white;
-  color: var(--dark);
+  color: #1A1A1A;
   padding: 12px 28px;
   border-radius: 9999px;
   font-weight: 800;
@@ -136,9 +139,9 @@ h4 {
 }
 
 .yobe-btn-primary {
-  background: var(--yobe-pink);
+  background: #D61B7D;
   color: white;
-  border-color: var(--yobe-pink);
+  border-color: #D61B7D;
   box-shadow: 0 6px 20px rgba(214, 27, 125, 0.2);
 }
 
@@ -150,12 +153,12 @@ h4 {
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .organic-card:hover {
   transform: translateY(-10px) rotate(1deg);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
 }
 
 .organic-card::before {
@@ -176,7 +179,7 @@ html {
 
 ::selection {
   background-color: var(--yobe-yellow);
-  color: var(--dark);
+  color: white;
 }
 
 .section-spacing {
@@ -187,5 +190,5 @@ html {
 .accessible-heading {
   font-size: clamp(2.25rem, 4vw, 3.5rem);
   line-height: 1.1;
-  color: var(--dark);
+  color: #1A1A1A;
 }
