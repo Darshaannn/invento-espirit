@@ -97,7 +97,9 @@ const Hero = () => {
             Sophisticated AI screening for early cognitive risk patterns. Fast, secure, and built for a vibrant future.
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="flex flex-col sm:flex-row gap-4">
-            <button className="yobe-btn yobe-btn-primary glow-btn text-sm px-8 py-4">Start Screening <ArrowRight size={16} className="ml-2" /></button>
+            <Link href="/screening">
+              <button className="yobe-btn yobe-btn-primary glow-btn text-sm px-8 py-4">Start Screening <ArrowRight size={16} className="ml-2" /></button>
+            </Link>
             <button className="yobe-btn border-white/20 bg-white/5 text-white backdrop-blur-xl text-sm px-8 py-4">View Report</button>
           </motion.div>
         </div>
@@ -257,7 +259,9 @@ export default function Home() {
           <FadeIn>
             <h2 className="text-4xl md:text-6xl mb-8 italic leading-tight">Your Future <span className="gradient-text not-italic font-black">Unseen</span></h2>
             <p className="text-lg md:text-xl text-white/50 mb-10 font-medium">Take the 5-minute cognitive baseline screening today.</p>
-            <button className="yobe-btn yobe-btn-primary glow-btn px-10 py-5 text-sm">Start Neural Scan</button>
+            <Link href="/screening">
+              <button className="yobe-btn yobe-btn-primary glow-btn px-10 py-5 text-sm">Start Neural Scan</button>
+            </Link>
           </FadeIn>
         </div>
       </section>
