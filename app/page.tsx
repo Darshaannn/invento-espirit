@@ -106,7 +106,7 @@ const Hero = () => {
           </motion.div>
         </div>
 
-        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, cubicBezier: [0.16, 1, 0.3, 1] }} className="relative flex justify-center">
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} className="relative flex justify-center">
           <div className="absolute inset-0 bg-pink-500/20 blur-[120px] rounded-full animate-pulse" />
           <Image src="/hero-brain.png" alt="AI Neural Mapping" width={550} height={550} priority className="w-full max-w-md animate-float drop-shadow-[0_40px_80px_rgba(0,0,0,0.4)]" />
 
