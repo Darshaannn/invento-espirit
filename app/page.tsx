@@ -2,9 +2,8 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Brain, Heart, Sparkles, Smile, ArrowRight, Check,
-  Search, Play, MessageCircle, Star, Instagram,
-  Twitter, Linkedin, Plus, Clock, ShieldCheck
+  Brain, Heart, Sparkles, Smile, ArrowRight, Instagram,
+  Twitter, Linkedin
 } from 'lucide-react';
 import Link from 'next/link';
 import Lenis from 'lenis';
@@ -85,7 +84,7 @@ const Hero = () => {
   );
 };
 
-const DomainCard = ({ title, desc, icon: Icon, color }: any) => (
+const DomainCard = ({ title, desc, icon: Icon, color }: { title: string, desc: string, icon: React.ElementType, color: string }) => (
   <motion.div
     whileHover={{ y: -10, rotate: 1 }}
     className="organic-card shadow-lg bg-white group flex flex-col h-full"
@@ -144,7 +143,7 @@ const LifestyleSection = () => {
         <div className="text-white">
           <h2 className="text-6xl md:text-8xl leading-[0.9] mb-10">Bold Thinking for Better Living</h2>
           <p className="text-xl mb-12 opacity-90 leading-relaxed font-medium">
-            At Espirit Invento, cognitive health isn't just a test—it's about living your life to the fullest. Our screenings provide peace of mind and actionable insights for a vibrant tomorrow.
+            At Espirit Invento, cognitive health isn&apos;t just a test—it&apos;s about living your life to the fullest. Our screenings provide peace of mind and actionable insights for a vibrant tomorrow.
           </p>
           <div className="grid grid-cols-2 gap-8 mb-12">
             <div>
