@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import {
   Brain, Heart, Sparkles, Smile, ArrowRight, Instagram,
@@ -73,9 +74,12 @@ const Hero = () => {
           className="relative h-[500px] flex items-center justify-center"
         >
           <div className="absolute w-[450px] h-[450px] bg-[#F58220] rounded-full blur-[80px] opacity-30 animate-pulse" />
-          <img
+          <Image
             src="/hero-brain.png"
             alt="Vibrant Brain Analysis"
+            width={512}
+            height={512}
+            priority
             className="w-full max-w-lg relative z-10 drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)] rotate-3"
           />
         </motion.div>
@@ -133,9 +137,11 @@ const LifestyleSection = () => {
           whileInView={{ opacity: 1, x: 0 }}
           className="rounded-[60px] overflow-hidden shadow-2xl rotate-[-2deg]"
         >
-          <img
+          <Image
             src="/vibrant_health_lifestyle.png"
             alt="Healthy Elderly Lifestyle"
+            width={800}
+            height={1000}
             className="w-full aspect-[4/5] object-cover"
           />
         </motion.div>
