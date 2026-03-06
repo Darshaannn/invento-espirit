@@ -2,8 +2,8 @@ import "./globals.css";
 import React from "react";
 
 export const metadata = {
-  title: "Invento Espirit",
-  description: "Advanced cognitive health screening",
+  title: "Invento Espirit | Innovation & Idea Investment Platform",
+  description: "Connect with students, alumni, professors and investors to transform innovative ideas into real startups.",
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-[#0F0A1F] min-h-screen text-white">
+      <body>
         {children}
       </body>
     </html>
