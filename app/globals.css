@@ -44,6 +44,15 @@ h4 {
   letter-spacing: -0.01em;
 }
 
+/* --- DYNAMIC UI EFFECTS --- */
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 /* Wavy Backgrounds */
 .wavy-stripes {
   background: repeating-linear-gradient(45deg,
@@ -56,114 +65,117 @@ h4 {
   mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,218.7C960,235,1056,213,1152,186.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z" fill="black"></path></svg>');
 }
 
+/* Animated Gradient Text */
+.gradient-text {
+  background: linear-gradient(90deg, var(--yobe-pink), var(--yobe-orange), var(--yobe-yellow), var(--yobe-pink));
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 8s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 300% center;
+  }
+}
+
+/* Floating Animation */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(3deg);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(3deg);
+  }
+}
+
 /* Vibrant Buttons */
 .yobe-btn {
   background: white;
   color: var(--dark);
-  padding: 14px 32px;
+  padding: 16px 36px;
   border-radius: 9999px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 0.875rem;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
   border: 2px solid white;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
   cursor: pointer;
 }
 
 .yobe-btn:hover {
-  transform: scale(1.05) translateY(-3px);
-  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05) translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
 }
 
 .yobe-btn-primary {
   background: var(--yobe-pink);
   color: white;
   border-color: var(--yobe-pink);
-  box-shadow: 0 6px 20px rgba(214, 27, 125, 0.3);
+  box-shadow: 0 10px 40px rgba(214, 27, 125, 0.3);
 }
 
 .yobe-btn-primary:hover {
-  box-shadow: 0 10px 30px rgba(214, 27, 125, 0.5);
+  box-shadow: 0 15px 50px rgba(214, 27, 125, 0.5);
   filter: brightness(1.1);
-}
-
-.glow-btn {
-  position: relative;
-  overflow: hidden;
-}
-
-.glow-btn::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.glow-btn:hover::after {
-  opacity: 1;
 }
 
 /* Organic Cards */
 .organic-card {
   background: white;
-  border-radius: 40px;
-  padding: 40px;
-  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-radius: 48px;
+  padding: 48px;
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
 }
 
 .organic-card:hover {
-  transform: translateY(-12px) rotate(1.5deg);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-20px) rotate(1deg);
+  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.15);
 }
 
-.organic-card::after {
+.organic-card::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 10px;
-  background: var(--yobe-pink);
+  height: 12px;
+  background: linear-gradient(90deg, var(--yobe-pink), var(--yobe-orange));
 }
 
-/* Accessibility & Spacing */
-.section-spacing {
-  padding-top: 120px;
-  padding-bottom: 120px;
-}
-
-.accessible-heading {
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  line-height: 0.95;
-  color: var(--dark);
-}
-
-.accessible-p {
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: rgba(61, 44, 46, 0.85);
-}
-
-/* Custom Scroll Handling */
+/* Performance and Smoothness */
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
   background-color: var(--yobe-yellow);
   color: var(--dark);
+}
+
+.section-spacing {
+  padding-top: 160px;
+  padding-bottom: 160px;
 }
