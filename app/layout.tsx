@@ -2,8 +2,8 @@ import "./globals.css";
 import React from "react";
 
 export const metadata = {
-  title: "Invento Espirit | Innovation & Idea Investment Platform",
-  description: "Connect with students, alumni, professors and investors to transform innovative ideas into real startups.",
+  title: "Invento Medical | AI Cognitive Screening",
+  description: "Detect early signs of dementia risk through advanced AI-powered cognitive screenings. Trustworthy and secure.",
 };
 
 export default function RootLayout({
