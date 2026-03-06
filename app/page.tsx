@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'fram
 import {
   Brain, Heart, Sparkles, Smile, ArrowRight, Activity,
   ShieldCheck, Zap, BarChart3, Globe, Lock, Info, CheckCircle2,
-  Clock, Cpu, Layout, Layers
+  Clock, Cpu, Layout, Layers, FileText
 } from 'lucide-react';
 import Link from 'next/link';
 import Lenis from 'lenis';
