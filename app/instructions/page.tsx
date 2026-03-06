@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { Settings, User, Clock, Volume2, Eye, Mic, Wifi, ArrowRight, VolumeX } from 'lucide-react';
+import { Settings, User, Clock, Volume2, Eye, ArrowRight, VolumeX } from 'lucide-react';
 
 export default function Instructions() {
     return (
@@ -34,7 +34,7 @@ export default function Instructions() {
                     <div className="flex justify-between items-start mb-8 relative z-10">
                         <div>
                             <h1 className="text-3xl font-bold mb-2">Screening Instructions</h1>
-                            <p className="text-gray-400">Let's prepare your environment for the best results.</p>
+                            <p className="text-gray-400">Let&apos;s prepare your environment for the best results.</p>
                         </div>
                         <div className="flex items-center gap-2 bg-[#2D2447] px-4 py-2 rounded-full text-xs font-bold tracking-wide text-[#E0B0FF] border border-[#9D50FF]/20">
                             <Clock size={14} /> 10 MINS

@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { Search, Zap, Play, Clock, Brain, Target, Layers, ArrowRight } from 'lucide-react';
+import { Search, Zap, Play, Clock, Brain, Target, Layers } from 'lucide-react';
 
 export default function GamesPage() {
     return (
@@ -34,7 +34,7 @@ export default function GamesPage() {
                     </div>
                     <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">Synapse Shift: Alpha</h1>
                     <p className="text-gray-400 mb-8 max-w-lg leading-relaxed">
-                        Improve your neural plasticity with today's high-speed logical sequence analyzer. Measures Inductive Reasoning and Mental Speed.
+                        Improve your neural plasticity with today&apos;s high-speed logical sequence analyzer. Measures Inductive Reasoning and Mental Speed.
                     </p>
                     <div className="flex items-center gap-6">
                         <button className="bg-[#9D50FF] text-white px-8 py-3.5 rounded-full font-bold flex items-center gap-2 hover:bg-[#8338ec] shadow-lg shadow-[#9D50FF]/25 hover:scale-105 transition-all">

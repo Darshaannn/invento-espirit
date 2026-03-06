@@ -1,8 +1,71 @@
 "use client";
 import Link from "next/link";
 import { ArrowRight, Database, Eye, Brain, Compass, Activity, ShieldCheck, Zap } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [scores, setScores] = useState({
+    logic: 0,
+    memory: 0,
+    attention: 0,
+    orientation: 0
+  })
+  useEffect(() => {
+    const getCongnativeData = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/status");
+        const data = await response.json();
+
+        // Prevent infinite re-render by only updating state if data changed
+        setScores(prev => {
+          if (
+            prev.logic === data.logic &&
+            prev.memory === data.memory &&
+            prev.attention === data.attention &&
+            prev.orientation === data.orientation
+          ) {
+            return prev;
+          }
+          return data;
+        });
+      } catch (error) {
+        console.log("Error fetching data", error);
+      }
+    };
+    getCongnativeData();
+  }, [])
+
+  const domainData = [
+    {
+      name: "Memory",
+      desc: "Assessing short-term recall and spatial recognition patterns over time.",
+      icon: <Database size={24} className="text-[#9D50FF]" />,
+      sub: "3 SUB-TESTS",
+      score: 0
+    },
+    {
+      name: "Attention",
+      desc: "Measuring focus consistency and visual processing speeds in complex tasks.",
+      icon: <Eye size={24} className="text-[#00F5FF]" />,
+      sub: "2 SUB-TESTS",
+      score: 0
+    },
+    {
+      name: "Logic",
+      desc: "Analyzing abstract reasoning and deductive problem-solving abilities.",
+      icon: <Brain size={24} className="text-emerald-400" />,
+      sub: "4 SUB-TESTS",
+      score: 0
+    },
+    {
+      name: "Orientation",
+      desc: "Grounding assessment of temporal awareness and situational context.",
+      icon: <Compass size={24} className="text-orange-400" />,
+      sub: "2 SUB-TESTS",
+      score: 0
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-[#0F0A1F] text-white font-sans selection:bg-[#9D50FF] selection:text-white">
 
@@ -69,37 +132,15 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            {
-              title: "Memory",
-              desc: "Assessing short-term recall and spatial recognition patterns over time.",
-              icon: <Database size={24} className="text-[#9D50FF]" />,
-              sub: "3 SUB-TESTS"
-            },
-            {
-              title: "Attention",
-              desc: "Measuring focus consistency and visual processing speeds in complex tasks.",
-              icon: <Eye size={24} className="text-[#00F5FF]" />,
-              sub: "2 SUB-TESTS"
-            },
-            {
-              title: "Logic",
-              desc: "Analyzing abstract reasoning and deductive problem-solving abilities.",
-              icon: <Brain size={24} className="text-emerald-400" />,
-              sub: "4 SUB-TESTS"
-            },
-            {
-              title: "Orientation",
-              desc: "Grounding assessment of temporal awareness and situational context.",
-              icon: <Compass size={24} className="text-orange-400" />,
-              sub: "2 SUB-TESTS"
-            }
-          ].map((item, idx) => (
-            <div key={idx} className="bg-[#1A142E] p-8 rounded-3xl border border-white/5 hover:border-white/10 transition-colors group">
-              <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                {item.icon}
+          {domainData.map((item) => (
+            <div key={item.name} className="bg-[#1A142E] p-8 rounded-3xl border border-white/5 hover:border-white/10 transition-colors group">
+              <div className="w-20 h-20 rounded-full border-4 border-[#9D50FF] flex items-center justify-center mb-6">
+                <span className="text-2xl font-bold">
+                  {/* Use the live state instead of the static item.score */}
+                  {scores[item.name.toLowerCase() as keyof typeof scores] || item.score}
+                </span>
               </div>
-              <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+              <h3 className="text-xl font-bold mb-3">{item.name}</h3>
               <p className="text-gray-400 text-sm leading-relaxed mb-8 h-20">{item.desc}</p>
               <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{item.sub}</div>
             </div>

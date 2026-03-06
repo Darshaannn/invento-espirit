@@ -13,16 +13,12 @@ export default function Dashboard() {
     return (
         <div className="flex-1 p-8 lg:p-12 bg-[#0F0A1F] min-h-screen">
 
-            <div className="lg:hidden p-4">
-                <button className="text-white p-2 bg-[#1A142E] rounded-lg">
-                    ☰ Menu
-                </button>
-            </div>
+
 
             {/* SECTION 1: HEADER */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-white tracking-tight">Results Dashboard</h1>
+                    <h1 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight drop-shadow-md">Results Dashboard</h1>
                     <div className="flex items-center gap-2 mt-2">
                         <span className="text-gray-400 text-sm">Last scan: Oct 24, 2023</span>
                         <span className="text-gray-600">•</span>
@@ -48,7 +44,7 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
 
                 {/* CARD A: COGNITIVE PROFILE (Spans 2 columns) */}
-                <div className="lg:col-span-2 bg-[#1A142E] border border-white/5 p-10 rounded-[2rem] relative overflow-hidden group">
+                <div className="lg:col-span-2 bg-gradient-to-b from-[#1A142E] to-[#0F0A1F] backdrop-blur-[8px] border border-white/10 p-10 rounded-[2rem] relative overflow-hidden group">
                     {/* Background Gradient */}
                     <div className="absolute top-0 right-0 w-96 h-96 bg-[#9D50FF] rounded-full filter blur-[120px] opacity-10" />
 
@@ -70,7 +66,7 @@ export default function Dashboard() {
 
                         {/* Global Index Card Inset */}
                         <div className="bg-[#251B3D]/80 backdrop-blur-sm border border-white/10 p-6 rounded-3xl w-full md:w-48 h-fit flex flex-col items-center justify-center text-center shadow-xl">
-                            <p className="text-gray-400 text-xs font-bold mb-2">Global Index</p>
+                            <p className="text-gray-400 text-xs font-medium uppercase tracking-wider mb-2">Global Index</p>
                             <div className="text-6xl font-bold text-white mb-2">94</div>
                             <div className="text-cyan-400 text-[10px] font-bold bg-cyan-500/10 px-2 py-1 rounded-lg">
                                 +2.4% vs last month
@@ -80,7 +76,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* CARD B: STABILITY TREND (Chart) */}
-                <div className="bg-[#151024] border border-white/5 p-8 rounded-[2rem] flex flex-col justify-between relative overflow-hidden">
+                <div className="bg-gradient-to-b from-[#1A142E] to-[#0F0A1F] backdrop-blur-[8px] border border-white/10 p-8 rounded-[2rem] flex flex-col justify-between relative overflow-hidden">
 
                     <div className="flex justify-between items-start mb-8 relative z-10">
                         <div>
@@ -133,11 +129,11 @@ export default function Dashboard() {
             {/* SECTION 4: FOUR SMALL CIRCLE CARDS */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
                 {domainData.map((item) => (
-                    <div key={item.name} className="bg-[#1A142E] border border-white/5 p-8 rounded-3xl flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
+                    <div key={item.name} className="bg-gradient-to-b from-[#1A142E] to-[#0F0A1F] backdrop-blur-[8px] border border-white/10 p-8 rounded-3xl flex flex-col items-center text-center transition-transform hover:-translate-y-1 duration-300">
                         <div className="relative w-24 h-24 mb-6 flex items-center justify-center">
                             {/* Circle Background */}
                             <svg className="w-full h-full rotate-[-90deg]">
-                                <circle cx="50%" cy="50%" r="40%" stroke="#2D2447" strokeWidth="8" fill="none" />
+                                <circle cx="50%" cy="50%" r="40%" stroke="rgba(255,255,255,0.1)" strokeWidth="8" fill="none" />
                                 <circle
                                     cx="50%" cy="50%" r="40%"
                                     stroke={item.color}
@@ -159,7 +155,7 @@ export default function Dashboard() {
             {/* SECTION 5: BOTTOM ADVICE CARDS */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Advice Card 1 */}
-                <div className="group bg-[#1A142E] border border-[#9D50FF]/20 p-8 rounded-3xl flex gap-6 items-start relative overflow-hidden transition-colors hover:border-[#9D50FF]/40">
+                <div className="group bg-gradient-to-b from-[#1A142E] to-[#0F0A1F] backdrop-blur-[8px] border border-white/10 p-8 rounded-3xl flex gap-6 items-start relative overflow-hidden transition-colors hover:border-[#9D50FF]/40">
                     <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#9D50FF] rounded-l-3xl" />
 
                     <div className="w-14 h-14 rounded-full bg-[#1F1635] flex items-center justify-center shrink-0 border border-white/5 group-hover:scale-110 transition-transform">
@@ -172,7 +168,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Advice Card 2 */}
-                <div className="group bg-[#1A142E] border border-cyan-500/20 p-8 rounded-3xl flex gap-6 items-start relative overflow-hidden transition-colors hover:border-cyan-500/40">
+                <div className="group bg-gradient-to-b from-[#1A142E] to-[#0F0A1F] backdrop-blur-[8px] border border-white/10 p-8 rounded-3xl flex gap-6 items-start relative overflow-hidden transition-colors hover:border-cyan-500/40">
                     <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-cyan-500 rounded-l-3xl" />
 
                     <div className="w-14 h-14 rounded-full bg-[#132A38] flex items-center justify-center shrink-0 border border-white/5 group-hover:scale-110 transition-transform">

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { Brain, Database, FileText } from 'lucide-react';
+import { Brain, Database } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function Analysis() {

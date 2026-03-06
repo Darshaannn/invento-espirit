@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { Share2, FileText, Filter, MoreHorizontal, Activity } from 'lucide-react';
+import { Share2, FileText, Filter } from 'lucide-react';
 
 export default function InsightsPage() {
     return (
