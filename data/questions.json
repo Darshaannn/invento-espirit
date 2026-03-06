@@ -2,1041 +2,1044 @@
     {
         "id": 1,
         "domain": "Memory",
-        "question": "Can you recall three words: Apple, Table, Sky? Which one was the second word?",
-        "options": [
-            "Apple",
-            "Table",
-            "Sky",
-            "Chair"
-        ],
-        "correct": "Table",
-        "difficulty": "easy"
+        "question": "Remember these three words: 'Village, Kitchen, Stamp.' What were the three words?",
+        "options": [],
+        "correct": "Village, Kitchen, Stamp",
+        "difficulty": "easy",
+        "type": "text"
     },
     {
         "id": 2,
-        "domain": "Orientation",
-        "question": "What is the current year?",
+        "domain": "Memory",
+        "question": "Which of these was in the list you just saw?",
         "options": [
-            "2023",
-            "2024",
-            "2025",
-            "2026"
+            "City",
+            "Village",
+            "Forest",
+            "Mountain"
         ],
-        "correct": "2025",
-        "difficulty": "easy"
+        "correct": "Village",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 3,
-        "domain": "Attention",
-        "question": "Calculate 100 minus 7, then minus 7 again.",
+        "domain": "Memory",
+        "question": "Recall these numbers: 9 – 4 – 1. Which sequence matches?",
         "options": [
-            "93, 86",
-            "86, 79",
-            "93, 85",
-            "92, 85"
+            "1–4–9",
+            "9–1–4",
+            "9–4–1",
+            "4–9–1"
         ],
-        "correct": "93, 86",
-        "difficulty": "medium"
+        "correct": "9–4–1",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 4,
-        "domain": "Executive Function",
-        "question": "If you have 3 apples and you double them, then give away 2, how many are left?",
-        "options": [
-            "2",
-            "4",
-            "6",
-            "8"
-        ],
-        "correct": "4",
-        "difficulty": "easy"
-    },
-    {
-        "id": 5,
-        "domain": "Orientation",
-        "question": "In which season does the leaves start to change color in most temperate regions?",
-        "options": [
-            "Spring",
-            "Summer",
-            "Autumn",
-            "Winter"
-        ],
-        "correct": "Autumn",
-        "difficulty": "easy"
-    },
-    {
-        "id": 6,
         "domain": "Memory",
-        "question": "I had a blue hat. What color was my hat?",
-        "options": [
-            "Red",
-            "Blue",
-            "Green",
-            "Yellow"
-        ],
-        "correct": "Blue",
-        "difficulty": "easy"
-    },
-    {
-        "id": 7,
-        "domain": "Attention",
-        "question": "Spell the word 'WORLD' backwards.",
-        "options": [
-            "DLROW",
-            "DLRWO",
-            "DRLOW",
-            "DOLRW"
-        ],
-        "correct": "DLROW",
-        "difficulty": "medium"
-    },
-    {
-        "id": 8,
-        "domain": "Executive Function",
-        "question": "Which of these is used for both writing and drawing?",
-        "options": [
-            "Pencil",
-            "Spoon",
-            "Mirror",
-            "Compass"
-        ],
-        "correct": "Pencil",
-        "difficulty": "easy"
-    },
-    {
-        "id": 9,
-        "domain": "Orientation",
-        "question": "What is the capital of France?",
-        "options": [
-            "Berlin",
-            "London",
-            "Madrid",
-            "Paris"
-        ],
-        "correct": "Paris",
-        "difficulty": "easy"
-    },
-    {
-        "id": 10,
-        "domain": "Pattern Recognition",
-        "question": "Complete the sequence: 10, 20, 30, ?",
-        "options": [
-            "35",
-            "40",
-            "45",
-            "50"
-        ],
-        "correct": "40",
-        "difficulty": "easy"
-    },
-    {
-        "id": 11,
-        "domain": "Memory",
-        "question": "Remember these numbers: 4, 8, 2. What was the first number?",
-        "options": [
-            "2",
-            "4",
-            "8",
-            "6"
-        ],
-        "correct": "4",
-        "difficulty": "easy"
-    },
-    {
-        "id": 12,
-        "domain": "Attention",
-        "question": "Count the number of 'A's in 'BANANA'.",
-        "options": [
-            "1",
-            "2",
-            "3",
-            "4"
-        ],
-        "correct": "3",
-        "difficulty": "easy"
-    },
-    {
-        "id": 13,
-        "domain": "Memory",
-        "question": "Listen carefully: Red, Blue, Green. Which was the third color?",
+        "question": "Remember: 'The blue bird sat on the red roof.' What color was the bird?",
         "options": [
             "Red",
             "Yellow",
             "Green",
             "Blue"
         ],
-        "correct": "Green",
-        "difficulty": "easy"
+        "correct": "Blue",
+        "difficulty": "easy",
+        "type": "choice"
+    },
+    {
+        "id": 5,
+        "domain": "Memory",
+        "question": "Which object was mentioned in the previous sentence?",
+        "options": [
+            "Tree",
+            "Fence",
+            "Roof",
+            "Window"
+        ],
+        "correct": "Roof",
+        "difficulty": "easy",
+        "type": "choice"
+    },
+    {
+        "id": 6,
+        "domain": "Memory",
+        "question": "Instruction: Remember the name 'John Miller' and the address '42 High Street.' What was the person's last name?",
+        "options": [],
+        "correct": "Miller",
+        "difficulty": "easy",
+        "type": "text"
+    },
+    {
+        "id": 7,
+        "domain": "Memory",
+        "question": "What was the house number mentioned?",
+        "options": [
+            "24",
+            "42",
+            "14",
+            "52"
+        ],
+        "correct": "42",
+        "difficulty": "easy",
+        "type": "choice"
+    },
+    {
+        "id": 8,
+        "domain": "Memory",
+        "question": "Which word does NOT belong in this remembered list: 'Pencil, Eraser, Notebook, Banana'?",
+        "options": [
+            "Pencil",
+            "Banana",
+            "Eraser",
+            "Notebook"
+        ],
+        "correct": "Banana",
+        "difficulty": "easy",
+        "type": "choice"
+    },
+    {
+        "id": 9,
+        "domain": "Memory",
+        "question": "Recall: 'Lion – Fan – Glove.' Which item was shown first?",
+        "options": [
+            "Glove",
+            "Fan",
+            "Lion",
+            "Desk"
+        ],
+        "correct": "Lion",
+        "difficulty": "easy",
+        "type": "choice"
+    },
+    {
+        "id": 10,
+        "domain": "Memory",
+        "question": "What was the last item in the list 'Lion – Fan – Glove'?",
+        "options": [
+            "Lion",
+            "Glove",
+            "Fan",
+            "Hat"
+        ],
+        "correct": "Glove",
+        "difficulty": "easy",
+        "type": "choice"
+    },
+    {
+        "id": 11,
+        "domain": "Memory",
+        "question": "Instruction: Look at these shapes: Square, Circle, Star. Which shape appeared after the Square?",
+        "options": [
+            "Circle",
+            "Star",
+            "Triangle",
+            "Heart"
+        ],
+        "correct": "Circle",
+        "difficulty": "easy",
+        "type": "choice"
+    },
+    {
+        "id": 12,
+        "domain": "Memory",
+        "question": "Recall: 8 – 5 – 2 – 6. What was the third number?",
+        "options": [
+            "8",
+            "5",
+            "2",
+            "6"
+        ],
+        "correct": "2",
+        "difficulty": "easy",
+        "type": "choice"
+    },
+    {
+        "id": 13,
+        "domain": "Memory",
+        "question": "Which of these is a fruit mentioned earlier: 'Apple, Chair, River'?",
+        "options": [
+            "Chair",
+            "River",
+            "Apple",
+            "Spoon"
+        ],
+        "correct": "Apple",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 14,
-        "domain": "Orientation",
-        "question": "What is the current month?",
+        "domain": "Memory",
+        "question": "Remember this code: 'X – J – 4.' What was the letter after X?",
         "options": [
-            "February",
-            "March",
-            "April",
-            "May"
+            "K",
+            "J",
+            "L",
+            "M"
         ],
-        "correct": "March",
-        "difficulty": "easy"
+        "correct": "J",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 15,
-        "domain": "Attention",
-        "question": "Which of these is a vegetable?",
+        "domain": "Memory",
+        "question": "Recall: 'Tuesday, July, Morning.' Which word was a month?",
         "options": [
-            "Carrot",
-            "Apple",
-            "Banana",
-            "Grape"
+            "Tuesday",
+            "Morning",
+            "July",
+            "Sunday"
         ],
-        "correct": "Carrot",
-        "difficulty": "easy"
+        "correct": "July",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 16,
-        "domain": "Executive Function",
-        "question": "Select the odd one out.",
+        "domain": "Memory",
+        "question": "Which of these was a category mentioned earlier: 'Village, Kitchen, Stamp'?",
         "options": [
-            "Car",
-            "Bus",
-            "Train",
-            "Spoon"
+            "A room",
+            "A vehicle",
+            "A fruit",
+            "A color"
         ],
-        "correct": "Spoon",
-        "difficulty": "easy"
+        "correct": "A room",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 17,
-        "domain": "Pattern Recognition",
-        "question": "Sequence: 1, 3, 5, ?",
+        "domain": "Memory",
+        "question": "Remember: '739.' Subtract 1 from the middle number. What is the new middle number?",
         "options": [
-            "6",
-            "7",
+            "2",
+            "3",
             "8",
-            "9"
+            "4"
         ],
-        "correct": "7",
-        "difficulty": "easy"
+        "correct": "2",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 18,
         "domain": "Memory",
-        "question": "Recall these words: Bird, Plane, Cloud. Which was the first word?",
-        "options": [
-            "Plane",
-            "Bird",
-            "Sky",
-            "Cloud"
-        ],
-        "correct": "Bird",
-        "difficulty": "easy"
+        "question": "Recall the name from Question 6. What was the first name?",
+        "options": [],
+        "correct": "John",
+        "difficulty": "easy",
+        "type": "text"
     },
     {
         "id": 19,
-        "domain": "Orientation",
-        "question": "What day of the week is it today?",
+        "domain": "Memory",
+        "question": "Which color was associated with the roof in Question 4?",
         "options": [
-            "Monday",
-            "Friday",
-            "Sunday",
-            "Wednesday"
+            "Blue",
+            "Red",
+            "White",
+            "Brown"
         ],
-        "correct": "Friday",
-        "difficulty": "easy"
+        "correct": "Red",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 20,
-        "domain": "Attention",
-        "question": "What is 15 divided by 3?",
+        "domain": "Memory",
+        "question": "Of the words 'Village, Kitchen, Stamp,' which one is used for mail?",
         "options": [
-            "3",
-            "4",
-            "5",
-            "6"
+            "Village",
+            "Kitchen",
+            "Stamp",
+            "House"
         ],
-        "correct": "5",
-        "difficulty": "easy"
+        "correct": "Stamp",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 21,
-        "domain": "Executive Function",
-        "question": "Which item keeps you dry in the rain?",
+        "domain": "Attention",
+        "question": "Spell the word 'WORLD' backwards.",
         "options": [
-            "Towel",
-            "Umbrella",
-            "Sunglasses",
-            "Hat"
+            "D-L-R-O-W",
+            "D-L-O-R-W",
+            "W-O-R-L-D",
+            "D-R-L-O-W"
         ],
-        "correct": "Umbrella",
-        "difficulty": "easy"
+        "correct": "D-L-R-O-W",
+        "difficulty": "medium",
+        "type": "choice"
     },
     {
         "id": 22,
-        "domain": "Memory",
-        "question": "Remember: 7, 12, 19. What was the middle number?",
+        "domain": "Attention",
+        "question": "Count backwards from 20 to 1. What number comes after 17?",
         "options": [
-            "7",
-            "12",
-            "19",
-            "21"
+            "18",
+            "16",
+            "15",
+            "19"
         ],
-        "correct": "12",
-        "difficulty": "easy"
+        "correct": "16",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 23,
-        "domain": "Orientation",
-        "question": "Which planet do we live on?",
+        "domain": "Attention",
+        "question": "Which number is the 'odd one out' in this sequence: 2, 4, 6, 7, 8?",
         "options": [
-            "Mars",
-            "Earth",
-            "Venus",
-            "Jupiter"
+            "4",
+            "6",
+            "7",
+            "8"
         ],
-        "correct": "Earth",
-        "difficulty": "easy"
+        "correct": "7",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 24,
-        "domain": "Pattern Recognition",
-        "question": "Sequence: A, B, C, ?",
+        "domain": "Attention",
+        "question": "Follow the pattern: 100, 93, 86, ?",
         "options": [
-            "D",
-            "E",
-            "F",
-            "G"
+            "80",
+            "79",
+            "77",
+            "75"
         ],
-        "correct": "D",
-        "difficulty": "easy"
+        "correct": "79",
+        "difficulty": "medium",
+        "type": "choice"
     },
     {
         "id": 25,
-        "domain": "Memory",
-        "question": "I saw a movie called 'The Lion King'. What was the title?",
+        "domain": "Attention",
+        "question": "Find the word that is spelled correctly:",
         "options": [
-            "Tiger King",
-            "Lion King",
-            "Cat King",
-            "Bear King"
+            "Demensha",
+            "Dementia",
+            "Dimentia",
+            "Demencia"
         ],
-        "correct": "Lion King",
-        "difficulty": "easy"
+        "correct": "Dementia",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 26,
         "domain": "Attention",
-        "question": "What is 10 x 4?",
+        "question": "Which symbol is different?",
         "options": [
-            "14",
-            "40",
-            "104",
-            "44"
+            "$",
+            "$",
+            "&",
+            "$"
         ],
-        "correct": "40",
-        "difficulty": "easy"
+        "correct": "&",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 27,
-        "domain": "Orientation",
-        "question": "Which of these is a tool for telling time?",
+        "domain": "Attention",
+        "question": "What is the next letter? B, D, F, H, ?",
         "options": [
-            "Clock",
-            "Hammer",
-            "Bottle",
-            "Brush"
+            "I",
+            "J",
+            "K",
+            "L"
         ],
-        "correct": "Clock",
-        "difficulty": "easy"
+        "correct": "J",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 28,
-        "domain": "Executive Function",
-        "question": "How many legs does a spider have?",
+        "domain": "Attention",
+        "question": "Tap the letter 'A' every time it appears: 'S A M A L A P A.' How many 'A's are there?",
         "options": [
+            "3",
             "4",
-            "6",
-            "8",
-            "10"
+            "5",
+            "2"
         ],
-        "correct": "8",
-        "difficulty": "easy"
+        "correct": "4",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 29,
-        "domain": "Pattern Recognition",
-        "question": "Pattern: Up, Down, Up, ?",
+        "domain": "Attention",
+        "question": "Which of these is a Tuesday if the 1st of the month is a Monday?",
         "options": [
-            "Left",
-            "Right",
-            "Down",
-            "Center"
+            "2nd",
+            "3rd",
+            "4th",
+            "5th"
         ],
-        "correct": "Down",
-        "difficulty": "easy"
+        "correct": "2nd",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 30,
-        "domain": "Memory",
-        "question": "Remember the word 'INTELLIGENCE'. What was the first letter?",
+        "domain": "Attention",
+        "question": "Select the word that matches the color: (Word 'RED' printed in Blue ink). What is the word?",
         "options": [
-            "I",
-            "N",
-            "T",
-            "E"
+            "Blue",
+            "Red",
+            "Green",
+            "Black"
         ],
-        "correct": "I",
-        "difficulty": "easy"
+        "correct": "Red",
+        "difficulty": "medium",
+        "type": "choice"
     },
     {
         "id": 31,
-        "domain": "Orientation",
-        "question": "What city are we in? (Assuming user knows context, but used as general for quiz)",
+        "domain": "Attention",
+        "question": "What is the next number in the series: 1, 3, 5, 7, ?",
         "options": [
-            "London",
-            "New York",
-            "Mumbai",
-            "Not Applicable"
+            "8",
+            "9",
+            "10",
+            "11"
         ],
-        "correct": "Not Applicable",
-        "difficulty": "easy"
+        "correct": "9",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 32,
         "domain": "Attention",
-        "question": "Which of these is a mammal?",
+        "question": "Find the hidden word in 'B-A-S-K-E-T':",
         "options": [
-            "Shark",
-            "Whale",
-            "Ant",
-            "Eagle"
+            "Task",
+            "Best",
+            "Bask",
+            "Bake"
         ],
-        "correct": "Whale",
-        "difficulty": "medium"
+        "correct": "Bask",
+        "difficulty": "medium",
+        "type": "choice"
     },
     {
         "id": 33,
-        "domain": "Memory",
-        "question": "Remember: Tiger, Elephant, Giraffe. Which was the second animal?",
+        "domain": "Attention",
+        "question": "Which direction is opposite of 'North-West'?",
         "options": [
-            "Elephant",
-            "Tiger",
-            "Giraffe",
-            "Zebra"
+            "North-East",
+            "South-West",
+            "South-East",
+            "North"
         ],
-        "correct": "Elephant",
-        "difficulty": "easy"
+        "correct": "South-East",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 34,
-        "domain": "Executive Function",
-        "question": "If you are second in a race, what position are you?",
+        "domain": "Attention",
+        "question": "Identify the duplicate: 582, 852, 582, 285.",
         "options": [
-            "First",
-            "Second",
-            "Third",
-            "Last"
+            "852",
+            "285",
+            "582",
+            "528"
         ],
-        "correct": "Second",
-        "difficulty": "easy"
+        "correct": "582",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 35,
-        "domain": "Pattern Recognition",
-        "question": "Complete: Square, Circle, Square, ?",
+        "domain": "Attention",
+        "question": "If you see the sequence 1-A-2-B, what comes next?",
         "options": [
-            "Triangle",
-            "Circle",
-            "Rectangle",
-            "Star"
+            "3",
+            "C",
+            "4",
+            "D"
         ],
-        "correct": "Circle",
-        "difficulty": "easy"
+        "correct": "3",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 36,
-        "domain": "Memory",
-        "question": "What color is the sky on a clear day?",
+        "domain": "Attention",
+        "question": "How many vowels are in the word 'EDUCATION'?",
         "options": [
-            "Green",
-            "Blue",
-            "Red",
-            "Yellow"
+            "4",
+            "5",
+            "3",
+            "6"
         ],
-        "correct": "Blue",
-        "difficulty": "easy"
+        "correct": "5",
+        "difficulty": "medium",
+        "type": "choice"
     },
     {
         "id": 37,
-        "domain": "Orientation",
-        "question": "In the morning, the sun rises in the...?",
+        "domain": "Attention",
+        "question": "Which of these is a capital city?",
         "options": [
-            "East",
-            "West",
-            "North",
-            "South"
+            "London",
+            "Amazon",
+            "Everest",
+            "Atlantic"
         ],
-        "correct": "East",
-        "difficulty": "easy"
+        "correct": "London",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 38,
         "domain": "Attention",
-        "question": "Subtract 20 from 100.",
+        "question": "Find the word that does not belong: 'Car, Bus, Train, Helicopter, Bicycle.' (Which one flies?)",
         "options": [
-            "70",
-            "80",
-            "90",
-            "120"
+            "Bus",
+            "Helicopter",
+            "Train",
+            "Bicycle"
         ],
-        "correct": "80",
-        "difficulty": "easy"
+        "correct": "Helicopter",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 39,
-        "domain": "Executive Function",
-        "question": "Which of these is used to hear sound?",
-        "options": [
-            "Ear",
-            "Eye",
-            "Nose",
-            "Mouth"
-        ],
-        "correct": "Ear",
-        "difficulty": "easy"
-    },
-    {
-        "id": 40,
-        "domain": "Pattern Recognition",
-        "question": "Sequence: Red, Green, Red, ?",
-        "options": [
-            "Blue",
-            "Green",
-            "Yellow",
-            "Orange"
-        ],
-        "correct": "Green",
-        "difficulty": "easy"
-    },
-    {
-        "id": 41,
-        "domain": "Memory",
-        "question": "Yesterday was Thursday. What day was it?",
-        "options": [
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday"
-        ],
-        "correct": "Thursday",
-        "difficulty": "easy"
-    },
-    {
-        "id": 42,
-        "domain": "Orientation",
-        "question": "A compass points to the...?",
-        "options": [
-            "North",
-            "South",
-            "East",
-            "West"
-        ],
-        "correct": "North",
-        "difficulty": "easy"
-    },
-    {
-        "id": 43,
         "domain": "Attention",
-        "question": "Find the sum of 8 and 9.",
-        "options": [
-            "15",
-            "16",
-            "17",
-            "18"
-        ],
-        "correct": "17",
-        "difficulty": "easy"
-    },
-    {
-        "id": 44,
-        "domain": "Executive Function",
-        "question": "Which of these is a transport vehicle?",
-        "options": [
-            "Chair",
-            "Bed",
-            "Bus",
-            "Phone"
-        ],
-        "correct": "Bus",
-        "difficulty": "easy"
-    },
-    {
-        "id": 45,
-        "domain": "Pattern Recognition",
-        "question": "Sequence: 2, 5, 8, ?",
+        "question": "If you are 10th in a line of 20 people, how many are behind you?",
         "options": [
             "9",
             "10",
             "11",
             "12"
         ],
-        "correct": "11",
-        "difficulty": "medium"
+        "correct": "10",
+        "difficulty": "medium",
+        "type": "choice"
+    },
+    {
+        "id": 40,
+        "domain": "Attention",
+        "question": "What is the result of 5 + 5 + 5 - 2?",
+        "options": [
+            "12",
+            "13",
+            "15",
+            "10"
+        ],
+        "correct": "13",
+        "difficulty": "easy",
+        "type": "choice"
+    },
+    {
+        "id": 41,
+        "domain": "Executive Function",
+        "question": "If a shirt costs $15 and you pay with a $20 bill, how much change do you get?",
+        "options": [
+            "$10",
+            "$5",
+            "$1",
+            "$15"
+        ],
+        "correct": "$5",
+        "difficulty": "easy",
+        "type": "choice"
+    },
+    {
+        "id": 42,
+        "domain": "Executive Function",
+        "question": "What should you do if you smell smoke in your house?",
+        "options": [
+            "Go to sleep",
+            "Call the fire department",
+            "Close the windows",
+            "Ignore it"
+        ],
+        "correct": "Call the fire department",
+        "difficulty": "easy",
+        "type": "choice"
+    },
+    {
+        "id": 43,
+        "domain": "Executive Function",
+        "question": "Which of these items is needed to mail a letter?",
+        "options": [
+            "Glue",
+            "Stamp",
+            "Stapler",
+            "Tape"
+        ],
+        "correct": "Stamp",
+        "difficulty": "easy",
+        "type": "choice"
+    },
+    {
+        "id": 44,
+        "domain": "Executive Function",
+        "question": "'A bird is to wings as a car is to...'",
+        "options": [
+            "Windows",
+            "Wheels",
+            "Doors",
+            "Seats"
+        ],
+        "correct": "Wheels",
+        "difficulty": "easy",
+        "type": "choice"
+    },
+    {
+        "id": 45,
+        "domain": "Executive Function",
+        "question": "Arrange these in order of a typical day: 1. Dinner, 2. Breakfast, 3. Lunch.",
+        "options": [
+            "1-2-3",
+            "2-3-1",
+            "3-2-1",
+            "2-1-3"
+        ],
+        "correct": "2-3-1",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 46,
-        "domain": "Memory",
-        "question": "Remember: 55, 66, 77. What number came after 55?",
+        "domain": "Executive Function",
+        "question": "If all humans need oxygen, and Sarah is a human, does Sarah need oxygen?",
         "options": [
-            "66",
-            "77",
-            "88",
-            "44"
+            "No",
+            "Sometimes",
+            "Yes",
+            "Only in winter"
         ],
-        "correct": "66",
-        "difficulty": "easy"
+        "correct": "Yes",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 47,
-        "domain": "Orientation",
-        "question": "The moon appears at...?",
+        "domain": "Executive Function",
+        "question": "What is the similarity between an Apple and a Banana?",
         "options": [
-            "Day",
-            "Night",
-            "Morning",
-            "Noon"
+            "They are both red",
+            "They are both fruits",
+            "They are both round",
+            "They are both vegetables"
         ],
-        "correct": "Night",
-        "difficulty": "easy"
+        "correct": "They are both fruits",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 48,
-        "domain": "Attention",
-        "question": "What is 50 minus 15?",
+        "domain": "Executive Function",
+        "question": "You need to cook a meal but have no stove. What is the best alternative?",
         "options": [
-            "25",
-            "35",
-            "45",
-            "55"
+            "Use a fridge",
+            "Use a microwave",
+            "Use a sink",
+            "Use a toaster"
         ],
-        "correct": "35",
-        "difficulty": "easy"
+        "correct": "Use a microwave",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 49,
         "domain": "Executive Function",
-        "question": "Which tool is for measuring temperature?",
+        "question": "If you are facing North and turn 180 degrees, which way are you facing?",
         "options": [
-            "Scale",
-            "Thermometer",
-            "Ruler",
-            "Compass"
+            "East",
+            "West",
+            "South",
+            "North"
         ],
-        "correct": "Thermometer",
-        "difficulty": "easy"
+        "correct": "South",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 50,
-        "domain": "Pattern Recognition",
-        "question": "Complete: Morning, Afternoon, Evening, ?",
+        "domain": "Executive Function",
+        "question": "Which action shows 'Safety Judgment'?",
         "options": [
-            "Day",
-            "Night",
-            "Dawn",
-            "Sun"
+            "Driving without a seatbelt",
+            "Checking the stove is off before leaving",
+            "Leaving the front door wide open",
+            "Giving bank details to a stranger"
         ],
-        "correct": "Night",
-        "difficulty": "easy"
+        "correct": "Checking the stove is off before leaving",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 51,
-        "domain": "Memory",
-        "question": "Remember: Circle, Triangle, Square. Which was first?",
+        "domain": "Executive Function",
+        "question": "Rearrange the letters 'O-T-P' to form a word for a kitchen item.",
         "options": [
-            "Circle",
-            "Triangle",
-            "Square",
-            "Hexagon"
+            "TOP",
+            "POT",
+            "OPT",
+            "PTO"
         ],
-        "correct": "Circle",
-        "difficulty": "easy"
+        "correct": "POT",
+        "difficulty": "medium",
+        "type": "choice"
     },
     {
         "id": 52,
-        "domain": "Orientation",
-        "question": "How many days are in a week?",
+        "domain": "Executive Function",
+        "question": "If a doctor gives you 3 pills and says take one every 4 hours, how long will they last?",
         "options": [
-            "5",
-            "6",
-            "7",
-            "8"
+            "4 hours",
+            "8 hours",
+            "12 hours",
+            "6 hours"
         ],
-        "correct": "7",
-        "difficulty": "easy"
+        "correct": "8 hours",
+        "difficulty": "medium",
+        "type": "choice"
     },
     {
         "id": 53,
-        "domain": "Attention",
-        "question": "Count the 'E's in 'EXCELLENT'.",
+        "domain": "Executive Function",
+        "question": "Why do people use umbrellas?",
         "options": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "To see better",
+            "To stay dry in rain",
+            "To stay warm",
+            "To walk faster"
         ],
-        "correct": "3",
-        "difficulty": "medium"
+        "correct": "To stay dry in rain",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 54,
         "domain": "Executive Function",
-        "question": "Which is an fruit?",
+        "question": "Which is the 'Odd One Out'?",
         "options": [
-            "Potato",
-            "Apple",
-            "Onion",
-            "Garlic"
+            "Hammer",
+            "Screwdriver",
+            "Pliers",
+            "Pillow"
         ],
-        "correct": "Apple",
-        "difficulty": "easy"
+        "correct": "Pillow",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 55,
-        "domain": "Pattern Recognition",
-        "question": "Sequence: 1, 2, 4, 8, ?",
+        "domain": "Executive Function",
+        "question": "If today is the 30th, what is likely the date tomorrow?",
         "options": [
-            "10",
-            "12",
-            "14",
-            "16"
+            "1st",
+            "31st or 1st",
+            "29th",
+            "32nd"
         ],
-        "correct": "16",
-        "difficulty": "medium"
+        "correct": "31st or 1st",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 56,
-        "domain": "Memory",
-        "question": "Remember these letters: X, Y, Z. What was the middle letter?",
+        "domain": "Executive Function",
+        "question": "You find a wallet on the floor of a store. What is the best action?",
         "options": [
-            "X",
-            "Y",
-            "Z",
-            "W"
+            "Keep the money",
+            "Give it to the store manager",
+            "Leave it there",
+            "Throw it away"
         ],
-        "correct": "Y",
-        "difficulty": "easy"
+        "correct": "Give it to the store manager",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 57,
-        "domain": "Orientation",
-        "question": "Which ocean is the largest? (General knowledge)",
+        "domain": "Executive Function",
+        "question": "If a clock shows 3:15, where is the minute hand pointing?",
         "options": [
-            "Atlantic",
-            "Pacific",
-            "Indian",
-            "Arctic"
+            "3",
+            "6",
+            "9",
+            "12"
         ],
-        "correct": "Pacific",
-        "difficulty": "medium"
+        "correct": "3",
+        "difficulty": "medium",
+        "type": "choice"
     },
     {
         "id": 58,
-        "domain": "Attention",
-        "question": "What is 12 + 12?",
+        "domain": "Executive Function",
+        "question": "What is the common theme between a Watch and a Ruler?",
         "options": [
-            "22",
-            "24",
-            "26",
-            "28"
+            "They both tell time",
+            "They are both used for measuring",
+            "They are both made of glass",
+            "They are both electronic"
         ],
-        "correct": "24",
-        "difficulty": "easy"
+        "correct": "They are both used for measuring",
+        "difficulty": "medium",
+        "type": "choice"
     },
     {
         "id": 59,
         "domain": "Executive Function",
-        "question": "How many months are in a year?",
+        "question": "If you have 2 dozen eggs and use 4, how many are left?",
         "options": [
-            "10",
-            "12",
-            "14",
+            "8",
+            "16",
+            "20",
             "24"
         ],
-        "correct": "12",
-        "difficulty": "easy"
+        "correct": "20",
+        "difficulty": "medium",
+        "type": "choice"
     },
     {
         "id": 60,
-        "domain": "Pattern Recognition",
-        "question": "Complete: Small, Medium, Large, ?",
+        "domain": "Executive Function",
+        "question": "Which of these requires 'Planning'?",
         "options": [
-            "Tiny",
-            "Huge",
-            "Extra Large",
-            "Mini"
+            "Sneezing",
+            "Booking a doctor's appointment",
+            "Blinking",
+            "Dreaming"
         ],
-        "correct": "Extra Large",
-        "difficulty": "easy"
+        "correct": "Booking a doctor's appointment",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 61,
-        "domain": "Memory",
-        "question": "I have 5 fingers on one hand. How many?",
-        "options": [
-            "4",
-            "5",
-            "6",
-            "10"
-        ],
-        "correct": "5",
-        "difficulty": "easy"
+        "domain": "Orientation",
+        "question": "What is today’s full date (Day/Month/Year)?",
+        "options": [],
+        "correct": "User Input",
+        "difficulty": "easy",
+        "type": "text"
     },
     {
         "id": 62,
         "domain": "Orientation",
-        "question": "Ice is made of frozen...?",
+        "question": "What is the current season?",
         "options": [
-            "Milk",
-            "Juice",
-            "Water",
-            "Air"
+            "Spring",
+            "Summer",
+            "Autumn",
+            "Winter"
         ],
-        "correct": "Water",
-        "difficulty": "easy"
+        "correct": "Spring",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 63,
-        "domain": "Attention",
-        "question": "Divide 20 by 4.",
-        "options": [
-            "4",
-            "5",
-            "6",
-            "7"
-        ],
-        "correct": "5",
-        "difficulty": "easy"
+        "domain": "Orientation",
+        "question": "What is the name of the building or place you are currently in?",
+        "options": [],
+        "correct": "User Input",
+        "difficulty": "easy",
+        "type": "text"
     },
     {
         "id": 64,
-        "domain": "Executive Function",
-        "question": "Which sense uses the nose?",
-        "options": [
-            "Sight",
-            "Hearing",
-            "Smell",
-            "Taste"
-        ],
-        "correct": "Smell",
-        "difficulty": "easy"
+        "domain": "Orientation",
+        "question": "What floor of the building are you on right now?",
+        "options": [],
+        "correct": "User Input",
+        "difficulty": "easy",
+        "type": "text"
     },
     {
         "id": 65,
-        "domain": "Pattern Recognition",
-        "question": "Sequence: 3, 6, 9, ?",
-        "options": [
-            "10",
-            "11",
-            "12",
-            "13"
-        ],
-        "correct": "12",
-        "difficulty": "easy"
+        "domain": "Orientation",
+        "question": "Which city or town are you in?",
+        "options": [],
+        "correct": "User Input",
+        "difficulty": "easy",
+        "type": "text"
     },
     {
         "id": 66,
-        "domain": "Memory",
-        "question": "Look at the word 'MEMORY'. How many letters?",
-        "options": [
-            "4",
-            "5",
-            "6",
-            "7"
-        ],
-        "correct": "6",
-        "difficulty": "easy"
+        "domain": "Orientation",
+        "question": "What state or province are you in?",
+        "options": [],
+        "correct": "User Input",
+        "difficulty": "easy",
+        "type": "text"
     },
     {
         "id": 67,
         "domain": "Orientation",
-        "question": "Where is the Eiffel Tower? (City)",
+        "question": "What is the current day of the week?",
         "options": [
-            "London",
-            "Berlin",
-            "Paris",
-            "Rome"
+            "Monday",
+            "Wednesday",
+            "Friday",
+            "Current Day"
         ],
-        "correct": "Paris",
-        "difficulty": "easy"
+        "correct": "Current Day",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 68,
-        "domain": "Attention",
-        "question": "What is 15 + 15?",
-        "options": [
-            "20",
-            "25",
-            "30",
-            "35"
-        ],
-        "correct": "30",
-        "difficulty": "easy"
+        "domain": "Orientation",
+        "question": "About what time is it now (within 1 hour)?",
+        "options": [],
+        "correct": "User Input",
+        "difficulty": "easy",
+        "type": "text"
     },
     {
         "id": 69,
-        "domain": "Executive Function",
-        "question": "Which of these is a pet?",
-        "options": [
-            "Lion",
-            "Dog",
-            "Shark",
-            "Wolf"
-        ],
-        "correct": "Dog",
-        "difficulty": "easy"
+        "domain": "Orientation",
+        "question": "Who is the current President or Prime Minister of your country?",
+        "options": [],
+        "correct": "User Input",
+        "difficulty": "medium",
+        "type": "text"
     },
     {
         "id": 70,
-        "domain": "Pattern Recognition",
-        "question": "Complete: Cold, Cool, Warm, ?",
+        "domain": "Orientation",
+        "question": "What was the last major holiday?",
         "options": [
-            "Dry",
-            "Hot",
-            "Icy",
-            "Windy"
+            "Christmas",
+            "New Year",
+            "Thanksgiving",
+            "User Input"
         ],
-        "correct": "Hot",
-        "difficulty": "easy"
+        "correct": "User Input",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 71,
-        "domain": "Memory",
-        "question": "Remember: 101, 202, 303. Which was in the middle?",
+        "domain": "Orientation",
+        "question": "Which month comes right before July?",
         "options": [
-            "101",
-            "202",
-            "303",
-            "404"
+            "May",
+            "June",
+            "August",
+            "September"
         ],
-        "correct": "202",
-        "difficulty": "easy"
+        "correct": "June",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 72,
         "domain": "Orientation",
-        "question": "A triangle has how many sides?",
-        "options": [
-            "2",
-            "3",
-            "4",
-            "5"
-        ],
-        "correct": "3",
-        "difficulty": "easy"
+        "question": "What is your current home address?",
+        "options": [],
+        "correct": "User Input",
+        "difficulty": "easy",
+        "type": "text"
     },
     {
         "id": 73,
-        "domain": "Attention",
-        "question": "Subtract 50 from 100.",
-        "options": [
-            "25",
-            "50",
-            "75",
-            "100"
-        ],
-        "correct": "50",
-        "difficulty": "easy"
+        "domain": "Orientation",
+        "question": "What is your date of birth?",
+        "options": [],
+        "correct": "User Input",
+        "difficulty": "easy",
+        "type": "text"
     },
     {
         "id": 74,
-        "domain": "Executive Function",
-        "question": "Which body part is for walking?",
+        "domain": "Orientation",
+        "question": "Is it currently AM or PM?",
         "options": [
-            "Hand",
-            "Leg",
-            "Arm",
-            "Head"
+            "AM",
+            "PM"
         ],
-        "correct": "Leg",
-        "difficulty": "easy"
+        "correct": "User Input",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 75,
-        "domain": "Pattern Recognition",
-        "question": "Sequence: Z, Y, X, ?",
-        "options": [
-            "V",
-            "W",
-            "A",
-            "U"
-        ],
-        "correct": "W",
-        "difficulty": "medium"
+        "domain": "Orientation",
+        "question": "What is the name of the current month?",
+        "options": [],
+        "correct": "User Input",
+        "difficulty": "easy",
+        "type": "text"
     },
     {
         "id": 76,
-        "domain": "Memory",
-        "question": "Remember: Book, Pen, Desk. Which was the third word?",
+        "domain": "Orientation",
+        "question": "Which century are we currently in?",
         "options": [
-            "Book",
-            "Chair",
-            "Desk",
-            "Pen"
+            "19th",
+            "20th",
+            "21st",
+            "22nd"
         ],
-        "correct": "Desk",
-        "difficulty": "easy"
+        "correct": "21st",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 77,
         "domain": "Orientation",
-        "question": "Stars are visible during the...?",
+        "question": "How many minutes are in half an hour?",
         "options": [
-            "Day",
-            "Night",
-            "Noon",
-            "Dawn"
+            "15",
+            "30",
+            "45",
+            "60"
         ],
-        "correct": "Night",
-        "difficulty": "easy"
+        "correct": "30",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 78,
-        "domain": "Attention",
-        "question": "Add 7 + 7 + 7.",
-        "options": [
-            "14",
-            "21",
-            "28",
-            "35"
-        ],
-        "correct": "21",
-        "difficulty": "easy"
+        "domain": "Orientation",
+        "question": "What is the next major holiday coming up?",
+        "options": [],
+        "correct": "User Input",
+        "difficulty": "easy",
+        "type": "text"
     },
     {
         "id": 79,
-        "domain": "Executive Function",
-        "question": "Which of these is a computer part?",
+        "domain": "Orientation",
+        "question": "Which of these is a 'Weekday'?",
         "options": [
-            "Mouse",
-            "Chair",
-            "Shoe",
-            "Pillow"
+            "Saturday",
+            "Sunday",
+            "Thursday",
+            "Holiday"
         ],
-        "correct": "Mouse",
-        "difficulty": "easy"
+        "correct": "Thursday",
+        "difficulty": "easy",
+        "type": "choice"
     },
     {
         "id": 80,
-        "domain": "Pattern Recognition",
-        "question": "Complete: Start, Middle, ?",
-        "options": [
-            "Center",
-            "End",
-            "Beginning",
-            "Finish"
-        ],
-        "correct": "End",
-        "difficulty": "easy"
+        "domain": "Orientation",
+        "question": "What is the name of the street this building is on?",
+        "options": [],
+        "correct": "User Input",
+        "difficulty": "easy",
+        "type": "text"
     }
 ]

@@ -36,7 +36,7 @@ const ReportPage = () => {
             const parsed = JSON.parse(raw);
             setData(parsed);
 
-            const domains = ['Memory', 'Orientation', 'Attention', 'Executive Function', 'Pattern Recognition'];
+            const domains = ['Memory', 'Orientation', 'Attention', 'Executive Function'];
             const calculated: any = {};
 
             domains.forEach(d => {
@@ -61,12 +61,12 @@ const ReportPage = () => {
         <div className="min-h-screen bg-[#FFF8F0] flex items-center justify-center">
             <div className="flex flex-col items-center gap-4">
                 <div className="w-12 h-12 border-4 border-pink-500/20 border-t-pink-500 rounded-full animate-spin" />
-                <p className="text-pink-500 font-bold uppercase tracking-widest text-[10px]">Assembling Data...</p>
+                <p className="text-pink-500 font-bold uppercase tracking-widest text-[10px]">Processing AI Report...</p>
             </div>
         </div>
     );
 
-    const avgScore = Object.values(finalScores).reduce((a: any, b: any) => a + b, 0) / 5;
+    const avgScore = (Object.values(finalScores) as any[]).reduce((a: any, b: any) => a + b, 0) / 4;
     const risk = avgScore > 80 ? "Low" : avgScore > 55 ? "Moderate" : "High";
     const riskColor = risk === "Low" ? "#A1C45A" : risk === "Moderate" ? "#F58220" : "#D61B7D";
     const riskBg = risk === "Low" ? "bg-[#A1C45A]/10" : risk === "Moderate" ? "bg-[#F58220]/10" : "bg-[#D61B7D]/10";
