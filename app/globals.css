@@ -1,194 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Inter:wght@100..900&display=swap');
 @import "tailwindcss";
 
-@theme {
-  --color-primary: #D61B7D;
-  /* YoBe Pink */
-  --color-secondary: #F58220;
-  /* YoBe Orange */
-  --color-accent: #A1C45A;
-  /* YoBe Green */
-  --color-light: #FFF8F0;
-  /* Creamy White */
-  --color-dark: #3D2C2E;
-  /* Deep Cocoa */
-
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-fraunces);
+:root {
+  --bg-deep: #050505;
+  --bg-surface: #0A0A0A;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --accent-primary: #6366f1;
+  /* Indigo */
+  --accent-secondary: #ec4899;
+  /* Pink */
+  --text-main: #FFFFFF;
+  --text-dim: #94A3B8;
+  --glow-indigo: 0 0 40px -10px rgba(99, 102, 241, 0.3);
+  --glow-pink: 0 0 40px -10px rgba(236, 72, 153, 0.3);
 }
 
-:root {
-  --primary: #D61B7D;
-  --secondary: #F58220;
-  --accent: #A1C45A;
-  --light: #FFF8F0;
-  --dark: #1A1A1A;
-  /* Darkened to near black for visibility */
-  --yobe-pink: #D61B7D;
-  --yobe-orange: #F58220;
-  --yobe-yellow: #FFCB05;
+@theme {
+  --font-sans: 'Outfit', 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 body {
-  background-color: #FFF8F0;
-  color: #1A1A1A;
-  /* Explicitly set to near black */
-  font-family: var(--font-inter), sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-main);
+  font-family: var(--font-sans);
   overflow-x: hidden;
-  line-height: 1.5;
+  margin: 0;
 }
 
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-fraunces), serif;
-  font-weight: 800;
-  color: #1A1A1A;
-  /* Explicitly set to near black */
-  letter-spacing: -0.02em;
+/* Glassmorphism Levels */
+.glass-1 {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
 }
 
-/* --- DYNAMIC UI EFFECTS --- */
-
-.shadow-glow {
-  box-shadow: 0 0 40px rgba(214, 27, 125, 0.4);
+.glass-2 {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
 }
 
-.glass-panel {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(30px);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+/* Animated Gradient Background */
+.ambient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(236, 72, 153, 0.1) 0%, transparent 40%);
+  filter: blur(80px);
 }
 
-.glass-panel-ultra {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(50px);
+/* Premium Buttons */
+.yobe-btn-premium {
+  @apply relative overflow-hidden px-8 py-4 rounded-2xl font-bold transition-all duration-500 flex items-center justify-center gap-3 cursor-pointer;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  box-shadow: var(--glow-indigo);
+  color: white;
+  border: none;
+}
+
+.yobe-btn-premium:hover {
+  @apply scale-105;
+  filter: brightness(1.2);
+  box-shadow: 0 0 60px -5px rgba(99, 102, 241, 0.5);
+}
+
+.yobe-btn-outline {
+  @apply px-8 py-4 rounded-2xl font-bold border border-white/10 hover:bg-white/5 transition-all text-sm uppercase tracking-widest cursor-pointer;
+  color: white;
+}
+
+/* Status Indicators */
+.status-pill {
+  @apply px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter flex items-center gap-2;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Wavy Backgrounds */
-.wavy-stripes {
-  background: repeating-linear-gradient(45deg,
-      var(--yobe-pink),
-      var(--yobe-pink) 20px,
-      var(--yobe-orange) 20px,
-      var(--yobe-orange) 40px,
-      var(--yobe-yellow) 40px,
-      var(--yobe-yellow) 60px);
-  mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,149.3C672,149,768,203,864,218.7C960,235,1056,213,1152,186.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z" fill="black"></path></svg>');
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
 }
 
-/* Animated Gradient Text */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+
+/* Typography Utilities */
 .gradient-text {
-  background: linear-gradient(90deg, var(--yobe-pink), var(--yobe-orange), var(--yobe-yellow), var(--yobe-pink));
-  background-size: 300% auto;
+  background: linear-gradient(135deg, #fff 0%, #94A3B8 100%);
   -webkit-background-clip: text;
-  background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shine 8s linear infinite;
+  background-clip: text;
 }
 
-@keyframes shine {
-  to {
-    background-position: 300% center;
-  }
-}
-
-/* Floating Animation */
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
 
 @keyframes float {
   0% {
-    transform: translateY(0px) rotate(2deg);
+    transform: translateY(0px);
   }
 
   50% {
-    transform: translateY(-15px) rotate(4deg);
+    transform: translateY(-10px);
   }
 
   100% {
-    transform: translateY(0px) rotate(2deg);
+    transform: translateY(0px);
   }
-}
-
-/* Vibrant Buttons */
-.yobe-btn {
-  background: white;
-  color: #1A1A1A;
-  padding: 12px 28px;
-  border-radius: 9999px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 0.75rem;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
-  border: 1.5px solid white;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  cursor: pointer;
-}
-
-.yobe-btn:hover {
-  transform: scale(1.03) translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.yobe-btn-primary {
-  background: #D61B7D;
-  color: white;
-  border-color: #D61B7D;
-  box-shadow: 0 6px 20px rgba(214, 27, 125, 0.2);
-}
-
-/* Organic Cards */
-.organic-card {
-  background: white;
-  border-radius: 32px;
-  padding: 32px;
-  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.organic-card:hover {
-  transform: translateY(-10px) rotate(1deg);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
-}
-
-.organic-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 8px;
-  background: linear-gradient(90deg, var(--yobe-pink), var(--yobe-orange));
-}
-
-/* Performance and Smoothness */
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-}
-
-::selection {
-  background-color: var(--yobe-yellow);
-  color: white;
-}
-
-.section-spacing {
-  padding-top: 80px;
-  padding-bottom: 80px;
-}
-
-.accessible-heading {
-  font-size: clamp(2.25rem, 4vw, 3.5rem);
-  line-height: 1.1;
-  color: #1A1A1A;
 }

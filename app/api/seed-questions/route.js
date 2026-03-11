@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import clientPromise from '../../../lib/mongodb';
+import dbConnect from '../../../lib/dbConnect';
 import fs from 'fs';
 import path from 'path';
 
@@ -7,8 +7,8 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
     try {
-        const client = await clientPromise;
-        const db = client.db('dementia_ai');
+        const mongoose = await dbConnect();
+        const db = mongoose.connection.db;
         const collection = db.collection('questions');
 
         // 1. Check if collection is empty
