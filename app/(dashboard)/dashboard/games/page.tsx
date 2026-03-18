@@ -1,129 +1,335 @@
 "use client";
-import React from 'react';
-import { Search, Zap, Play, Clock, Brain, Target, Layers, Activity } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Brain, RefreshCw, CheckCircle2, XCircle, Trophy } from 'lucide-react';
+
+// ─── Game 1: Word Recall ─────────────────────────────────────────────────────
+const WORD_SETS = [
+    ['River', 'Lamp', 'Tiger', 'Crown', 'Pencil', 'Window'],
+    ['Piano', 'Ocean', 'Marble', 'Feather', 'Lantern', 'Compass'],
+    ['Anchor', 'Whistle', 'Castle', 'Mirror', 'Pebble', 'Ribbon'],
+];
+
+function WordRecall({ onComplete }: { onComplete: (score: number) => void }) {
+    const [phase, setPhase] = useState<'memorize' | 'recall' | 'result'>('memorize');
+    const [words] = useState(WORD_SETS[Math.floor(Math.random() * WORD_SETS.length)]);
+    const [inputs, setInputs] = useState<string[]>(Array(6).fill(''));
+    const [timeLeft, setTimeLeft] = useState(5);
+
+    useEffect(() => {
+        if (phase !== 'memorize') return;
+        const t = setInterval(() => {
+            setTimeLeft(p => {
+                if (p <= 1) { clearInterval(t); setPhase('recall'); return 0; }
+                return p - 1;
+            });
+        }, 1000);
+        return () => clearInterval(t);
+    }, [phase]);
+
+    const submit = () => {
+        const correct = inputs.filter(i =>
+            words.some(w => w.toLowerCase() === i.trim().toLowerCase())
+        ).length;
+        onComplete(Math.round((correct / words.length) * 100));
+        setPhase('result');
+    };
+
+    return (
+        <div className="space-y-6">
+            {phase === 'memorize' && (
+                <div className="text-center">
+                    <p className="text-[#8B0000] font-bold uppercase tracking-widest text-xs mb-4">
+                        Memorize these words — {timeLeft}s
+                    </p>
+                    <div className="grid grid-cols-3 gap-3">
+                        {words.map(w => (
+                            <div key={w} className="bg-[#1A1A1A] text-white font-bold py-4 text-center text-lg">{w}</div>
+                        ))}
+                    </div>
+                </div>
+            )}
+            {phase === 'recall' && (
+                <div>
+                    <p className="text-[#1A1A1A]/60 text-sm font-bold mb-4 uppercase tracking-widest">Type the words you remember:</p>
+                    <div className="grid grid-cols-2 gap-3">
+                        {inputs.map((val, i) => (
+                            <input
+                                key={i}
+                                value={val}
+                                onChange={e => {
+                                    const n = [...inputs];
+                                    n[i] = e.target.value;
+                                    setInputs(n);
+                                }}
+                                placeholder={`Word ${i + 1}`}
+                                className="border border-[#1A1A1A]/10 px-4 py-3 font-bold bg-white focus:outline-none focus:border-[#8B0000]"
+                            />
+                        ))}
+                    </div>
+                    <button onClick={submit} className="mt-6 w-full bg-[#1A1A1A] text-white py-4 font-black uppercase tracking-widest hover:bg-black transition-all">
+                        Submit
+                    </button>
+                </div>
+            )}
+        </div>
+    );
+}
+
+// ─── Game 2: Number Forward Span ─────────────────────────────────────────────
+function NumberSpan({ onComplete }: { onComplete: (score: number) => void }) {
+    const [phase, setPhase] = useState<'showing' | 'input' | 'result'>('showing');
+    const [length, setLength] = useState(4);
+    const [sequence, setSequence] = useState<number[]>([]);
+    const [showing, setShowing] = useState(-1);
+    const [userInput, setUserInput] = useState('');
+    const [rounds, setRounds] = useState(0);
+    const [correct, setCorrect] = useState(0);
+
+    const generateRound = useCallback((len: number) => {
+        const seq = Array.from({ length: len }, () => Math.floor(Math.random() * 9) + 1);
+        setSequence(seq);
+        setPhase('showing');
+        setShowing(0);
+        setUserInput('');
+    }, []);
+
+    useEffect(() => { generateRound(4); }, [generateRound]);
+
+    useEffect(() => {
+        if (phase !== 'showing' || showing < 0) return;
+        if (showing >= sequence.length) {
+            setTimeout(() => setPhase('input'), 500);
+            return;
+        }
+        const t = setTimeout(() => setShowing(p => p + 1), 700);
+        return () => clearTimeout(t);
+    }, [phase, showing, sequence]);
+
+    const check = () => {
+        const expected = sequence.join('');
+        const isCorrect = userInput === expected;
+        const newRounds = rounds + 1;
+        const newCorrect = correct + (isCorrect ? 1 : 0);
+        setRounds(newRounds);
+        setCorrect(newCorrect);
+
+        if (newRounds >= 4) {
+            onComplete(Math.round((newCorrect / newRounds) * 100));
+            setPhase('result');
+        } else {
+            generateRound(isCorrect ? length + 1 : Math.max(4, length - 1));
+            if (isCorrect) setLength(l => l + 1);
+        }
+    };
+
+    return (
+        <div className="text-center space-y-6">
+            {phase === 'showing' && (
+                <div>
+                    <p className="text-[#8B0000] font-bold uppercase tracking-widest text-xs mb-6">Watch the sequence</p>
+                    <div className="flex justify-center gap-4">
+                        {sequence.map((n, i) => (
+                            <div key={i} className={`w-14 h-14 flex items-center justify-center text-3xl font-black border-2 transition-all duration-200
+                ${i === showing ? 'bg-[#8B0000] text-white border-[#8B0000] scale-110' : 'bg-white text-transparent border-[#1A1A1A]/10'}`}>
+                                {i <= showing ? n : '?'}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+            {phase === 'input' && (
+                <div>
+                    <p className="text-[#1A1A1A]/60 text-sm font-bold mb-4 uppercase tracking-widest">Type the sequence:</p>
+                    <input
+                        autoFocus
+                        value={userInput}
+                        onChange={e => setUserInput(e.target.value.replace(/\D/g, '').slice(0, sequence.length))}
+                        placeholder="e.g. 3729"
+                        className="text-center text-3xl font-black border-2 border-[#1A1A1A]/10 px-6 py-4 w-full focus:outline-none focus:border-[#8B0000]"
+                    />
+                    <button onClick={check} disabled={userInput.length !== sequence.length}
+                        className="mt-4 w-full bg-[#1A1A1A] text-white py-4 font-black disabled:opacity-30 transition-all hover:bg-black">
+                        Confirm
+                    </button>
+                    <p className="text-xs text-[#1A1A1A]/30 mt-3 font-bold">Round {rounds + 1} of 4 · Length: {sequence.length}</p>
+                </div>
+            )}
+        </div>
+    );
+}
+
+// ─── Game 3: Odd One Out ──────────────────────────────────────────────────────
+const ODD_SETS = [
+    { words: ['Monday', 'Tuesday', 'January', 'Friday'], answer: 'January', reason: 'Month, not a day' },
+    { words: ['Apple', 'Banana', 'Potato', 'Orange'], answer: 'Potato', reason: 'Vegetable, not a fruit' },
+    { words: ['Violin', 'Flute', 'Piano', 'Painting'], answer: 'Painting', reason: 'Art, not a musical instrument' },
+    { words: ['Dog', 'Cat', 'Eagle', 'Fish'], answer: 'Eagle', reason: 'Bird, not a mammal or fish' },
+    { words: ['Red', 'Blue', 'Circle', 'Green'], answer: 'Circle', reason: 'Shape, not a colour' },
+];
+
+function OddOneOut({ onComplete }: { onComplete: (score: number) => void }) {
+    const [idx, setIdx] = useState(0);
+    const [selected, setSelected] = useState<string | null>(null);
+    const [correct, setCorrect] = useState(0);
+    const [revealed, setRevealed] = useState(false);
+
+    const set = ODD_SETS[idx];
+
+    const pick = (word: string) => {
+        if (revealed) return;
+        setSelected(word);
+        setRevealed(true);
+        if (word === set.answer) setCorrect(c => c + 1);
+    };
+
+    const next = () => {
+        if (idx >= ODD_SETS.length - 1) {
+            onComplete(Math.round((correct + (selected === set.answer ? 0 : 0)) / ODD_SETS.length * 100));
+            return;
+        }
+        setIdx(i => i + 1);
+        setSelected(null);
+        setRevealed(false);
+    };
+
+    return (
+        <div className="space-y-6">
+            <p className="text-[#8B0000] font-bold uppercase tracking-widest text-xs">Question {idx + 1} of {ODD_SETS.length} — Which doesn&apos;t belong?</p>
+            <div className="grid grid-cols-2 gap-3">
+                {set.words.map(w => (
+                    <button
+                        key={w}
+                        onClick={() => pick(w)}
+                        className={`py-5 text-lg font-bold border-2 transition-all ${!revealed ? 'border-[#1A1A1A]/10 bg-white hover:border-[#8B0000] hover:bg-[#8B0000]/5'
+                                : w === set.answer ? 'border-green-500 bg-green-50 text-green-700'
+                                    : w === selected ? 'border-red-400 bg-red-50 text-red-600'
+                                        : 'border-[#1A1A1A]/5 bg-[#F5F1EE]/50 text-[#1A1A1A]/30'
+                            }`}
+                    >
+                        {w}
+                        {revealed && w === set.answer && <CheckCircle2 className="inline ml-2" size={16} />}
+                        {revealed && w !== set.answer && w === selected && <XCircle className="inline ml-2" size={16} />}
+                    </button>
+                ))}
+            </div>
+            {revealed && (
+                <div className="bg-[#1A1A1A]/5 p-4 text-sm font-medium text-[#1A1A1A]/60">
+                    <strong className="text-[#8B0000]">{set.answer}</strong> — {set.reason}
+                </div>
+            )}
+            {revealed && (
+                <button onClick={next} className="w-full bg-[#1A1A1A] text-white py-4 font-black uppercase tracking-widest hover:bg-black transition-all">
+                    {idx >= ODD_SETS.length - 1 ? 'See Results' : 'Next Question →'}
+                </button>
+            )}
+        </div>
+    );
+}
+
+// ─── Main Games Page ──────────────────────────────────────────────────────────
+type GameKey = 'word-recall' | 'number-span' | 'odd-one-out';
+
+interface GameConfig {
+    key: GameKey;
+    title: string;
+    description: string;
+    domain: string;
+}
+
+const GAMES: GameConfig[] = [
+    { key: 'word-recall', title: 'Word Recall', description: 'Memorize 6 words in 5 seconds, then recall as many as you can.', domain: 'Memory' },
+    { key: 'number-span', title: 'Number Span', description: 'Remember a growing sequence of digits and type them back.', domain: 'Attention' },
+    { key: 'odd-one-out', title: 'Odd One Out', description: '5 rapid-fire rounds: find the word that doesn\'t belong.', domain: 'Executive' },
+];
 
 export default function GamesPage() {
+    const [activeGame, setActiveGame] = useState<GameKey | null>(null);
+    const [scores, setScores] = useState<Partial<Record<GameKey, number>>>({});
+
+    const handleComplete = (game: GameKey, score: number) => {
+        setScores(prev => ({ ...prev, [game]: score }));
+        setActiveGame(null);
+    };
+
     return (
-        <div className="flex-1 p-6 md:p-12 bg-[#F5F1EE] min-h-screen font-sans relative overflow-hidden">
-            {/* Background Decoration */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#8B0000]/5 blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-
-            <div className="max-w-7xl mx-auto relative z-10">
-                {/* HEADER */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
-                    <div className="relative w-full max-w-md">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#1A1A1A]/20" size={18} />
-                        <input
-                            type="text"
-                            placeholder="Search cognitive challenges..."
-                            className="w-full bg-white text-[#1A1A1A] border border-[#1A1A1A]/5 py-4 pl-12 pr-4 focus:outline-none focus:border-[#8B0000]/30 transition-all font-medium"
-                        />
+        <div className="min-h-screen bg-[#F5F1EE] font-sans p-6 md:p-12">
+            <div className="max-w-4xl mx-auto">
+                {/* Header */}
+                <div className="mb-12">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 bg-[#8B0000] flex items-center justify-center">
+                            <Brain size={20} className="text-white" />
+                        </div>
+                        <h1 className="text-4xl font-black text-[#1A1A1A] tracking-tight">Brain Games</h1>
                     </div>
-                    <div className="flex items-center gap-3 bg-white border border-[#1A1A1A]/5 px-6 py-3 shadow-sm">
-                        <Zap size={18} className="text-[#8B0000]" />
-                        <span className="text-[#1A1A1A] font-black uppercase tracking-widest text-xs">1,240 XP Cumulative</span>
-                    </div>
+                    <p className="text-[#1A1A1A]/50 font-medium">Short cognitive exercises to keep your mind sharp. Play at least once a day.</p>
                 </div>
 
-                {/* FEATURED BANNER */}
-                <div className="bg-[#1A1A1A] text-white p-10 md:p-16 mb-12 flex flex-col md:flex-row gap-12 items-center relative overflow-hidden">
-                    {/* Visual Decor */}
-                    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, #8B0000 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
-                    <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#8B0000]/20 blur-[100px] translate-y-1/2 translate-x-1/2" />
+                {/* Game Cards */}
+                <AnimatePresence mode="wait">
+                    {!activeGame ? (
+                        <motion.div key="gallery" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                            className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {GAMES.map((g, i) => (
+                                <motion.div
+                                    key={g.key}
+                                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
+                                    className="bg-white border border-[#1A1A1A]/5 p-8 shadow-sm hover:shadow-lg transition-all group cursor-pointer"
+                                    onClick={() => setActiveGame(g.key)}
+                                >
+                                    {scores[g.key] !== undefined && (
+                                        <div className="flex items-center gap-2 mb-4 text-green-600">
+                                            <Trophy size={14} />
+                                            <span className="text-xs font-black uppercase tracking-widest">Score: {scores[g.key]}%</span>
+                                        </div>
+                                    )}
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-[#8B0000]/60 mb-3 block">{g.domain}</span>
+                                    <h2 className="text-xl font-black text-[#1A1A1A] mb-3 group-hover:text-[#8B0000] transition-colors">{g.title}</h2>
+                                    <p className="text-sm text-[#1A1A1A]/50 font-medium leading-relaxed">{g.description}</p>
+                                    <div className="mt-6 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#1A1A1A]/30 group-hover:text-[#8B0000] transition-colors">
+                                        {scores[g.key] !== undefined ? <><RefreshCw size={12} /> Play Again</> : 'Start Game →'}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    ) : (
+                        <motion.div key="game" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                            <div className="bg-white border border-[#1A1A1A]/5 p-8 md:p-12 shadow-lg">
+                                <div className="flex justify-between items-center mb-8">
+                                    <h2 className="text-2xl font-black text-[#1A1A1A]">
+                                        {GAMES.find(g => g.key === activeGame)?.title}
+                                    </h2>
+                                    <button onClick={() => setActiveGame(null)}
+                                        className="text-sm font-bold text-[#1A1A1A]/40 hover:text-[#1A1A1A] transition-colors">
+                                        ← Back
+                                    </button>
+                                </div>
+                                {activeGame === 'word-recall' && <WordRecall onComplete={s => handleComplete('word-recall', s)} />}
+                                {activeGame === 'number-span' && <NumberSpan onComplete={s => handleComplete('number-span', s)} />}
+                                {activeGame === 'odd-one-out' && <OddOneOut onComplete={s => handleComplete('odd-one-out', s)} />}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
-                    <div className="flex-1 relative z-10 text-center md:text-left">
-                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-6">
-                            <span className="bg-[#8B0000] text-white text-[10px] font-black px-4 py-1.5 uppercase tracking-[0.3em]">Module 04: Active</span>
-                            <span className="text-[10px] text-white/40 font-black uppercase tracking-widest flex items-center gap-2">
-                                <Clock size={12} /> 5 Min Neural Sweep
-                            </span>
-                        </div>
-                        <h1 className="text-4xl lg:text-6xl font-black tracking-tighter italic mb-4 uppercase">Synapse Shift: Alpha</h1>
-                        <p className="text-white/50 mb-10 max-w-lg leading-relaxed italic font-medium">
-                            Improve your neural plasticity with high-speed logical sequence analysis. This tool measures Inductive Reasoning and Mental Speed.
-                        </p>
-
-                        <div className="inline-block border-2 border-[#8B0000] bg-[#8B0000]/10 px-8 py-4">
-                            <p className="text-[#8B0000] font-black uppercase tracking-[0.2em] text-sm animate-pulse">
-                                Will be Integrated soon!!
+                {/* Overall score summary */}
+                {Object.keys(scores).length === 3 && (
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                        className="mt-8 bg-[#1A1A1A] text-white p-8 flex justify-between items-center">
+                        <div>
+                            <p className="text-xs font-black uppercase tracking-widest text-white/40 mb-1">Games Session Score</p>
+                            <p className="text-5xl font-black italic">
+                                {Math.round(Object.values(scores).reduce((a, b) => a + b, 0) / 3)}
+                                <span className="text-2xl opacity-40">%</span>
                             </p>
                         </div>
-                    </div>
-
-                    {/* Sphere Visual */}
-                    <div className="w-[300px] h-[300px] hidden md:flex items-center justify-center shrink-0 relative bg-white/5 border border-white/10">
-                        <div className="absolute inset-0 border border-[#8B0000]/20 animate-pulse" />
-                        <div className="w-[80%] h-[80%] border border-[#8B0000]/20 flex items-center justify-center">
-                            <div className="w-[60%] h-[60%] border border-[#8B0000]/30" />
-                        </div>
-                        <Activity size={48} className="text-[#8B0000]/40" />
-                    </div>
-                </div>
-
-                {/* FILTERS */}
-                <div className="flex gap-3 mb-10 overflow-x-auto pb-4 scrollbar-hide">
-                    <button className="bg-[#1A1A1A] text-white px-8 py-3 text-xs font-black uppercase tracking-widest shadow-xl">All Protocols</button>
-                    {['Memory', 'Logic', 'Focus', 'Speed'].map((filter) => (
-                        <button key={filter} className="bg-white text-[#1A1A1A]/40 hover:text-[#1A1A1A] px-8 py-3 text-xs font-black uppercase tracking-widest border border-[#1A1A1A]/5 transition-all">
-                            {filter}
+                        <button onClick={() => setScores({})}
+                            className="flex items-center gap-2 px-6 py-3 border border-white/20 text-sm font-bold hover:bg-white hover:text-[#1A1A1A] transition-all">
+                            <RefreshCw size={14} /> Play Again
                         </button>
-                    ))}
-                </div>
-
-                {/* GAMES GRID */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {[
-                        { title: "Pattern Recognition", domain: "Logic", measures: "Inductive Reasoning", color: "bg-blue-600" },
-                        { title: "Sequence Recall", domain: "Memory", measures: "Working Memory", color: "bg-[#8B0000]" },
-                        { title: "Distraction Filter", domain: "Focus", measures: "Selective Attention", color: "bg-emerald-600" }
-                    ].map((game, i) => (
-                        <div key={i} className="bg-white border border-[#1A1A1A]/5 p-6 group relative overflow-hidden flex flex-col">
-                            <div className="aspect-video bg-[#F5F1EE] mb-6 relative overflow-hidden border border-[#1A1A1A]/5">
-                                <div className="absolute top-4 left-4 bg-white text-[#1A1A1A] text-[9px] font-black px-3 py-1 uppercase tracking-widest z-10 border border-[#1A1A1A]/5">
-                                    {game.domain}
-                                </div>
-                                <div className="absolute inset-0 flex items-center justify-center opacity-20">
-                                    <div className={`w-24 h-24 ${game.color} opacity-20 rotate-45`} />
-                                    <Activity size={64} className="absolute text-[#1A1A1A]/10" />
-                                </div>
-                                {/* SOON OVERLAY */}
-                                <div className="absolute inset-0 bg-[#F5F1EE]/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                    <p className="text-[#8B0000] font-black uppercase tracking-widest text-[10px]">Upcoming Integration</p>
-                                </div>
-                            </div>
-                            <h3 className="text-xl font-black text-[#1A1A1A] tracking-tight uppercase mb-2 italic">{game.title}</h3>
-                            <p className="text-[#1A1A1A]/40 text-xs font-bold leading-relaxed mb-8 italic flex-1 truncate">
-                                Analyzing complex datasets to establish neural baselines for {game.domain.toLowerCase()} function.
-                            </p>
-                            <div className="flex justify-between items-end border-t border-[#1A1A1A]/5 pt-6 mt-auto">
-                                <div>
-                                    <p className="text-[9px] text-[#1A1A1A]/20 font-black uppercase tracking-widest mb-1 text-center md:text-left">Measure Index</p>
-                                    <p className="text-[10px] font-black text-[#1A1A1A] uppercase tracking-tighter">{game.measures}</p>
-                                </div>
-                                <div className="p-3 bg-[#F5F1EE] text-[#1A1A1A]/20 border border-[#1A1A1A]/5 group-hover:text-[#8B0000] transition-colors">
-                                    <Play size={16} fill="currentColor" className="opacity-40" />
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                <div className="mt-16 pt-12 border-t border-[#1A1A1A]/5 flex flex-col md:flex-row items-center justify-between gap-8 mb-20 text-[10px] font-black uppercase tracking-widest text-[#1A1A1A]/30">
-                    <p>Core Diagnostic Library Status: 12 Modules Pending</p>
-                    <div className="bg-white p-6 border border-[#1A1A1A]/5 flex flex-col md:flex-row gap-8 items-center shadow-sm">
-                        <div className="w-12 h-12 bg-[#F5F1EE] border border-[#1A1A1A]/5 flex items-center justify-center overflow-hidden">
-                            <span className="text-[#1A1A1A] font-black text-lg">AR</span>
-                        </div>
-                        <div className="text-center md:text-left">
-                            <p className="text-[#1A1A1A] font-black mb-0.5">Clinical Profile</p>
-                            <p className="text-[#1A1A1A]/40">Alex Rivera • Level 12 Architect</p>
-                        </div>
-                        <button className="bg-[#8B0000] text-white px-6 py-3 hover:bg-black transition-all shadow-xl font-black uppercase tracking-[0.2em] text-[10px]">
-                            Update Record
-                        </button>
-                    </div>
-                </div>
-
+                    </motion.div>
+                )}
             </div>
         </div>
     );
