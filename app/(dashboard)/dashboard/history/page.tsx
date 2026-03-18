@@ -45,19 +45,31 @@ export default function HistoryPage() {
                     console.error("[Clinical History] API Fetch Variance:", err);
                 }
             }
-            // IF GUEST: Fetch from SessionStorage (volatile)
+            // IF GUEST: Fetch from LocalStorage
             else {
-                console.log("[Clinical History] Guest mode. Checking local session storage...");
-                const localData = sessionStorage.getItem('latest_assessment');
-                if (localData) {
+                console.log("[Clinical History] Guest mode. Checking local history...");
+                const localHistory = localStorage.getItem('inventoHistory');
+                if (localHistory) {
                     try {
-                        const parsed = JSON.parse(localData);
-                        setHistory([parsed]); // Show only the latest test for guest
+                        const parsed = JSON.parse(localHistory);
+                        setHistory(Array.isArray(parsed) ? parsed : [parsed]);
                     } catch (e) {
                         console.error("Failed to parse local history", e);
+                        setHistory([]);
                     }
                 } else {
-                    setHistory([]);
+                    const localData = sessionStorage.getItem('latest_assessment');
+                    if (localData) {
+                        try {
+                            const parsed = JSON.parse(localData);
+                            setHistory([parsed]);
+                        } catch (e) {
+                            console.error("Failed to parse local latest", e);
+                            setHistory([]);
+                        }
+                    } else {
+                        setHistory([]);
+                    }
                 }
             }
 

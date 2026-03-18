@@ -289,6 +289,11 @@ const ScreeningPage = () => {
             const reportData = {
                 ...payload,
                 aiAnalysis: result.aiAnalysis,
+                scores: {
+                    accuracy: result.overallScore || payload.scores.accuracy,
+                    overallRisk: result.riskTier || payload.scores.overallRisk
+                },
+                domainScores: result.domainScores || null,
                 timestamp: new Date().toISOString(),
                 success: true
             };

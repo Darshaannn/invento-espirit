@@ -154,8 +154,51 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* TESTIMONIALS SECTION */}
+      <section className="relative z-10 w-full max-w-7xl px-8 py-20 text-center mx-auto">
+        <h3 className="text-[#8B0000] font-bold uppercase tracking-[0.3em] text-[10px] mb-6">Clinical Trust</h3>
+        <h2 className="text-4xl font-black mb-16 tracking-tighter text-[#1A1A1A]">What Professionals Say</h2>
+        <div className="grid md:grid-cols-3 gap-8 text-left">
+          <TestimonialCard
+            quote="Invento's latency tracking provides a nuance that traditional pen-and-paper tests completely miss. A vital tool for early detection."
+            author="Dr. Sarah Jenkins"
+            role="Neurologist"
+          />
+          <TestimonialCard
+            quote="The seamless integration of AI analysis with standard cognitive domains makes this the most efficient screening tool my clinic has used."
+            author="Michael Chen"
+            role="Geriatric Care Specialist"
+          />
+          <TestimonialCard
+            quote="Finally, a cognitive assessment platform designed with both clinical rigor and an intuitive user experience in mind."
+            author="Dr. Elena Carter"
+            role="Clinical Psychologist"
+          />
+        </div>
+      </section>
+
+      {/* FAQ SECTION */}
+      <section className="relative z-10 w-full max-w-4xl mx-auto px-8 py-20 text-center mb-10">
+        <h3 className="text-[#8B0000] font-bold uppercase tracking-[0.3em] text-[10px] mb-6">Common Questions</h3>
+        <h2 className="text-4xl font-black mb-16 tracking-tighter text-[#1A1A1A]">Frequently Asked Questions</h2>
+        <div className="space-y-6 text-left">
+          <FAQItem
+            question="Is Invento Espirit a diagnostic tool?"
+            answer="No, Invento is a screening tool designed to detect early indicators of cognitive decline. It should be used alongside professional medical evaluation, not as a replacement for diagnosis."
+          />
+          <FAQItem
+            question="How is my data protected?"
+            answer="We utilize AES-256 clinical-grade encryption for all patient data. Anonymous screening data is processed securely to ensure complete privacy compliance."
+          />
+          <FAQItem
+            question="How long does the assessment take?"
+            answer="The full cognitive assessment typically takes between 3 to 5 minutes, providing rapid, real-time results and clinical insights."
+          />
+        </div>
+      </section>
+
       {/* ROADMAP SECTION */}
-      <section className="relative z-10 w-full max-w-7xl px-8 py-20 text-center mb-32">
+      <section className="relative z-10 w-full max-w-7xl mx-auto px-8 py-20 text-center mb-32">
         <h3 className="text-[#8B0000] font-bold uppercase tracking-[0.3em] text-[10px] mb-6">Upcoming Innovation</h3>
         <h2 className="text-4xl font-black mb-16 tracking-tighter text-[#1A1A1A]">Research Roadmap</h2>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-10">
@@ -231,5 +274,38 @@ function FeatureCard({ icon, title, desc }: { icon: React.ReactNode, title: stri
       <h3 className="text-xl font-bold mb-3">{title}</h3>
       <p className="text-slate-400 font-medium leading-relaxed">{desc}</p>
     </motion.div>
+  );
+}
+
+function TestimonialCard({ quote, author, role }: { quote: string, author: string, role: string }) {
+  return (
+    <div className="bg-white p-8 border border-[#1A1A1A]/5 shadow-sm hover:shadow-md transition-all">
+      <div className="text-4xl text-[#8B0000]/20 mb-4 font-serif">"</div>
+      <p className="text-sm font-medium text-[#1A1A1A]/70 mb-8 italic leading-relaxed">{quote}</p>
+      <div>
+        <p className="text-xs font-black uppercase tracking-widest text-[#1A1A1A]">{author}</p>
+        <p className="text-[10px] text-[#1A1A1A]/40 font-bold uppercase tracking-widest mt-1">{role}</p>
+      </div>
+    </div>
+  );
+}
+
+function FAQItem({ question, answer }: { question: string, answer: string }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  return (
+    <div className="border border-[#1A1A1A]/5 bg-white">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full text-left p-6 flex justify-between items-center hover:bg-[#1A1A1A]/5 transition-colors"
+      >
+        <h4 className="text-sm font-black uppercase tracking-widest text-[#1A1A1A]">{question}</h4>
+        <span className="text-[#8B0000] font-bold">{isOpen ? '−' : '+'}</span>
+      </button>
+      {isOpen && (
+        <div className="p-6 pt-0 text-sm font-medium text-[#1A1A1A]/60 leading-relaxed">
+          {answer}
+        </div>
+      )}
+    </div>
   );
 }

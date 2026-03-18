@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Download, Lightbulb, Rocket, Activity, Timer, Calendar, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
 import EmptyStateDashboard from '../../../components/EmptyStateDashboard';
 import { exportToPDF } from '@/lib/utils/export';
 
@@ -36,10 +37,9 @@ interface AssessmentData {
 }
 
 interface ChartPoint {
-    x: number;
-    y: number;
     score: number;
-    date: string;
+    date?: string;
+    phase?: string;
 }
 
 export default function Dashboard() {
@@ -126,26 +126,16 @@ export default function Dashboard() {
         minute: '2-digit'
     }) : '--:--';
 
-    // SVG Chart Helpers
-    const chartData = data.trends && data.trends.length > 0 ? data.trends : [
+    // Data format for Recharts
+    const rawTrends = data.trends && data.trends.length > 0 ? data.trends : [
         { score: 65 }, { score: 72 }, { score: 68 }, { score: 85 }, { score: 79 }, { score: accuracy }
     ];
-    const chartWidth = 300;
-    const chartHeight = 100;
-    const points: ChartPoint[] = chartData.map((d: { score: number; date?: string }, i: number) => ({
-        x: (i / (chartData.length - 1)) * chartWidth,
-        y: chartHeight - (d.score / 100) * chartHeight,
+
+    const chartData: ChartPoint[] = rawTrends.map((d: { score: number; date?: string }, i: number) => ({
         score: d.score,
-        date: d.date || `Phase ${i + 1}`
+        date: d.date,
+        phase: `Phase ${i + 1}`
     }));
-
-    const pathData = points.reduce((acc: string, p: ChartPoint, i: number) => {
-        if (i === 0) return `M ${p.x},${p.y}`;
-        const prev = points[i - 1];
-        const cp1x = prev.x + (p.x - prev.x) / 2;
-        return `${acc} C ${cp1x},${prev.y} ${cp1x},${p.y} ${p.x},${p.y}`;
-    }, "");
-
     return (
         <div className="flex-1 p-4 md:p-8 lg:p-12 bg-[#F8F9FA] min-h-screen relative overflow-hidden font-sans text-[#1A1A1A]">
             {/* AMBIENT BACKGROUND ELEMENTS */}
@@ -410,58 +400,31 @@ export default function Dashboard() {
                                     ))}
                                 </div>
 
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-full h-full overflow-visible relative z-10"
-                                    viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-                                    preserveAspectRatio="none"
-                                >
-                                    <defs>
-                                        <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="0%" stopColor="#8B0000" stopOpacity="0.3" />
-                                            <stop offset="100%" stopColor="#8B0000" stopOpacity="0" />
-                                        </linearGradient>
-                                    </defs>
-
-                                    {/* Area Fill */}
-                                    <path
-                                        d={`${pathData} L ${points[points.length - 1].x},${chartHeight} L 0,${chartHeight} Z`}
-                                        fill="url(#areaGradient)"
-                                        className="opacity-50"
-                                    />
-
-                                    {/* Main Line */}
-                                    <path
-                                        d={pathData}
-                                        fill="none"
-                                        stroke="#8B0000"
-                                        strokeWidth="4"
-                                        strokeLinecap="round"
-                                        className="drop-shadow-[0_0_15px_rgba(139,0,0,0.6)]"
-                                    />
-
-                                    {/* Points */}
-                                    {points.map((p: ChartPoint, i: number) => (
-                                        <g key={i} className="group/dot">
-                                            <circle
-                                                cx={p.x}
-                                                cy={p.y}
-                                                r="3"
-                                                fill="white"
-                                                className="transition-all duration-300"
-                                            />
-                                            <circle
-                                                cx={p.x}
-                                                cy={p.y}
-                                                r="8"
-                                                fill="transparent"
-                                                stroke="white"
-                                                strokeWidth="1"
-                                                className="opacity-0 group-hover/dot:opacity-30 transition-all cursor-crosshair"
-                                            />
-                                        </g>
-                                    ))}
-                                </svg>
+                                {/* Recharts AreaChart with HUD Enhancements */}
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <AreaChart data={chartData} margin={{ top: 10, right: 0, left: 0, bottom: 0 }}>
+                                        <defs>
+                                            <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor="#8B0000" stopOpacity={0.8} />
+                                                <stop offset="95%" stopColor="#8B0000" stopOpacity={0} />
+                                            </linearGradient>
+                                        </defs>
+                                        <Tooltip
+                                            contentStyle={{ backgroundColor: '#1A1A1A', borderColor: '#8B0000', color: 'white', borderRadius: '0px' }}
+                                            itemStyle={{ color: '#ff4d4d', fontWeight: 'bold' }}
+                                            labelStyle={{ color: '#ffffff80', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.2em' }}
+                                        />
+                                        <Area
+                                            type="monotone"
+                                            dataKey="score"
+                                            stroke="#8B0000"
+                                            strokeWidth={4}
+                                            fillOpacity={1}
+                                            fill="url(#colorScore)"
+                                            activeDot={{ r: 8, strokeWidth: 0, fill: '#ffffff' }}
+                                        />
+                                    </AreaChart>
+                                </ResponsiveContainer>
 
                                 {/* Animated Scanline Overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#8B0000]/5 to-transparent h-[10%] w-full animate-[scan_4s_linear_infinite] pointer-events-none" />
