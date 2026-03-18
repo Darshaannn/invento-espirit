@@ -292,12 +292,19 @@ const ScreeningPage = () => {
                 timestamp: new Date().toISOString(),
                 success: true
             };
+            // Save to BOTH storages so dashboard and analysis page can both read it
             sessionStorage.setItem('latest_assessment', JSON.stringify(reportData));
             sessionStorage.setItem('screening_report', JSON.stringify(reportData));
+            localStorage.setItem('latest_assessment', JSON.stringify(reportData));
+
+            // Add to localStorage history for history tab
+            const history = JSON.parse(localStorage.getItem('inventoHistory') || '[]');
+            history.unshift({ ...reportData, date: reportData.timestamp });
+            localStorage.setItem('inventoHistory', JSON.stringify(history.slice(0, 10)));
 
             // Force a small delay to ensure storage writes before navigation
             setTimeout(() => {
-                router.push('/dashboard/history');
+                router.push('/analysis');
             }, 100);
         } catch (err) {
             console.error("Submission failed", err);
@@ -309,7 +316,13 @@ const ScreeningPage = () => {
                 isLocalOnly: true
             };
             sessionStorage.setItem('latest_assessment', JSON.stringify(localData));
-            router.push('/dashboard/history');
+            localStorage.setItem('latest_assessment', JSON.stringify(localData));
+
+            const history = JSON.parse(localStorage.getItem('inventoHistory') || '[]');
+            history.unshift({ ...localData, date: localData.timestamp });
+            localStorage.setItem('inventoHistory', JSON.stringify(history.slice(0, 10)));
+
+            router.push('/analysis');
         }
     };
 
