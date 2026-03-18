@@ -4,6 +4,7 @@ import Assessment from '../../../../lib/models/Assessment';
 import { z } from 'zod';
 import { analyzeCognitiveResponse } from '../../../../lib/services/gemini';
 
+export const dynamic = 'force-dynamic';
 const AssessmentSchema = z.object({
     sessionId: z.string(),
     questions: z.array(z.object({

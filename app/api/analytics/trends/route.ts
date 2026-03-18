@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
 import dbConnect from '../../../../lib/dbConnect';
 import Assessment from '../../../../lib/models/Assessment';
 
@@ -17,7 +19,7 @@ export async function GET(req: Request) {
             .lean();
 
         // Basic trend processing: group by domain average over time
-        const trends = assessments.reverse().map(a => ({
+        const trends = assessments.reverse().map((a: { timestamp: unknown; scores?: { accuracy?: number; overallRisk?: string } }) => ({
             date: a.timestamp,
             score: a.scores?.accuracy || 0,
             risk: a.scores?.overallRisk || 'Unknown'
