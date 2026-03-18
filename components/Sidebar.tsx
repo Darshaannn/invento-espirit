@@ -50,8 +50,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             <Brain size={18} className="text-white" />
           </div>
           <div>
-            <h1 className="font-bold text-sm tracking-wide text-[#1A1A1A]">Invento Espirit</h1>
-            <p className="text-[10px] text-[#1A1A1A]/40 font-medium">Gen-Z Research Tool</p>
+            <h1 className="font-bold text-sm tracking-wide text-[#1A1A1A]">Invento</h1>
           </div>
         </div>
 

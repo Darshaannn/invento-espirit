@@ -69,9 +69,9 @@ export default function LandingPage() {
             <Link href="/screening" className="bg-[#1A1A1A] text-white hover:bg-black w-full md:w-auto text-lg px-12 py-5 font-bold flex items-center justify-center gap-3 group shadow-xl transition-all active:scale-95">
               Start Screening <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </Link>
-            <button className="px-12 py-5 border border-[#1A1A1A]/10 text-[#1A1A1A] font-bold hover:bg-[#1A1A1A]/5 transition-all w-full md:w-auto">
+            <Link href="#how-it-works" className="px-12 py-5 border border-[#1A1A1A]/10 text-[#1A1A1A] font-bold hover:bg-[#1A1A1A]/5 transition-all w-full md:w-auto text-center">
               Learn How It Works
-            </button>
+            </Link>
           </motion.div>
 
           {/* Test Metadata Tags */}
@@ -96,9 +96,9 @@ export default function LandingPage() {
 
       {/* Trust Signal Section: AI METHODOLOGY */}
       <section className="relative z-10 w-full max-w-7xl px-8 py-32 border-t border-[#1A1A1A]/5">
-        <div className="text-center mb-20">
+        <div id="how-it-works" className="text-center mb-20">
           <h2 className="text-4xl font-black mb-4 tracking-tighter text-[#1A1A1A]">How Our AI Screening Works</h2>
-          <p className="text-[#1A1A1A]/50 max-w-2xl mx-auto font-medium">Innvento uses proprietary machine learning models to analyze behavioral nuance beyond simple accuracy.</p>
+          <p className="text-[#1A1A1A]/50 max-w-2xl mx-auto font-medium">Invento uses proprietary machine learning models to analyze behavioral nuance beyond simple accuracy.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -148,7 +148,7 @@ export default function LandingPage() {
               <h4 className="text-4xl font-black text-white">98.4%</h4>
             </div>
             <div className="relative z-10 mt-auto">
-              <p className="text-xs text-white/40 leading-relaxed italic">"Dynamic learning allows Innvento to calibrate against population baselines in real-time."</p>
+              <p className="text-xs text-white/40 leading-relaxed italic">"Dynamic learning allows Invento to calibrate against population baselines in real-time."</p>
             </div>
           </div>
         </div>
