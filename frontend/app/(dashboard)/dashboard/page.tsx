@@ -6,19 +6,47 @@ import { motion, AnimatePresence } from 'framer-motion';
 import EmptyStateDashboard from '../../../components/EmptyStateDashboard';
 import { exportToPDF } from '@/lib/utils/export';
 
-export default function Dashboard() {
-    const [data, setData] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
-    const [selectedDomain, setSelectedDomain] = useState<any>(null);
-    const [hoveredPoint, setHoveredPoint] = useState<any>(null);
-    const [exporting, setExporting] = useState(false);
+interface DomainScore {
+    name: string;
+    score: number;
+    label: string;
+    color: string;
+    details?: {
+        speed?: string;
+        consistency?: string;
+        trend?: string;
+    };
+}
 
-    interface ChartPoint {
-        x: number;
-        y: number;
+interface AssessmentData {
+    sessionId?: string;
+    timestamp?: string | number | Date;
+    scores?: {
+        accuracy?: number;
+    };
+    domainScores?: Array<DomainScore>;
+    aiAnalysis?: {
+        summary?: string;
+        clinicalInsights?: string;
+    };
+    trends?: Array<{
         score: number;
-        date: string;
-    }
+        date?: string;
+    }>;
+}
+
+interface ChartPoint {
+    x: number;
+    y: number;
+    score: number;
+    date: string;
+}
+
+export default function Dashboard() {
+    const [data, setData] = useState<AssessmentData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [selectedDomain, setSelectedDomain] = useState<DomainScore | null>(null);
+    const [exporting, setExporting] = useState(false);
 
     useEffect(() => {
         const fetchLatest = async () => {
@@ -29,7 +57,7 @@ export default function Dashboard() {
                     const parsed = JSON.parse(localData);
                     if (!parsed.domainScores) {
                         const domains = ['Memory', 'Attention', 'Executive', 'Orientation'];
-                        parsed.domainScores = domains.map(domain => {
+                        parsed.domainScores = domains.map((domain: string) => {
                             const baseScore = Math.round(parsed.scores?.accuracy || 0);
                             const variance = Math.floor(Math.random() * 10) - 5;
                             return {
@@ -42,7 +70,6 @@ export default function Dashboard() {
                         });
                     }
                     setData(parsed);
-                    setLoading(false);
                 }
 
                 const res = await fetch('/api/assessments/latest');
@@ -64,7 +91,7 @@ export default function Dashboard() {
         console.log("[UI Action] Dispatched Clinical Export Request (v10)...");
         setExporting(true);
         try {
-            const success = await exportToPDF('clinical-overview-content', `Neural_Report_${data.sessionId?.substring(0, 8) || 'latest'}`);
+            const success = await exportToPDF('clinical-overview-content', `Neural_Report_${data?.sessionId?.substring(0, 8) || 'latest'}`);
             if (success) {
                 console.log("[UI Action] Export Process: Handshake successful.");
             }
@@ -105,7 +132,7 @@ export default function Dashboard() {
     ];
     const chartWidth = 300;
     const chartHeight = 100;
-    const points: ChartPoint[] = chartData.map((d: any, i: number) => ({
+    const points: ChartPoint[] = chartData.map((d: { score: number; date?: string }, i: number) => ({
         x: (i / (chartData.length - 1)) * chartWidth,
         y: chartHeight - (d.score / 100) * chartHeight,
         score: d.score,
@@ -175,7 +202,7 @@ export default function Dashboard() {
 
                             <div className="space-y-6 mb-12">
                                 <p className="text-[#1A1A1A]/60 font-medium leading-relaxed italic text-lg border-l-4 border-[#8B0000]/20 pl-6 py-2">
-                                    "Analysis indicates high resiliency in {selectedDomain.name} metrics. Neural pathways demonstrate consistent signal propagation with minimal latency variance."
+                                    &quot;Analysis indicates high resiliency in {selectedDomain.name} metrics. Neural pathways demonstrate consistent signal propagation with minimal latency variance.&quot;
                                 </p>
                             </div>
 
@@ -473,7 +500,7 @@ export default function Dashboard() {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {data.domainScores?.map((item: any, idx: number) => (
+                        {data.domainScores?.map((item: DomainScore, idx: number) => (
                             <motion.div
                                 key={item.name}
                                 initial={{ opacity: 0, y: 20 }}
@@ -483,7 +510,7 @@ export default function Dashboard() {
                                 className="bg-white p-10 md:p-12 border border-[#1A1A1A]/5 flex flex-col items-center text-center transition-all duration-700 cursor-pointer group hover:shadow-2xl hover:border-transparent relative"
                             >
                                 <div className="absolute inset-0 bg-gradient-to-br from-transparent to-[#F8F9FA] opacity-0 group-hover:opacity-100 transition-opacity" />
-                                <div className="relative w-36 h-36 mb-12 flex items-center justify-center relative z-10 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                                <div className="relative w-36 h-36 mb-12 flex items-center justify-center z-10 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
                                     <svg className="w-full h-full rotate-[-90deg]">
                                         <circle cx="50%" cy="50%" r="42%" stroke="#F8F9FA" strokeWidth="14" fill="none" />
                                         <motion.circle

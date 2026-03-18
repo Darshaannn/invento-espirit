@@ -1,14 +1,26 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Search, Calendar, ChevronRight, ChevronLeft, Download, Activity, FileText, Settings } from 'lucide-react';
+import { Search, Calendar, ChevronRight, ChevronLeft, Download, Activity, FileText } from 'lucide-react';
 import Link from 'next/link';
 import { exportToPDF } from '@/lib/utils/export';
 import { useSession } from 'next-auth/react';
 
+interface AssessmentHistory {
+    sessionId: string;
+    timestamp: string | number | Date;
+    aiAnalysis?: {
+        summary?: string;
+    };
+    scores?: {
+        overallRisk?: string;
+        accuracy?: number;
+    };
+}
+
 const ITEMS_PER_PAGE = 10;
 
 export default function HistoryPage() {
-    const [history, setHistory] = useState<any[]>([]);
+    const [history, setHistory] = useState<AssessmentHistory[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(1);

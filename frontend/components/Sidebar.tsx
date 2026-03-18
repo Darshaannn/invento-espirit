@@ -23,6 +23,8 @@ interface SidebarProps {
 
 import { useSession, signOut } from "next-auth/react";
 
+import Image from "next/image";
+
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -105,9 +107,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </button>
 
           <div className="flex items-center gap-3 px-2 pt-2">
-            <div className="w-10 h-10 bg-[#FFE4C4] border-2 border-[#F5F1EE] relative">
+            <div className="w-10 h-10 bg-[#FFE4C4] border-2 border-[#F5F1EE] relative overflow-hidden">
               {session?.user?.image ? (
-                <img src={session.user.image} alt="Avatar" className="w-full h-full object-cover" />
+                <Image src={session.user.image} alt="Avatar" fill className="object-cover" />
               ) : (
                 <div className="w-full h-full bg-[#FFE4C4] flex items-center justify-center font-bold text-[#1A1A1A]">
                   {session?.user?.name?.charAt(0) || 'U'}
