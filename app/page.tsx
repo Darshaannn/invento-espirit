@@ -1,3 +1,4 @@
+"use client";
 // app/page.tsx
 // ─── Optimizations applied ─────────────────────────────────────────────────
 // 1. REMOVED "use client" from the whole page. The original was a full client

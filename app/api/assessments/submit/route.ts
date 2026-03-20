@@ -1,9 +1,9 @@
 // app/api/assessments/submit/route.ts
 // ─── Optimizations ────────────────────────────────────────────────────────────
-// 1. Gemini analysis and score calculation run in parallel where possible.
+// 1. Clinical report generation and score calculation run deterministically.
 // 2. DB write uses lean() and only necessary fields in projection.
-// 3. Input validated with Zod before any DB or AI operations.
-// 4. Gemini prompt is tightly scoped to keep token usage (and latency) low.
+// 3. Input validated with Zod before any DB or scoring operations.
+// 4. Scoring logic is locally optimized for zero latency.
 // 5. Response times added to localStorage fallback for guest users.
 // ─────────────────────────────────────────────────────────────────────────────
 import { NextRequest, NextResponse } from "next/server";
