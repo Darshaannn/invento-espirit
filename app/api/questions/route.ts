@@ -1,22 +1,37 @@
 // app/api/questions/route.ts
-// ─── Optimizations ────────────────────────────────────────────────────────────
-// 1. Import questions as a static JSON module (bundled at build time).
-//    The original likely used fs.readFileSync or a dynamic import at runtime.
-//    Static import = zero file I/O on each request.
-// 2. Cache-Control header tells Vercel CDN to cache the response for 24 hours.
-//    Questions don't change at runtime — this eliminates repeated serverless
-//    function invocations for the same static data.
+// ─── Adaptive Question Selection ─────────────────────────────────────────────
+// Returns a tailored set of questions based on:
+//   - age  : patient age group → determines base cognitive difficulty
+//   - symptoms : comma-separated symptom list → boosts relevant domains
+// Without params, returns a balanced default set.
 // ─────────────────────────────────────────────────────────────────────────────
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import questions from "@/data/questions.json";
+import { selectQuestions, Question } from "@/lib/utils/questionSelector";
 
-export const dynamic = "force-static"; // build-time static generation
+export const dynamic = "force-dynamic"; // must be dynamic since output varies per request
 
-export async function GET() {
-  return NextResponse.json(questions, {
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const age = searchParams.get("age") ?? "adult";
+  const symptomsRaw = searchParams.get("symptoms") ?? "";
+  const symptoms = symptomsRaw
+    ? symptomsRaw.split(",").map((s) => s.trim()).filter(Boolean)
+    : [];
+
+  const { questions: selected, profile, segment } = selectQuestions(
+    questions as Question[],
+    age,
+    symptoms
+  );
+
+  return NextResponse.json(selected, {
     headers: {
-      // CDN cache for 24h; stale-while-revalidate for 1h beyond that
-      "Cache-Control": "public, s-maxage=86400, stale-while-revalidate=3600",
+      // Short cache since results are personalized per intake
+      "Cache-Control": "private, max-age=60",
+      // Expose the active profile for debugging
+      "X-Assessment-Profile": profile,
+      "X-Assessment-Segment": segment,
     },
   });
 }
