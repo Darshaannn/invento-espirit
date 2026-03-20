@@ -36,35 +36,43 @@ const jakarta = Plus_Jakarta_Sans({
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 export const metadata: Metadata = {
   title: {
-    default: "Invento | Clinical Cognitive Screening",
+    default: "Invento Esprit — Cognitive Screening",
     template: "%s | Invento",
   },
   description:
-    "Detect early signs of cognitive decline through precision diagnostic screenings. Trusted repository for neural health tracking.",
+    "Detect early signs of cognitive decline through precision diagnostic screenings. Trusted platform for neural health tracking.",
   keywords: [
     "cognitive screening",
     "memory assessment",
     "clinical health",
     "neural tracking",
     "cognitive decline",
+    "invento esprit",
   ],
-  authors: [{ name: "Invento Medical" }],
+  authors: [{ name: "Invento Esprit" }],
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
-    title: "Invento — Precision Cognitive Screening",
+    title: "Invento Esprit — Precision Cognitive Screening",
     description:
       "A 5-minute clinical assessment for neural health monitoring.",
     url: "https://invento-espirit-wp8m.vercel.app",
-    siteName: "Invento",
+    siteName: "Invento Esprit",
     type: "website",
   },
   robots: { index: true, follow: true },
 };
 
-// Separate viewport export (Next.js 15 requirement)
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0A0A0A", // Updated to dark HUD theme
+  themeColor: "#0A0A0A",
 };
 
 // ─── Layout ───────────────────────────────────────────────────────────────────

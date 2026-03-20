@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#A855F7" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0A0A0A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A855F7"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="100" height="100" rx="18" fill="#0A0A0A"/>
+  <!-- Glow -->
+  <ellipse cx="50" cy="50" rx="45" ry="45" fill="url(#glow)"/>
+  <!-- Bulb glass -->
+  <path d="M50 15c-17 0-30 13-30 29 0 10 5 18.5 13 24V76h34V68c8-5.5 13-14 13-24 0-16-13-29-30-29z" fill="none" stroke="#ffffff15" stroke-width="2"/>
+  <!-- Brain side (left) -->
+  <path d="M50 18c-15 0-27 12-27 26 0 9 5 17 12 22V73h15V18z" fill="none" stroke="#A855F7" stroke-width="3" stroke-linecap="round"/>
+  <!-- Circuit side (right) -->
+  <path d="M50 18c15 0 27 12 27 26 0 9-5 17-12 22V73H50V18z" fill="none" stroke="#06B6D4" stroke-width="3" stroke-linecap="round"/>
+  <!-- Circuit nodes -->
+  <circle cx="65" cy="34" r="2.5" fill="#06B6D4"/>
+  <circle cx="70" cy="50" r="2.5" fill="#06B6D4"/>
+  <circle cx="60" cy="62" r="2.5" fill="#06B6D4"/>
+  <!-- Lightning bolt -->
+  <path d="M36 56L50 35H45L59 18" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Bulb base -->
+  <rect x="39" y="73" width="22" height="4" rx="1" fill="#52525B"/>
+  <rect x="41" y="79" width="18" height="3" rx="1" fill="#3F3F46"/>
+  <rect x="44" y="84" width="12" height="3" rx="1" fill="#3F3F46"/>
+</svg>
