@@ -1,26 +1,88 @@
-import mongoose from 'mongoose';
+// lib/models/Assessment.ts
+import mongoose, { Schema, type Document, type Model } from "mongoose";
 
-const AssessmentSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false }, // Optional for now
-    sessionId: { type: String, required: true, unique: true },
-    timestamp: { type: Date, default: Date.now },
-    questions: [{
-        questionId: { type: Number, required: true },
-        domain: { type: String, enum: ['Memory', 'Attention', 'Executive', 'Orientation'], required: true },
-        responseText: { type: String },
-        latencyMs: { type: Number },
-        totalTimeMs: { type: Number },
-        hesitationFlags: { type: Boolean, default: false }
-    }],
-    scores: {
-        accuracy: { type: Number },
-        latencyPercentile: { type: Number },
-        overallRisk: { type: String, enum: ['Low', 'Moderate', 'High'] }
+// ─── Interface ────────────────────────────────────────────────────────────────
+export interface IAssessment extends Document {
+    userId: mongoose.Types.ObjectId | null;
+    ageGroup: string;
+    gender?: string;
+    symptoms: string[];
+    responses: Array<{
+        questionId: number;
+        domain: string;
+        selectedAnswer: string | null;
+        correctAnswer: string;
+        timeTakenMs: number;
+        skipped: boolean;
+        difficulty: string;
+    }>;
+    domainScores: {
+        Memory: number;
+        Attention: number;
+        ExecutiveFunction: number;
+        Orientation: number;
+    };
+    overallScore: number;
+    riskTier: "low" | "moderate" | "high";
+    aiInsights: string;
+    recommendations: string[];
+    followUpAdvised: boolean;
+    totalTimeMs: number;
+    completedAt: Date;
+}
+
+// ─── Schema ───────────────────────────────────────────────────────────────────
+const AssessmentSchema = new Schema<IAssessment>(
+    {
+        userId: { type: Schema.Types.ObjectId, ref: "User", default: null },
+        ageGroup: { type: String, required: true },
+        gender: { type: String },
+        symptoms: [{ type: String }],
+
+        responses: [
+            {
+                questionId: { type: Number, required: true },
+                domain: { type: String, required: true },
+                selectedAnswer: { type: String, default: null },
+                correctAnswer: { type: String, required: true },
+                timeTakenMs: { type: Number, required: true },
+                skipped: { type: Boolean, default: false },
+                difficulty: { type: String, default: "medium" },
+            },
+        ],
+
+        domainScores: {
+            Memory: { type: Number, min: 0, max: 100 },
+            Attention: { type: Number, min: 0, max: 100 },
+            ExecutiveFunction: { type: Number, min: 0, max: 100 },
+            Orientation: { type: Number, min: 0, max: 100 },
+        },
+
+        overallScore: { type: Number, required: true, min: 0, max: 100 },
+        riskTier: { type: String, enum: ["low", "moderate", "high"], required: true },
+        aiInsights: { type: String, default: "" },
+        recommendations: [{ type: String }],
+        followUpAdvised: { type: Boolean, default: false },
+        totalTimeMs: { type: Number, default: 0 },
+        completedAt: { type: Date, default: Date.now },
     },
-    aiAnalysis: {
-        summary: { type: String },
-        clinicalInsights: { type: String }
+    {
+        // Auto-adds createdAt + updatedAt
+        timestamps: true,
+        // Faster reads: don't return __v
+        versionKey: false,
     }
-});
+);
 
-export default mongoose.models.Assessment || mongoose.model('Assessment', AssessmentSchema);
+// ─── Indexes ──────────────────────────────────────────────────────────────────
+// Compound index for the most common query pattern: user's history sorted by date
+AssessmentSchema.index({ userId: 1, completedAt: -1 });
+// For analytics aggregations filtered by userId
+AssessmentSchema.index({ userId: 1, overallScore: 1 });
+
+// ─── Model (singleton pattern — safe for hot reload) ──────────────────────────
+const Assessment: Model<IAssessment> =
+    (mongoose.models.Assessment as Model<IAssessment>) ||
+    mongoose.model<IAssessment>("Assessment", AssessmentSchema);
+
+export default Assessment;

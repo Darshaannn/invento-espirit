@@ -75,10 +75,10 @@ export default function Assessment() {
         if (currentIdx < questions.length - 1) {
             setCurrentIdx(prev => prev + 1);
         } else {
-            // Store answers in sessionStorage and navigate to analysis
+            // Store answers in sessionStorage and navigate to dashboard
             const results = { ...answers, [q.id]: selectedOption || '' };
             sessionStorage.setItem('assessment_answers', JSON.stringify(results));
-            router.push('/analysis');
+            router.push('/dashboard');
         }
     }, [currentIdx, questions, selectedOption, answers, router]);
 

@@ -1,85 +1,90 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Outfit:wght@100..900&display=swap');
+/* ─────────────────────────────────────────────────────────────────────────────
+   globals.css — Performance Optimized + Dark Clinical HUD Theme
+   Optimizations: Removed @import fonts, GPU-composite blurs, vendor prefixes.
+───────────────────────────────────────────────────────────────────────────── */
 @import "tailwindcss";
 
 :root {
-  --bg-deep: #F5F1EE;
-  --text-main: #1A1A1A;
-  --text-dim: #94A3B8;
-  --glow-indigo: 0 0 40px -10px rgba(99, 102, 241, 0.3);
-  --glow-pink: 0 0 40px -10px rgba(236, 72, 153, 0.3);
+  --bg-deep: #0A0A0A;
+  --text-main: rgba(255, 255, 255, 0.9);
+  --text-dim: rgba(255, 255, 255, 0.4);
+  --accent-primary: #FF4D4D;
+  --accent-secondary: #B30000;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glow-red: 0 0 40px -10px rgba(255, 77, 77, 0.3);
 }
 
 @theme {
-  --font-sans: 'Outfit', 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  /* Font variables injected by next/font in layout.tsx — no @import needed */
+  --font-sans: var(--font-outfit), 'Inter', system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
 body {
   background: var(--bg-deep);
   color: var(--text-main);
   font-family: var(--font-sans);
   overflow-x: hidden;
   margin: 0;
+  scrollbar-gutter: stable;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Glassmorphism Levels */
+/* ─── Glassmorphism ─────────────────────────────────────────────────────────── */
 .glass-1 {
   background: var(--glass-bg);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
 }
 
 .glass-2 {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
 }
 
-/* Animated Gradient Background */
+/* ─── Ambient background ────────────────────────────────────────────────────── */
 .ambient-bg {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   z-index: -1;
-  background: radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 100% 100%, rgba(236, 72, 153, 0.1) 0%, transparent 40%);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255, 77, 77, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(255, 77, 77, 0.05) 0%, transparent 40%);
   filter: blur(80px);
+  will-change: transform;
+  transform: translateZ(0); /* Force GPU composite */
 }
 
-/* Premium Buttons */
-.yobe-btn-premium {
+/* ─── Premium Buttons ───────────────────────────────────────────────────────── */
+.btn-premium {
   @apply relative overflow-hidden px-8 py-4 font-bold transition-all duration-500 flex items-center justify-center gap-3 cursor-pointer;
   border-radius: 0;
   background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  box-shadow: var(--glow-indigo);
+  box-shadow: var(--glow-red);
   color: white;
   border: none;
 }
 
-.yobe-btn-premium:hover {
+.btn-premium:hover {
   @apply scale-105;
   filter: brightness(1.2);
-  box-shadow: 0 0 60px -5px rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 60px -5px rgba(255, 77, 77, 0.5);
 }
 
-.yobe-btn-outline {
+.btn-outline {
   @apply px-8 py-4 font-bold border border-white/10 hover:bg-white/5 transition-all text-sm uppercase tracking-widest cursor-pointer;
   border-radius: 0;
   color: white;
 }
 
-/* Status Indicators */
-.status-pill {
-  @apply px-3 py-1 text-[10px] font-black uppercase tracking-tighter flex items-center gap-2;
-  border-radius: 0;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Custom Scrollbar */
+/* ─── Scrollbar ──────────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -89,37 +94,43 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
 }
 
-/* Typography Utilities */
-.gradient-text {
-  background: linear-gradient(135deg, #fff 0%, #94A3B8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
+/* ─── Animations ────────────────────────────────────────────────────────────── */
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
 
 @keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-
-  100% {
-    transform: translateY(0px);
-  }
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
 }
 
-/* HIGH-FIDELITY PRINT PROTOCOL */
+.skeleton {
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ─── Chart Specific ───────────────────────────────────────────────────────── */
+.glass-chart {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ─── Print Protocol ────────────────────────────────────────────────────────── */
 @media print {
   @page {
     size: A4;
@@ -127,24 +138,20 @@ body {
   }
 
   body {
-    background: #F5F1EE !important;
+    background: white !important;
+    color: black !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  nav,
-  button,
-  .status-pill,
-  .yobe-btn-premium,
-  .yobe-btn-outline {
+  nav, button, .ambient-bg {
     display: none !important;
   }
 
-  #clinical-overview-content,
-  #clinical-history-content,
-  #clinical-insights-content {
-    width: 100% !important;
-    padding: 20mm !important;
-    background: #F5F1EE !important;
+  .glass-1, .glass-2 {
+    background: white !important;
+    border: 1px solid #ddd !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
   }
 }

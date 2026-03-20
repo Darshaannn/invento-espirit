@@ -309,7 +309,7 @@ const ScreeningPage = () => {
 
             // Force a small delay to ensure storage writes before navigation
             setTimeout(() => {
-                router.push('/analysis');
+                router.push('/dashboard');
             }, 100);
         } catch (err) {
             console.error("Submission failed", err);
@@ -327,7 +327,7 @@ const ScreeningPage = () => {
             history.unshift({ ...localData, date: localData.timestamp });
             localStorage.setItem('inventoHistory', JSON.stringify(history.slice(0, 10)));
 
-            router.push('/analysis');
+            router.push('/dashboard');
         }
     };
 
@@ -450,24 +450,7 @@ const ScreeningPage = () => {
         <div className="min-h-screen bg-[#F5F1EE] text-[#1A1A1A] flex flex-col items-center p-6 md:p-12 relative font-sans scroll-smooth">
             <div className="max-w-[1400px] w-full flex flex-col relative z-10">
 
-                {/* STEPPER PROGRESS */}
-                <div className="flex items-center justify-between mb-16 px-4 relative mt-4">
-                    <div className="absolute top-[8px] left-0 right-0 h-[2px] bg-black/5" />
-                    {Object.keys(domainMetadata).map((domain, idx) => {
-                        const isActive = q.domain.includes(domain);
-                        const isPast = Object.keys(domainMetadata).findIndex(d => q.domain.includes(d)) > idx;
 
-                        return (
-                            <div key={domain} className="flex flex-col items-center gap-3 relative z-10 bg-[#F5F1EE] px-2 md:px-4 group cursor-default">
-                                <div className={`w-[18px] h-[18px] border-2 transition-all duration-500 flex items-center justify-center ${isActive ? 'border-[#8B0000] bg-white' : (isPast ? 'border-[#8B0000] bg-[#8B0000]' : 'border-black/10 bg-white')}`}>
-                                    {isActive && <div className="w-[10px] h-[10px] bg-[#8B0000]" />}
-                                    {isPast && <CheckCircle2 size={12} className="text-white" />}
-                                </div>
-                                <span className={`text-[11px] font-bold text-center leading-tight max-w-[80px] transition-colors duration-300 ${isActive ? 'text-[#1A1A1A]' : 'text-black/30'}`}>{domain}</span>
-                            </div>
-                        );
-                    })}
-                </div>
                 {/* CENTERED FOCUS LAYOUT */}
                 <div className="flex-1 flex flex-col items-center justify-center min-h-0 py-8">
                     {/* CENTERED QUESTIONS CONTAINER */}
@@ -481,10 +464,10 @@ const ScreeningPage = () => {
                                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                                 className="flex-1 flex flex-col"
                             >
-                                <div className={`${currentIdx % 2 === 0 ? 'bg-[#8B0000]' : 'bg-[#1A1A1A]'} p-12 md:p-16 flex flex-col flex-1 shadow-2xl relative overflow-hidden group`}>
-                                    {/* Subtle decorative pattern matching user image */}
-                                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-[60px] -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:scale-110 transition-transform duration-700" />
-                                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-black/10 blur-[40px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+                                <div className={`bg-[#0A0A0A] border border-white/5 p-12 md:p-16 flex flex-col flex-1 shadow-2xl relative overflow-hidden group`}>
+                                    {/* Subtle glowing orbs for premium HUD feel */}
+                                    <div className={`absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br ${gradientClass} opacity-[0.07] blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none group-hover:opacity-[0.1] transition-opacity duration-700`} />
+                                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 blur-[80px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
 
                                     {/* QUESTION TEXT */}
                                     <div className="relative z-10 mb-10">
@@ -506,14 +489,36 @@ const ScreeningPage = () => {
                                     {/* RESPONSE AREA */}
                                     <div className="flex-1 flex flex-col relative z-10 overflow-y-auto custom-scrollbar pr-2 mb-8">
                                         {isShowingInstruction ? (
-                                            <div className="flex flex-col items-center justify-center h-full text-center py-10 scale-in-center">
-                                                <div className="w-24 h-24 border-4 border-white/20 flex items-center justify-center mb-8 relative">
-                                                    <div className="absolute inset-0 border-t-4 border-white animate-spin" />
-                                                    <Shield size={32} className="text-white" />
+                                            <div className="flex flex-col items-center justify-center h-full text-center py-12">
+                                                <div className="w-32 h-32 flex items-center justify-center mb-10 relative">
+                                                    {/* Elegant circular HUD spinners */}
+                                                    <div className="absolute inset-0 border-[1px] border-white/10 rounded-full" />
+                                                    <div className="absolute inset-0 border-[2px] border-transparent border-t-white/40 border-r-white/40 rounded-full animate-spin" style={{ animationDuration: '3s' }} />
+                                                    <div className="absolute inset-2 border-[1px] border-transparent border-b-white/20 border-l-white/20 rounded-full animate-spin" style={{ animationDuration: '4s', animationDirection: 'reverse' }} />
+                                                    <div className="absolute inset-4 bg-white/5 rounded-full animate-pulse" style={{ animationDuration: '2s' }} />
+                                                    <Shield size={32} className="text-white/80 relative z-10" />
                                                 </div>
-                                                <p className="text-2xl font-medium text-white/80 leading-relaxed max-w-sm">
-                                                    Encoding neural markers. Automated transition in <span className="font-black underline decoration-white/30">{instructionTimer}s</span>.
-                                                </p>
+                                                <div className="flex flex-col items-center">
+                                                    <h4 className="text-[13px] font-black tracking-[0.2em] text-white/80 mb-3 uppercase">
+                                                        Get Ready
+                                                    </h4>
+                                                    <p className="text-[15px] font-medium text-white/50 leading-relaxed max-w-md text-center">
+                                                        Please read the information above carefully. Get ready to provide your answer when the timer finishes.
+                                                    </p>
+                                                </div>
+                                                <div className="mt-8 flex flex-col items-center gap-3">
+                                                    <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/40">
+                                                        Automated transition in <span className="text-white font-bold">{instructionTimer}s</span>
+                                                    </span>
+                                                    <div className="w-32 h-1 bg-white/10 rounded-full overflow-hidden">
+                                                        <motion.div
+                                                            className="h-full bg-white/40 rounded-full"
+                                                            initial={{ width: "100%" }}
+                                                            animate={{ width: "0%" }}
+                                                            transition={{ duration: 10, ease: "linear" }}
+                                                        />
+                                                    </div>
+                                                </div>
                                             </div>
                                         ) : (
                                             <div className="w-full">

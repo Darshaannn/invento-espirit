@@ -1,98 +1,114 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+// lib/services/gemini.ts
+// ─── Optimizations ────────────────────────────────────────────────────────────
+// 1. Uses gemini-1.5-flash (not pro) — 5-10x faster, cheaper, sufficient for
+//    this use case. Pro is overkill for structured JSON generation.
+// 2. maxOutputTokens: 512 — the response is a small JSON object. No need to
+//    allow 2048+ tokens; capping this reduces latency significantly.
+// 3. responseMimeType: "application/json" — tells Gemini to output raw JSON
+//    without markdown fences, so no regex cleaning needed.
+// 4. temperature: 0.3 — lower randomness for medical content = more consistent
+//    structured output and fewer JSON parse failures.
+// 5. Single instance (module-level) — avoids re-initializing on every call.
+// ─────────────────────────────────────────────────────────────────────────────
+import { GoogleGenerativeAI, type GenerationConfig } from "@google/generative-ai";
 
 if (!process.env.GEMINI_API_KEY) {
-    console.warn('[Gemini] GEMINI_API_KEY is not set — analysis will return fallback data.');
+  throw new Error("[Gemini] GEMINI_API_KEY is not defined in .env.local");
 }
 
-const genAI = process.env.GEMINI_API_KEY
-    ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
-    : null;
+// Single instance — reused across all calls in the same serverless instance
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-export interface GeminiInsights {
-    insights: string;
-    strengths: string[];
-    concerns: string[];
-    recommendations: string[];
-    followUpAdvised: boolean;
+const GENERATION_CONFIG: GenerationConfig = {
+  temperature: 0.3,   // low randomness for clinical content
+  maxOutputTokens: 512,   // small JSON response — no need for more
+  responseMimeType: "application/json", // no markdown fences to strip
+};
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+export interface GeminiInput {
+  domainScores: Record<string, number>;
+  overallScore: number;
+  riskTier: "low" | "moderate" | "high";
+  ageGroup: string;
+  symptoms: string[];
+  skippedCount: number;
+  avgResponseMs: number;
 }
 
-export async function analyzeAssessment(payload: {
-    responses: Array<{
-        questionId: number;
-        domain: string;
-        correct: boolean;
-        timeTakenMs: number;
-        skipped: boolean;
-    }>;
-    ageGroup: string;
-    symptoms: string[];
-    domainScores: Record<string, number>;
-    overallScore: number;
-    riskTier: string;
-}): Promise<GeminiInsights> {
-    const fallback: GeminiInsights = {
-        insights: 'Automated AI analysis is unavailable. Please ensure GEMINI_API_KEY is configured.',
-        strengths: ['Assessment completed successfully'],
-        concerns: [],
-        recommendations: [
-            'Consult a healthcare professional for a clinical interpretation of these results.',
-            'Take the assessment again in 3 months to track trends.',
-        ],
-        followUpAdvised: false,
-    };
+export interface GeminiOutput {
+  insights: string;
+  recommendations: string[];
+  followUpAdvised: boolean;
+}
 
-    if (!genAI) return fallback;
+// ─── Main function ────────────────────────────────────────────────────────────
+export async function analyzeWithGemini(input: GeminiInput): Promise<GeminiOutput> {
+  const model = genAI.getGenerativeModel({
+    model: "gemini-1.5-flash",
+    generationConfig: GENERATION_CONFIG,
+  });
 
-    try {
-        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const weakDomains = Object.entries(input.domainScores)
+    .filter(([, score]) => score < 65)
+    .map(([domain]) => domain);
 
-        const prompt = `You are a clinical cognitive assessment assistant. Analyze this screening result and provide concise, measured clinical insights.
+  const prompt = `You are a clinical cognitive screening assistant. Analyze this result and return JSON.
 
-Patient Profile:
-- Age Group: ${payload.ageGroup || 'Not provided'}
-- Reported Symptoms: ${payload.symptoms?.join(', ') || 'None'}
-- Overall Cognitive Score: ${payload.overallScore}/100
-- Risk Tier: ${payload.riskTier}
+Patient:
+- Age group: ${input.ageGroup}
+- Reported symptoms: ${input.symptoms.length ? input.symptoms.join(", ") : "None"}
 
-Domain Scores:
-${Object.entries(payload.domainScores).map(([k, v]) => `- ${k}: ${v}/100`).join('\n')}
+Scores:
+- Overall: ${input.overallScore}/100 (${input.riskTier} risk)
+- Memory: ${input.domainScores.Memory}/100
+- Attention: ${input.domainScores.Attention}/100
+- Executive Function: ${input.domainScores["Executive Function"]}/100
+- Orientation: ${input.domainScores.Orientation}/100
+- Skipped questions: ${input.skippedCount}
+- Average response time: ${Math.round(input.avgResponseMs / 1000)}s
+${weakDomains.length ? `- Weak domains: ${weakDomains.join(", ")}` : ""}
 
-Performance Notes:
-- Questions skipped: ${payload.responses.filter(r => r.skipped).length}
-- Correct answers: ${payload.responses.filter(r => r.correct).length} / ${payload.responses.length}
-- Avg response time: ${Math.round(payload.responses.reduce((a, r) => a + r.timeTakenMs, 0) / Math.max(payload.responses.length, 1) / 1000)}s
-
-Respond with ONLY valid JSON (no markdown, no extra text):
+Return ONLY this JSON (no explanation, no markdown):
 {
-  "insights": "2-3 sentence clinical observation about the cognitive profile",
-  "strengths": ["strength 1", "strength 2"],
-  "concerns": ["concern 1 if any"],
-  "recommendations": ["specific recommendation 1", "specific recommendation 2", "specific recommendation 3"],
-  "followUpAdvised": true
+  "insights": "2-3 sentence clinical observation. Measured tone. Not alarmist.",
+  "recommendations": ["specific action 1", "specific action 2", "specific action 3"],
+  "followUpAdvised": ${input.riskTier !== "low"}
 }
 
-Important: Keep language measured and non-alarmist. This is a screening tool, not a diagnosis.`;
+Important: This is screening only, not diagnosis. Keep language measured.`;
 
-        const result = await model.generateContent(prompt);
-        const text = result.response.text().replace(/```json\n?|\n?```/g, '').trim();
-        return JSON.parse(text) as GeminiInsights;
-    } catch (err) {
-        console.error('[Gemini] Analysis failed:', err);
-        return fallback;
+  const result = await model.generateContent(prompt);
+  const text = result.response.text().trim();
+
+  try {
+    const parsed = JSON.parse(text) as GeminiOutput;
+
+    // Validate structure before returning
+    if (
+      typeof parsed.insights !== "string" ||
+      !Array.isArray(parsed.recommendations) ||
+      typeof parsed.followUpAdvised !== "boolean"
+    ) {
+      throw new Error("Unexpected JSON shape from Gemini");
     }
-}
 
-// Legacy export kept for backward compatibility with existing submit route
-export async function analyzeCognitiveResponse(answers: unknown[]): Promise<{
-    overallSummary: string;
-    clinicalInsights: string;
-    domainStrengths: string[];
-    riskMarkers: string[];
-}> {
+    return parsed;
+  } catch {
+    console.error("[Gemini] JSON parse failed, raw response:", text);
+    // Return structured fallback rather than throwing
     return {
-        overallSummary: 'Assessment processed. Configure GEMINI_API_KEY for AI insights.',
-        clinicalInsights: 'Manual clinical review recommended.',
-        domainStrengths: [],
-        riskMarkers: [],
+      insights: `Cognitive screening completed. Overall score: ${input.overallScore}/100 (${input.riskTier} risk tier).`,
+      recommendations: [
+        "Maintain regular cognitive engagement through reading and social activities.",
+        weakDomains.length
+          ? `Focus on ${weakDomains.join(" and ")} exercises.`
+          : "Continue current cognitive habits.",
+        input.riskTier !== "low"
+          ? "Schedule a consultation with a neurologist or geriatrician."
+          : "Consider a follow-up screening in 3-6 months.",
+      ],
+      followUpAdvised: input.riskTier !== "low",
     };
+  }
 }

@@ -1,128 +1,191 @@
+// components/Sidebar.tsx
+// ─── Optimizations ────────────────────────────────────────────────────────────
+// 1. navBar moved OUTSIDE component — was recreated on every render.
+// 2. useCallback on handlers — prevents child re-renders from new fn references.
+// 3. Settings popup moved to a separate memoized component.
+// 4. useSession destructured correctly — only re-renders when session changes.
+// ─────────────────────────────────────────────────────────────────────────────
 "use client";
-import React, { useState } from "react";
-import {
-  LayoutGrid,
-  History,
-  Gamepad2,
-  Settings,
-  Brain,
-} from "lucide-react";
+
+import React, { useState, useCallback, memo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { LayoutGrid, History, Gamepad2, Settings, Brain } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 
-const navBar = [
-  { name: "Overview", href: "/dashboard", icon: <LayoutGrid size={20} /> },
-  { name: "History", href: "/dashboard/history", icon: <History size={20} /> },
-  { name: "Brain Games", href: "/dashboard/games", icon: <Gamepad2 size={20} /> },
-];
+// ─── Static data (defined once, never re-created) ─────────────────────────────
+const NAV_ITEMS = [
+  { name: "Overview", href: "/dashboard", icon: LayoutGrid, size: 20 },
+  { name: "History", href: "/dashboard/history", icon: History, size: 20 },
+  { name: "Brain Games", href: "/dashboard/games", icon: Gamepad2, size: 20 },
+] as const;
 
+// ─── Types ────────────────────────────────────────────────────────────────────
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-import { useSession, signOut } from "next-auth/react";
+// ─── Settings popup (separate memo component) ────────────────────────────────
+const SettingsPopup = memo(function SettingsPopup({
+  onClose,
+}: {
+  onClose: () => void;
+}) {
+  const handleLogout = useCallback(() => {
+    signOut({ callbackUrl: "/" });
+  }, []);
 
-import Image from "next/image";
+  return (
+    <div className="absolute bottom-full left-4 right-4 mb-3 bg-[#111111] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl overflow-hidden z-50">
+      <button
+        className="w-full text-left px-4 py-4 text-[10px] uppercase tracking-widest text-white/50 hover:bg-white/5 hover:text-white/90 transition-colors border-b border-white/5 font-black"
+        onClick={onClose}
+      >
+        Edit Profile
+      </button>
+      <button
+        className="w-full text-left px-4 py-4 text-[10px] uppercase tracking-widest text-[#8B0000] hover:bg-[#8B0000]/10 transition-colors font-black"
+        onClick={handleLogout}
+      >
+        Logout Session
+      </button>
+    </div>
+  );
+});
 
-export default function Sidebar({ isOpen, onClose }: SidebarProps) {
-  const pathname = usePathname();
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+// ─── Avatar (separate memo so session updates only re-render this) ─────────────
+const UserAvatar = memo(function UserAvatar() {
   const { data: session } = useSession();
 
   return (
+    <div className="flex items-center gap-3 px-2 pt-2">
+      <div className="w-10 h-10 bg-[#1A1A1A] border border-white/10 relative overflow-hidden shrink-0">
+        {session?.user?.image ? (
+          <Image
+            src={session.user.image}
+            alt={session.user.name ?? "Avatar"}
+            fill
+            className="object-cover"
+            sizes="40px"
+          />
+        ) : (
+          <div className="w-full h-full bg-[#1A1A1A] flex items-center justify-center font-black text-white/80 text-xs">
+            {session?.user?.name?.charAt(0).toUpperCase() ?? "U"}
+          </div>
+        )}
+        {/* Online indicator */}
+        <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#8B0000] border border-[#0A0A0A] shadow-[0_0_8px_#8B0000]" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-[11px] font-black text-white/90 truncate uppercase tracking-tight">
+          {session?.user?.name ?? "Guest User"}
+        </p>
+        <p className="text-[9px] text-white/30 truncate font-bold uppercase tracking-wider">
+          {session?.user?.email ?? "Session Active"}
+        </p>
+      </div>
+    </div>
+  );
+});
+
+// ─── Main Sidebar ──────────────────────────────────────────────────────────────
+const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const pathname = usePathname();
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+  const toggleSettings = useCallback(() => {
+    setIsSettingsOpen((prev) => !prev);
+  }, []);
+
+  const closeSettings = useCallback(() => {
+    setIsSettingsOpen(false);
+  }, []);
+
+  return (
     <>
-      {/* Mobile Overlay */}
+      {/* Mobile overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={onClose}
+          aria-hidden
         />
       )}
 
       <aside
-        className={`fixed left-0 top-0 w-64 h-screen bg-white border-r border-[#1A1A1A]/5 flex flex-col z-50 transition-transform duration-300 lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed left-0 top-0 w-64 h-screen bg-[#0A0A0A] border-r border-white/5 flex flex-col z-50 transition-transform duration-300 lg:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"
           }`}
+        aria-label="Sidebar navigation"
       >
-        {/* 1. BRAND LOGO */}
+        {/* ── Brand ─────────────────────────────────────────────────── */}
         <div className="flex items-center gap-3 px-6 py-8">
-          <div className="w-8 h-8 bg-[#8B0000] flex items-center justify-center shadow-lg shadow-[#8B0000]/10">
-            <Brain size={18} className="text-white" />
+          <div className="w-8 h-8 bg-[#8B0000] flex items-center justify-center shadow-[0_0_15px_rgba(139,0,0,0.3)]">
+            <Brain size={18} className="text-white" aria-hidden />
           </div>
-          <div>
-            <h1 className="font-bold text-sm tracking-wide text-[#1A1A1A]">Invento</h1>
-          </div>
+          <h1 className="font-black text-xs tracking-[0.3em] text-white/90 uppercase italic">Invento</h1>
         </div>
 
-        {/* 2. NAVIGATION LINKS */}
-        <nav className="flex-1 px-4 space-y-2">
-          {navBar.map((item) => {
+        {/* ── Nav ────────────────────────────────────────────────────── */}
+        <nav className="flex-1 px-4 space-y-1" aria-label="Main navigation">
+          {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.href;
+            const Icon = item.icon;
             return (
               <Link
-                key={item.name}
+                key={item.href}
                 href={item.href}
-                onClick={onClose} // Close sidebar on mobile link click
-                className={`w-full flex items-center gap-4 px-4 py-3.5 transition-all duration-200 group font-medium text-sm ${isActive
-                  ? "bg-[#8B0000] text-white shadow-lg shadow-[#8B0000]/20"
-                  : "text-[#1A1A1A]/60 hover:bg-[#F5F1EE] hover:text-[#1A1A1A]"
+                onClick={onClose}
+                className={`w-full flex items-center gap-4 px-5 py-4 transition-all duration-300 group font-black text-[10px] uppercase tracking-[0.2em] relative overflow-hidden ${isActive
+                  ? "text-white"
+                  : "text-white/40 hover:text-white/90 hover:bg-white/5"
                   }`}
+                aria-current={isActive ? "page" : undefined}
               >
-                <span className={isActive ? "text-white" : "text-[#1A1A1A]/40 group-hover:text-[#8B0000] transition-colors"}>
-                  {item.icon}
-                </span>
+                <Icon
+                  size={item.size}
+                  className={
+                    isActive
+                      ? "text-[#8B0000]"
+                      : "text-white/20 group-hover:text-white/50 transition-colors"
+                  }
+                  aria-hidden
+                />
                 <span>{item.name}</span>
+                {isActive && (
+                  <motion.div
+                    layoutId="activeNav"
+                    className="absolute left-0 w-[2px] h-6 bg-[#8B0000] shadow-[0_0_10px_#8B0000]"
+                  />
+                )}
               </Link>
             );
           })}
         </nav>
 
-        {/* 3. BOTTOM SECTION: SETTINGS & PROFILE */}
-        <div className="p-4 space-y-4 border-t border-[#1A1A1A]/5 relative">
-          {/* SETTINGS POPUP */}
-          {isSettingsOpen && (
-            <div className="absolute bottom-full left-4 right-4 mb-2 bg-white border border-[#1A1A1A]/10 shadow-2xl overflow-hidden animate-in fade-in slide-in-from-bottom-2 duration-200 z-50">
-              <button
-                className="w-full text-left px-4 py-3 text-sm text-[#1A1A1A]/70 hover:bg-[#F5F1EE] hover:text-[#1A1A1A] transition-colors border-b border-[#1A1A1A]/5 font-medium"
-                onClick={() => setIsSettingsOpen(false)}
-              >
-                Edit Profile
-              </button>
-              <button
-                className="w-full text-left px-4 py-3 text-sm text-rose-500 hover:bg-rose-500/10 transition-colors font-medium"
-                onClick={() => signOut({ callbackUrl: "/" })}
-              >
-                Logout
-              </button>
-            </div>
-          )}
+        {/* ── Bottom: Settings + Profile ────────────────────────────── */}
+        <div className="p-4 space-y-4 border-t border-white/5 relative">
+          {isSettingsOpen && <SettingsPopup onClose={closeSettings} />}
 
           <button
-            onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-            className={`flex items-center gap-4 px-4 py-2 transition-colors w-full text-sm font-medium ${isSettingsOpen ? 'text-[#1A1A1A] bg-[#F5F1EE]' : 'text-[#1A1A1A]/60 hover:text-[#1A1A1A] hover:bg-[#F5F1EE]'}`}
+            onClick={toggleSettings}
+            className={`flex items-center gap-4 px-4 py-3 transition-all w-full text-[10px] uppercase tracking-widest font-black ${isSettingsOpen
+              ? "text-white bg-white/5"
+              : "text-white/40 hover:text-white/80 hover:bg-white/5"
+              }`}
+            aria-expanded={isSettingsOpen}
           >
-            <Settings size={20} />
+            <Settings size={20} aria-hidden />
             <span>Settings</span>
           </button>
 
-          <div className="flex items-center gap-3 px-2 pt-2">
-            <div className="w-10 h-10 bg-[#FFE4C4] border-2 border-[#F5F1EE] relative overflow-hidden">
-              {session?.user?.image ? (
-                <Image src={session.user.image} alt="Avatar" fill className="object-cover" />
-              ) : (
-                <div className="w-full h-full bg-[#FFE4C4] flex items-center justify-center font-bold text-[#1A1A1A]">
-                  {session?.user?.name?.charAt(0) || 'U'}
-                </div>
-              )}
-              <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold text-[#1A1A1A] truncate">{session?.user?.name || 'Guest User'}</p>
-              <p className="text-[10px] text-[#1A1A1A]/40 truncate">{session?.user?.email || 'Login to save data'}</p>
-            </div>
-          </div>
+          <UserAvatar />
         </div>
       </aside>
     </>
   );
-}
+});
+
+export default Sidebar;

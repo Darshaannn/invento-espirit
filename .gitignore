@@ -1,6 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# ─── Node ──────────────────────────────────────────────────────────────────────
 /node_modules
 /.pnp
 .pnp.*
@@ -10,37 +8,40 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
-
-# next.js
+# ─── Next.js ────────────────────────────────────────────────────────────────────
 /.next/
 /out/
-
-# production
 /build
 
-# misc
+# ─── Python / Backend ───────────────────────────────────────────────────────────
+backend/venv/
+frontend/server/venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# ─── Question bank scratch files (use data/questions.json as source of truth) ───
+questions_output.json
+questions_output_v2.json
+questions_output_v3.json
+questions_output_v4.json
+final_check.json
+expand_questions.py
+
+# ─── Secrets ────────────────────────────────────────────────────────────────────
+.env*
+!.env.example
+
+# ─── Vercel ─────────────────────────────────────────────────────────────────────
+.vercel
+
+# ─── Misc ───────────────────────────────────────────────────────────────────────
 .DS_Store
 *.pem
-
-# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
-
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# Dev artifacts — question bank drafts
-questions_output*.json
-final_check.json
-expand_questions.py
+tmp/

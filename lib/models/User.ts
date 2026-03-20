@@ -1,16 +1,35 @@
-import mongoose from 'mongoose';
+// lib/models/User.ts
+import mongoose, { Schema, type Document, type Model } from "mongoose";
 
-const UserSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    phone: { type: String },
-    dateOfBirth: { type: Date },
-    onboardingComplete: { type: Boolean, default: false },
-    preferences: {
-        voiceAssist: { type: Boolean, default: true },
-        highContrast: { type: Boolean, default: false }
+export interface IUser extends Document {
+    email: string;
+    name: string;
+    phone?: string;
+    image?: string;
+    onboardingComplete: boolean;
+    createdAt: Date;
+}
+
+const UserSchema = new Schema<IUser>(
+    {
+        email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+        name: { type: String, required: true, trim: true },
+        phone: { type: String, sparse: true }, // sparse: allows multiple null values
+        image: { type: String },
+        onboardingComplete: { type: Boolean, default: false },
     },
-    createdAt: { type: Date, default: Date.now }
-});
+    {
+        timestamps: true,
+        versionKey: false,
+    }
+);
 
-export default mongoose.models.User || mongoose.model('User', UserSchema);
+// Index for fast auth lookups
+UserSchema.index({ email: 1 });
+UserSchema.index({ phone: 1 }, { sparse: true });
+
+const User: Model<IUser> =
+    (mongoose.models.User as Model<IUser>) ||
+    mongoose.model<IUser>("User", UserSchema);
+
+export default User;

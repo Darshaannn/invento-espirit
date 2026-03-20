@@ -43,8 +43,6 @@ c:/Darshan/Innvento/          ← REPOSITORY ROOT (and Next.js root)
 │   ├── instructions/page.tsx ← Pre-test instructions page
 │   ├── screening/page.tsx    ← The actual cognitive test (30 questions)
 │   ├── assessment/page.tsx   ← Assessment loading/transition page
-│   ├── analysis/page.tsx     ← AI analysis processing page
-│   ├── report/page.tsx       ← Final clinical report page
 │   ├── (dashboard)/          ← Protected dashboard layout group
 │   │   └── dashboard/
 │   │       ├── page.tsx      ← Main dashboard (scores, chart, domain breakdown)
@@ -120,7 +118,7 @@ AUTH_SECRET=...                    # Random secret for Auth.js JWT signing
 ## Assessment / Test Flow
 
 ```
-/instructions → /screening → /analysis → /report → /dashboard
+/instructions → /screening → /dashboard (Comprehensive Analysis)
 ```
 
 1. **Instructions** — Explains the test format
@@ -128,10 +126,9 @@ AUTH_SECRET=...                    # Random secret for Auth.js JWT signing
    - **Memory** — Word recall, object recognition
    - **Attention** — Digit span, sustained focus
    - **Executive Function** — Pattern matching, logic
-   - **Orientation** — Date, place, time awareness
-3. **Analysis** — Sends answers to `/api/assessments/submit` → Gemini AI analyzes responses
-4. **Report** — Shows immediate clinical-style report
-5. **Dashboard** — Long-term tracking of all results
+    - **Orientation** — Date, place, time awareness
+3. **Synthesis & Analysis** — Sends answers to `/api/assessments/submit` → Gemini AI analyzes responses.
+4. **Dashboard** — The primary high-fidelity report and longitudinal tracker.
 
 ---
 

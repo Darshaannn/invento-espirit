@@ -1,40 +1,40 @@
-import { NextResponse } from 'next/server';
+// app/api/analytics/trends/route.ts
+import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
+import dbConnect from "@/lib/dbConnect";
+import Assessment from "@/lib/models/Assessment";
 
-export const dynamic = 'force-dynamic';
-import dbConnect from '../../../../lib/dbConnect';
-import Assessment from '../../../../lib/models/Assessment';
+export const dynamic = "force-dynamic";
 
-export async function GET(req: Request) {
-    try {
-        await dbConnect();
-
-        // In a real app, we would filter by userId from searchParams
-        // const { searchParams } = new URL(req.url);
-        // const userId = searchParams.get('userId');
-
-        // Fetch last 10 assessments to build trend analysis
-        const assessments = await Assessment.find({})
-            .sort({ timestamp: -1 })
-            .limit(10)
-            .lean();
-
-        // Basic trend processing: group by domain average over time
-        const trends = assessments.reverse().map((a: { timestamp: unknown; scores?: { accuracy?: number; overallRisk?: string } }) => ({
-            date: a.timestamp,
-            score: a.scores?.accuracy || 0,
-            risk: a.scores?.overallRisk || 'Unknown'
-        }));
-
-        return NextResponse.json({
-            success: true,
-            data: trends
-        });
-
-    } catch (error: any) {
-        console.error("Analytics Error:", error);
-        return NextResponse.json({
-            success: false,
-            error: 'Failed to fetch trends'
-        }, { status: 500 });
+export async function GET() {
+  try {
+    const session = await auth();
+    if (!session?.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    await dbConnect();
+
+    // Aggregation pipeline — single DB round-trip for sparkline data
+    const trends = await Assessment.aggregate([
+      { $match: { userId: (session.user as any).id } },
+      { $sort: { completedAt: -1 } },
+      { $limit: 8 }, // last 8 sessions for the sparkline
+      {
+        $project: {
+          _id: 0,
+          overallScore: 1,
+          riskTier: 1,
+          completedAt: 1,
+          domainScores: 1,
+        },
+      },
+      { $sort: { completedAt: 1 } }, // re-sort ascending for chart display
+    ]);
+
+    return NextResponse.json(trends);
+  } catch (error) {
+    console.error("[/api/analytics/trends]:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
 }
