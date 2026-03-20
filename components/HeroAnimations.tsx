@@ -7,16 +7,20 @@
 "use client";
 
 import React from "react";
-import { m, LazyMotion, domAnimation } from "framer-motion";
+import { m, LazyMotion, domAnimation, Variants } from "framer-motion";
 import Link from "next/link";
 import { Sparkles, ArrowRight, Timer, Brain, LineChart } from "lucide-react";
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 20 },
   show: (delay = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] },
+    transition: {
+      duration: 0.7,
+      delay,
+      ease: [0.22, 1, 0.36, 1]
+    },
   }),
 };
 
@@ -44,11 +48,10 @@ export default function HeroAnimations() {
           initial="hidden"
           animate="show"
           custom={0.15}
-          className="text-5xl md:text-8xl font-black mb-8 leading-[1.1] tracking-tight text-white"
+          className="text-5xl md:text-8xl font-black mb-8 leading-[1.1] tracking-tighter text-white italic"
         >
-          AI Cognitive Screening for{" "}
-          <br className="hidden md:block" />
-          Early Dementia Detection.
+          Precision Cognitive <br className="hidden md:block" />
+          Screening Protocol.
         </m.h1>
 
         {/* Subheading */}
@@ -57,11 +60,10 @@ export default function HeroAnimations() {
           initial="hidden"
           animate="show"
           custom={0.3}
-          className="text-lg md:text-2xl text-white/50 mb-12 max-w-3xl mx-auto font-medium leading-relaxed"
+          className="text-lg md:text-2xl text-white/50 mb-12 max-w-3xl mx-auto font-medium leading-relaxed italic"
         >
-          A 5-minute AI powered cognitive assessment that evaluates memory,
-          attention, executive function and orientation to identify early signs
-          of cognitive decline.
+          A 5-minute diagnostic cognitive assessment evaluating memory,
+          attention, executive function and orientation to established clinical benchmarks.
         </m.p>
 
         {/* CTAs */}
@@ -74,7 +76,7 @@ export default function HeroAnimations() {
         >
           <Link
             href="/screening"
-            className="bg-white text-black hover:bg-white/90 w-full md:w-auto text-lg px-12 py-5 font-bold flex items-center justify-center gap-3 group shadow-xl transition-colors active:scale-95"
+            className="bg-white text-black hover:bg-white/90 w-full md:w-auto text-lg px-12 py-5 font-bold flex items-center justify-center gap-3 group shadow-xl transition-all hover:scale-105 active:scale-95"
           >
             Start Screening{" "}
             <ArrowRight
@@ -85,7 +87,7 @@ export default function HeroAnimations() {
           </Link>
           <Link
             href="#how-it-works"
-            className="px-12 py-5 border border-white/10 text-white font-bold hover:bg-white/5 transition-colors w-full md:w-auto text-center"
+            className="px-12 py-5 border border-white/10 text-white font-bold hover:bg-white/5 transition-all w-full md:w-auto text-center hover:scale-105 active:scale-95"
           >
             Learn How It Works
           </Link>
@@ -109,7 +111,7 @@ export default function HeroAnimations() {
           </div>
           <div className="flex items-center gap-2">
             <LineChart size={14} className="text-white/10" aria-hidden />
-            Instant AI Report
+            Instant Diagnostic report
           </div>
         </m.div>
       </div>

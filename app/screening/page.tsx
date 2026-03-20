@@ -66,11 +66,11 @@ const ScreeningPage = () => {
     }, [transcript]);
 
     const analysisMessages = [
-        "Analyzing cognitive response patterns...",
-        "Evaluating neural latency metrics...",
-        "Processing memory recall consistency...",
-        "Benchmarking executive decision paths...",
-        "Generating final cognitive health report..."
+        "Initializing diagnostic neural sweep...",
+        "Executing clinical latency calibration...",
+        "Processing cross-domain benchmark data...",
+        "Validating behavioral performance markers...",
+        "Finalizing clinical report protocol..."
     ];
 
     const domainMetadata: { [key: string]: { title: string, desc: string } } = {

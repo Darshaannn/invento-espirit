@@ -89,17 +89,56 @@ export function getRiskTier(score: number): "low" | "moderate" | "high" {
   return "high";
 }
 
-// ─── Risk config (UI use) ──────────────────────────────────────────────────────
+// ─── Local Clinical Report Generation (Non-AI) ────────────────────────────────
+export function generateClinicalReport(
+  domainScores: Record<Domain, number>,
+  overallScore: number,
+  riskTier: "low" | "moderate" | "high"
+) {
+  const recommendations: string[] = [];
+  let insights = "";
+
+  // 1. Determine base insight
+  if (riskTier === "low") {
+    insights = "Cognitive indicators are within the expected physiological range. Neural stability vector shows high reliability across all primary domains.";
+    recommendations.push("Continue regular cognitive maintenance exercises.");
+    recommendations.push("Schedule a baseline re-assessment in 6 months.");
+  } else if (riskTier === "moderate") {
+    insights = "Subtle variance detected in specific cognitive pathways. Performance latency suggests potential areas for clinical observation.";
+    recommendations.push("Consider a formal clinical consultation for baseline verification.");
+    recommendations.push("Increase engagement in neuro-plasticity-focused activities.");
+  } else {
+    insights = "Significant deviation from nominal cognitive benchmarks detected. Priority clinical evaluation is advised to determine underlying factors.";
+    recommendations.push("Immediate consultation with a board-certified neurologist is recommended.");
+    recommendations.push("Conduct a comprehensive diagnostic workup including metabolic screening.");
+  }
+
+  // 2. Domain-specific additions
+  const lowDomains = Object.entries(domainScores)
+    .filter(([_, score]) => score < 60)
+    .map(([name]) => name);
+
+  if (lowDomains.length > 0) {
+    insights += ` Specific attention recommended for ${lowDomains.join(" and ")} performance markers.`;
+  }
+
+  return {
+    insights,
+    recommendations,
+    followUpAdvised: riskTier !== "low",
+  };
+}
+
 export const RISK_CONFIG = {
   low: {
-    label: "Low Risk",
+    label: "Stable",
     color: "#22c55e",
     bgClass: "bg-green-950",
     textClass: "text-green-400",
     message: "Cognitive function appears within normal range. Continue regular monitoring.",
   },
   moderate: {
-    label: "Moderate Risk",
+    label: "Monitor",
     color: "#f59e0b",
     bgClass: "bg-amber-950",
     textClass: "text-amber-400",
@@ -107,7 +146,7 @@ export const RISK_CONFIG = {
       "Some indicators warrant monitoring. Consider a follow-up with your physician.",
   },
   high: {
-    label: "High Risk",
+    label: "Urgent",
     color: "#ef4444",
     bgClass: "bg-red-950",
     textClass: "text-red-400",

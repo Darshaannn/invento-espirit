@@ -11,8 +11,7 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import dbConnect from "@/lib/dbConnect";
 import Assessment from "@/lib/models/Assessment";
-import { analyzeWithGemini } from "@/lib/services/gemini";
-import { calculateDomainScores, getRiskTier } from "@/lib/utils/scoring";
+import { calculateDomainScores, getRiskTier, generateClinicalReport } from "@/lib/utils/scoring";
 
 export const dynamic = "force-dynamic";
 
@@ -57,43 +56,19 @@ export async function POST(request: NextRequest) {
     );
     const riskTier = getRiskTier(overallScore);
 
-    // ── 2. Gemini analysis (async — don't block the score) ────────────────
-    //    We kick off the Gemini call immediately, then await it only when
-    //    we need it for the DB write. This runs in parallel with any other
-    //    synchronous work above.
-    const geminiPromise = analyzeWithGemini({
-      domainScores,
-      overallScore,
-      riskTier,
-      ageGroup,
-      symptoms,
-      skippedCount: responses.filter((r) => r.skipped).length,
-      avgResponseMs: Math.round(
-        responses.reduce((a, r) => a + r.timeTakenMs, 0) / responses.length
-      ),
-    }).catch((err) => {
-      console.error("[Gemini] Analysis failed:", err.message);
-      // Graceful fallback so we don't fail the whole submit
-      return {
-        insights: "Analysis temporarily unavailable. Please consult a healthcare professional.",
-        recommendations: ["Consider scheduling a follow-up with your physician."],
-        followUpAdvised: riskTier !== "low",
-      };
-    });
+    // ── 2. Local Clinical Report (Fast, Non-AI) ──────────────────────────
+    const clinicalReport = generateClinicalReport(domainScores, overallScore, riskTier);
 
-    // ── 3. Get session (parallel with Gemini) ─────────────────────────────
-    const [session, geminiResult] = await Promise.all([
-      auth(),
-      geminiPromise,
-    ]);
+    // ── 3. Get session (parallel with logic) ─────────────────────────────
+    const session = await auth();
 
     const result = {
       overallScore,
       domainScores,
       riskTier,
-      aiInsights: geminiResult.insights,
-      recommendations: geminiResult.recommendations,
-      followUpAdvised: geminiResult.followUpAdvised,
+      aiInsights: clinicalReport.insights, // Keeping field name for schema compatibility
+      recommendations: clinicalReport.recommendations,
+      followUpAdvised: clinicalReport.followUpAdvised,
       completedAt: new Date().toISOString(),
       totalTimeMs: responses.reduce((a, r) => a + r.timeTakenMs, 0),
     };
@@ -115,9 +90,9 @@ export async function POST(request: NextRequest) {
         },
         overallScore,
         riskTier,
-        aiInsights: geminiResult.insights,
-        recommendations: geminiResult.recommendations,
-        followUpAdvised: geminiResult.followUpAdvised,
+        aiInsights: clinicalReport.insights,
+        recommendations: clinicalReport.recommendations,
+        followUpAdvised: clinicalReport.followUpAdvised,
         totalTimeMs: result.totalTimeMs,
         completedAt: new Date(),
       });

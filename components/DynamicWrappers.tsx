@@ -12,15 +12,13 @@ export function HeroStatic() {
                     Medical Intelligence V2.5
                 </span>
             </div>
-            <h1 className="text-5xl md:text-8xl font-black mb-8 leading-[1.1] tracking-tight text-[#1A1A1A]">
-                AI Cognitive Screening for{" "}
-                <br className="hidden md:block" />
-                Early Dementia Detection.
+            <h1 className="text-5xl md:text-8xl font-black mb-8 leading-[1.1] tracking-tighter text-[#1A1A1A] italic">
+                Precision Cognitive <br className="hidden md:block" />
+                Screening Protocol.
             </h1>
-            <p className="text-lg md:text-2xl text-[#1A1A1A]/60 mb-12 max-w-3xl mx-auto font-medium leading-relaxed">
-                A 5-minute AI powered cognitive assessment that evaluates memory,
-                attention, executive function and orientation to identify early signs
-                of cognitive decline.
+            <p className="text-lg md:text-2xl text-[#1A1A1A]/60 mb-12 max-w-3xl mx-auto font-medium leading-relaxed italic">
+                A 5-minute diagnostic cognitive assessment evaluating memory,
+                attention, executive function and orientation to established clinical benchmarks.
             </p>
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
                 <Link

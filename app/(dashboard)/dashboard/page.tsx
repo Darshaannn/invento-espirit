@@ -31,11 +31,11 @@ interface AssessmentData {
         accuracy?: number;
     };
     domainScores?: Array<DomainScore>;
-    aiAnalysis?: {
+    clinicalAnalysis?: {
         summary?: string;
         clinicalInsights?: string;
     };
-    aiInsights?: string;
+    clinicalReport?: string;
     recommendations?: string[];
     riskTier?: string;
     followUpAdvised?: boolean;
@@ -65,11 +65,11 @@ export default function Dashboard() {
     const [analysisStep, setAnalysisStep] = useState(0);
 
     const analysisMessages = [
-        "Analyzing cognitive response patterns...",
-        "Evaluating neural latency metrics...",
-        "Processing memory recall consistency...",
-        "Benchmarking executive decision paths...",
-        "Generating final cognitive health report..."
+        "Initializing cognitive diagnostic sweep...",
+        "Executing neural pathway calibration...",
+        "Processing cross-domain performance data...",
+        "Validating clinical behavioral markers...",
+        "Finalizing diagnostic overview protocol..."
     ];
 
     useEffect(() => {
@@ -258,7 +258,7 @@ export default function Dashboard() {
 
                             <div className="space-y-6 mb-12">
                                 <p className="text-white/90/60 font-medium leading-relaxed italic text-lg border-l-4 border-[#8B0000]/20 pl-6 py-2">
-                                    &quot;Analysis indicates high resiliency in {selectedDomain.name} metrics. Neural pathways demonstrate consistent signal propagation with minimal latency variance.&quot;
+                                    &quot;Diagnostic indicators demonstrate consistent resiliency in {selectedDomain.name} metrics. Clinical observations confirm nominal signal propagation with standard latency variance.&quot;
                                 </p>
                             </div>
 
@@ -369,7 +369,7 @@ export default function Dashboard() {
                                 </h1>
                             </div>
                             <p className="text-white/40 text-lg font-medium leading-relaxed max-w-xl italic border-l-2 border-white/5 pl-8 mx-auto md:mx-0">
-                                &quot;{data.aiInsights || (data as any).aiAnalysis?.summary || `Current results indicate a stability index of ${accuracy}%. Cognitive load balancing remains consistent across tertiary domains with minimal signal decay detected.`}&quot;
+                                &quot;{data.clinicalReport || data.clinicalAnalysis?.summary || `Current clinical sweep indicates a stability index of ${accuracy}%. Neural load balancing remains consistent across tertiary domains.`}&quot;
                             </p>
                             <div className={`inline-flex items-center gap-3 px-6 py-3 border-2 font-black text-[10px] uppercase tracking-[0.3em] ${accuracy >= 80 ? 'bg-green-500/10 border-green-500/20 text-green-400' :
                                 accuracy >= 60 ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' :
@@ -383,13 +383,16 @@ export default function Dashboard() {
                     <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-10">
                         {/* DOMAIN BREAKDOWN: "SAME TO SAME" VERSION */}
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.98 }}
-                            animate={{ opacity: 1, scale: 1 }}
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="lg:col-span-7 bg-white/5 border border-white/10 p-10 md:p-12 backdrop-blur-md relative overflow-hidden"
+                            className="lg:col-span-7 bg-white/5 border border-white/10 p-10 md:p-12 backdrop-blur-md relative overflow-hidden group hover:bg-white/[0.07] transition-colors"
                         >
-                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#8B0000] to-transparent opacity-40" />
-                            <h2 className="text-2xl font-black italic uppercase tracking-tighter mb-10 text-white">Cognitive Fingerprint</h2>
+                            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#8B0000] to-transparent opacity-40 group-hover:opacity-100 transition-opacity" />
+                            <h2 className="text-2xl font-black italic uppercase tracking-tighter mb-10 text-white flex items-center gap-4">
+                                <Activity size={20} className="text-[#8B0000]" />
+                                Neural Fingerprint
+                            </h2>
                             <div className="space-y-8">
                                 {data.domainScores?.map((d: any) => (
                                     <div key={d.name} className="group">
@@ -428,11 +431,11 @@ export default function Dashboard() {
                                     <div className="h-0.5 w-12 bg-white/20" />
                                 </div>
                                 <p className="text-lg font-bold leading-relaxed text-white italic">
-                                    &quot;{data.aiInsights || (data as any).aiAnalysis?.summary || (accuracy >= 80 ? "Cognitive function appears within normal range." : "Some cognitive indicators warrant monitoring.")}&quot;
+                                    &quot;{data.clinicalReport || data.clinicalAnalysis?.summary || (accuracy >= 80 ? "Cognitive function appears within normal range." : "Some cognitive indicators warrant monitoring.")}&quot;
                                 </p>
 
                                 <div className="space-y-4 pt-4 border-t border-white/5">
-                                    <h3 className="font-black uppercase tracking-[0.3em] text-[9px] text-white/40">Protocol Directives</h3>
+                                    <h3 className="font-black uppercase tracking-[0.3em] text-[9px] text-white/40">Clinical Protocol Directives</h3>
                                     <ul className="space-y-4">
                                         {(data.recommendations && data.recommendations.length > 0) ? (
                                             data.recommendations.slice(0, 3).map((rec: string, i: number) => (
@@ -462,10 +465,16 @@ export default function Dashboard() {
                     {/* STABILITY TREND & RADAR (KEEP VALUABLE CONTENT AS SECONDARY HUD) */}
                     <div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mt-12">
                         <motion.div
-                            className="lg:col-span-8 bg-white/[0.03] backdrop-blur-sm p-8 border border-white/5 relative overflow-hidden"
-                            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+                            className="lg:col-span-8 bg-white/[0.03] backdrop-blur-sm p-8 border border-white/5 relative overflow-hidden group hover:bg-white/[0.05] transition-colors"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
                         >
-                            <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 mb-8 italic">Neural Fingerprint Matrix</h4>
+                            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#8B0000]/20 to-transparent group-hover:via-[#8B0000]/50 transition-all duration-700" />
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 mb-8 italic flex items-center gap-3">
+                                <div className="w-1.5 h-1.5 bg-[#8B0000]" />
+                                Neural Fingerprint Matrix
+                            </h4>
                             <div className="h-[300px]">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
@@ -478,10 +487,17 @@ export default function Dashboard() {
                         </motion.div>
 
                         <motion.div
-                            className="lg:col-span-4 bg-white/[0.03] backdrop-blur-sm p-8 border border-white/5 relative overflow-hidden"
-                            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+                            className="lg:col-span-4 bg-white/[0.03] backdrop-blur-sm p-8 border border-white/5 relative overflow-hidden group hover:bg-white/[0.05] transition-colors"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.1 }}
                         >
-                            <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 mb-8 italic">Stability Trend</h4>
+                            <div className="absolute bottom-0 left-0 w-[1px] h-full bg-gradient-to-t from-transparent via-[#8B0000]/20 to-transparent group-hover:via-[#8B0000]/50 transition-all duration-700" />
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 mb-8 italic flex items-center gap-3">
+                                <div className="w-1.5 h-1.5 bg-[#8B0000]" />
+                                Stability Trend
+                            </h4>
                             <div className="h-[300px]">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <AreaChart data={chartData}>
@@ -518,7 +534,7 @@ export default function Dashboard() {
                                         <div className="w-1.5 h-1.5 rounded-full bg-green-500/40 animate-pulse" />
                                     </div>
                                     <p className="text-[11px] font-black uppercase tracking-[0.15em] leading-relaxed text-white/30 italic group-hover:text-white/40 transition-colors">
-                                        <span className="text-white/60 NOT-italic">MEDICAL PROTOCOL DISCLAIMER:</span> THIS IS AN ARTIFICIAL INTELLIGENCE DERIVED SCREENING TOOL AND DOES NOT CONSTITUTE A FORMAL MEDICAL DIAGNOSIS. THE NEURAL ANALYTICS PROVIDED ARE FOR PRE-CLINICAL EVALUATION ONLY. ALWAYS CONSULT A BOARD-CERTIFIED NEUROLOGIST FOR CLINICAL VALIDATION AND TREATMENT PLANNING.
+                                        <span className="text-white/60 NOT-italic">MEDICAL PROTOCOL DISCLAIMER:</span> THIS IS A CLINICAL-DATA DERIVED SCREENING TOOL AND DOES NOT CONSTITUTE A FORMAL MEDICAL DIAGNOSIS. THE NEURAL ANALYTICS PROVIDED ARE FOR PRE-CLINICAL EVALUATION ONLY. ALWAYS CONSULT A BOARD-CERTIFIED NEUROLOGIST FOR CLINICAL VALIDATION AND TREATMENT PLANNING.
                                     </p>
                                 </div>
                             </div>

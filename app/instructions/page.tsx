@@ -30,8 +30,8 @@ export default function Instructions() {
 
                     <div className="flex justify-between items-start mb-10 relative z-10">
                         <div>
-                            <h1 className="text-4xl font-black mb-2 tracking-tighter text-[#1A1A1A]">AI Cognitive Screening Test</h1>
-                            <p className="text-[#1A1A1A]/50 font-medium italic">Clinical-grade behavioral assessment enabled by neural AI.</p>
+                            <h1 className="text-4xl font-black mb-2 tracking-tighter text-[#1A1A1A]">Cognitive Screening Protocol</h1>
+                            <p className="text-[#1A1A1A]/50 font-medium italic">Clinical-grade behavioral assessment and mental baseline mapping.</p>
                         </div>
                         <div className="flex items-center gap-2 bg-[#8B0000]/5 px-4 py-2 text-xs font-bold tracking-wide text-[#8B0000] border border-[#8B0000]/10">
                             <Clock size={14} /> ~5 MINS
@@ -68,8 +68,8 @@ export default function Instructions() {
                                 <Activity size={20} className="text-[#8B0000]" />
                             </div>
                             <div>
-                                <h4 className="font-bold text-lg leading-none mb-1 text-[#1A1A1A]">Neural Analysis.</h4>
-                                <p className="text-[#1A1A1A]/50 text-sm leading-relaxed italic">Our AI analyzes accuracy, response latency, and decision-making patterns to evaluate cognitive consistency.</p>
+                                <h4 className="font-bold text-lg leading-none mb-1 text-[#1A1A1A]">Diagnostic Analysis.</h4>
+                                <p className="text-[#1A1A1A]/50 text-sm leading-relaxed italic">Our system analyzes accuracy, response latency, and decision-making patterns to evaluate cognitive consistency.</p>
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@ export default function Instructions() {
 
             {/* FOOTER */}
             <footer className="py-6 text-center text-[10px] text-[#1A1A1A]/30 uppercase tracking-widest font-bold">
-                © 2026 Invento Espirit. Clinical AI Screening Protocol V2.5
+                © 2026 Invento Espirit. Clinical Diagnostic Protocol V2.5
             </footer>
 
         </div>

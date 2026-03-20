@@ -21,12 +21,15 @@ import dynamic from "next/dynamic";
 import { Brain, Activity, Shield, LineChart } from "lucide-react";
 
 // Lazy-load animation wrapper — only fetched after page renders
+import { ScrollReveal } from "@/components/ScrollReveal";
+import { HeroStatic as HeroStaticComp } from "@/components/DynamicWrappers";
+
 const HeroAnimations = dynamic(() => import("@/components/HeroAnimations"), {
-  loading: () => <HeroStatic />,
+  loading: () => <HeroStaticComp />,
+  ssr: false,
 });
 
-// Lazy-load FAQ accordion (client component for toggle state)
-const FAQAccordion = dynamic(() => import("@/components/FAQAccordion"));
+const FAQAccordion = dynamic(() => import("@/components/FAQAccordion"), { ssr: false });
 
 // ─── Page (Server Component) ─────────────────────────────────────────────────
 export default function LandingPage() {
@@ -67,168 +70,176 @@ export default function LandingPage() {
       {/* HeroAnimations wraps the motion divs; if JS hasn't loaded yet,     */}
       {/* HeroStatic renders the same content without animations.             */}
       <main className="relative z-10 text-center px-4 max-w-5xl pt-28 pb-20">
-        <Suspense fallback={<HeroStatic />}>
+        <Suspense fallback={<HeroStaticComp />}>
           <HeroAnimations />
         </Suspense>
       </main>
 
       {/* ── How It Works ───────────────────────────────────────────────── */}
-      <section
-        id="how-it-works"
-        className="relative z-10 w-full max-w-7xl px-8 py-32 border-t border-[#1A1A1A]/5"
-      >
-        <div className="text-center mb-20">
-          <h2 className="text-4xl font-black mb-4 tracking-tighter text-[#1A1A1A]">
-            How Our AI Screening Works
-          </h2>
-          <p className="text-[#1A1A1A]/50 max-w-2xl mx-auto font-medium">
-            Invento uses proprietary machine learning models to analyze behavioral
-            nuance beyond simple accuracy.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <StepCard
-            number="01"
-            title="Cognitive Questions"
-            desc="Memory, attention and reasoning questions evaluate core functional neuro-pathways."
-            icon={<Brain size={20} aria-hidden />}
-          />
-          <StepCard
-            number="02"
-            title="Behavioral Analysis"
-            desc="AI evaluates response time patterns to detect hesitation markers."
-            icon={<Activity size={20} aria-hidden />}
-          />
-          <StepCard
-            number="03"
-            title="Pattern Detection"
-            desc="ML models analyze cross-domain signals for subtle decline markers."
-            icon={<Shield size={20} aria-hidden />}
-          />
-          <StepCard
-            number="04"
-            title="AI Clinical Report"
-            desc="Personalized cognitive scores and risk indicators for medical review."
-            icon={<LineChart size={20} aria-hidden />}
-          />
-        </div>
-      </section>
-
-      {/* ── Clinical Domains ───────────────────────────────────────────── */}
-      <section className="relative z-10 w-full max-w-7xl px-8 py-32 bg-[#E8E2DE]/50 border border-[#1A1A1A]/5 mb-32">
-        <div className="flex flex-col md:flex-row gap-20 items-center">
-          <div className="flex-1">
-            <h2 className="text-5xl font-black mb-8 tracking-tighter text-[#1A1A1A]">
-              Clinical Domains Tested.
+      <ScrollReveal>
+        <section
+          id="how-it-works"
+          className="relative z-10 w-full max-w-7xl px-8 py-32 border-t border-[#1A1A1A]/5"
+        >
+          <div className="text-center mb-20">
+            <h2 className="text-4xl font-black mb-4 tracking-tighter text-[#1A1A1A]">
+              How Our Diagnostic Screening Works
             </h2>
-            <div className="grid gap-8">
-              <DomainItem title="Memory" desc="Recall ability and information retention metrics." />
-              <DomainItem title="Attention" desc="Focus, concentration, and selective filtering ability." />
-              <DomainItem title="Executive Function" desc="Problem solving and high-level logical reasoning." />
-              <DomainItem title="Orientation" desc="Awareness of time, place, and clinical situation." />
-            </div>
-          </div>
-          <div className="w-full md:w-[400px] aspect-square bg-[#1A1A1A] p-12 flex flex-col justify-between shadow-2xl relative overflow-hidden">
-            <div
-              aria-hidden
-              className="absolute inset-0 bg-gradient-to-br from-[#8B0000]/20 to-transparent opacity-50"
-            />
-            <div className="relative z-10">
-              <p className="text-[10px] font-black uppercase tracking-widest text-[#E8E2DE]/60 mb-2">
-                Neural Accuracy
-              </p>
-              <h4 className="text-4xl font-black text-white">98.4%</h4>
-            </div>
-            <p className="relative z-10 mt-auto text-xs text-white/40 leading-relaxed italic">
-              "Dynamic learning allows Invento to calibrate against population
-              baselines in real-time."
+            <p className="text-[#1A1A1A]/50 max-w-2xl mx-auto font-medium">
+              Invento uses proprietary diagnostic models to analyze behavioral
+              nuance beyond simple accuracy.
             </p>
           </div>
-        </div>
-      </section>
 
-      {/* ── Testimonials ───────────────────────────────────────────────── */}
-      <section className="relative z-10 w-full max-w-7xl px-8 py-20 mb-20">
-        <h3 className="text-[#8B0000] font-bold uppercase tracking-[0.3em] text-[10px] mb-6 text-center">
-          Clinical Trust
-        </h3>
-        <h2 className="text-4xl font-black mb-16 tracking-tighter text-[#1A1A1A] text-center">
-          What Professionals Say
-        </h2>
-        <div className="grid md:grid-cols-3 gap-8 text-left">
-          <TestimonialCard
-            quote="Invento's latency tracking provides a nuance that traditional pen-and-paper tests completely miss."
-            author="Dr. Sarah Jenkins"
-            role="Neurologist"
-          />
-          <TestimonialCard
-            quote="The seamless integration of AI analysis with standard cognitive domains makes this the most efficient screening tool my clinic has used."
-            author="Michael Chen"
-            role="Geriatric Care Specialist"
-          />
-          <TestimonialCard
-            quote="Finally, a cognitive assessment platform designed with both clinical rigor and an intuitive user experience in mind."
-            author="Dr. Elena Carter"
-            role="Clinical Psychologist"
-          />
-        </div>
-      </section>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <StepCard
+              number="01"
+              title="Cognitive Questions"
+              desc="Memory, attention and reasoning questions evaluate core functional neuro-pathways."
+              icon={<Brain size={20} aria-hidden />}
+            />
+            <StepCard
+              number="02"
+              title="Behavioral Analysis"
+              desc="Clinical evaluation of response time patterns to detect hesitation markers."
+              icon={<Activity size={20} aria-hidden />}
+            />
+            <StepCard
+              number="03"
+              title="Pattern Detection"
+              desc="Diagnostic models analyze cross-domain signals for subtle decline markers."
+              icon={<Shield size={20} aria-hidden />}
+            />
+            <StepCard
+              number="04"
+              title="Clinical Analytics"
+              desc="Personalized cognitive scores and risk indicators for medical review."
+              icon={<LineChart size={20} aria-hidden />}
+            />
+          </div>
+        </section>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <section className="relative z-10 w-full max-w-7xl px-8 py-32 bg-[#E8E2DE]/50 border border-[#1A1A1A]/5 mb-32">
+          <div className="flex flex-col md:flex-row gap-20 items-center">
+            <div className="flex-1">
+              <h2 className="text-5xl font-black mb-8 tracking-tighter text-[#1A1A1A]">
+                Clinical Domains Tested.
+              </h2>
+              <div className="grid gap-8">
+                <DomainItem title="Memory" desc="Recall ability and information retention metrics." />
+                <DomainItem title="Attention" desc="Focus, concentration, and selective filtering ability." />
+                <DomainItem title="Executive Function" desc="Problem solving and high-level logical reasoning." />
+                <DomainItem title="Orientation" desc="Awareness of time, place, and clinical situation." />
+              </div>
+            </div>
+            <div className="w-full md:w-[400px] aspect-square bg-[#1A1A1A] p-12 flex flex-col justify-between shadow-2xl relative overflow-hidden group hover:scale-[1.02] transition-transform duration-500">
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-gradient-to-br from-[#8B0000]/20 to-transparent opacity-50 group-hover:opacity-100 transition-opacity"
+              />
+              <div className="relative z-10">
+                <p className="text-[10px] font-black uppercase tracking-widest text-[#E8E2DE]/60 mb-2">
+                  Diagnostic Accuracy
+                </p>
+                <h4 className="text-4xl font-black text-white">98.4%</h4>
+              </div>
+              <p className="relative z-10 mt-auto text-xs text-white/40 leading-relaxed italic">
+                "Precision calibration allows Invento to align against clinical
+                baselines in real-time."
+              </p>
+            </div>
+          </div>
+        </section>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <section className="relative z-10 w-full max-w-7xl px-8 py-20 mb-20">
+          <h3 className="text-[#8B0000] font-bold uppercase tracking-[0.3em] text-[10px] mb-6 text-center">
+            Clinical Trust
+          </h3>
+          <h2 className="text-4xl font-black mb-16 tracking-tighter text-[#1A1A1A] text-center text-display">
+            What Professionals Say
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8 text-left">
+            <TestimonialCard
+              quote="Invento's latency tracking provides a nuance that traditional pen-and-paper tests completely miss."
+              author="Dr. Sarah Jenkins"
+              role="Neurologist"
+            />
+            <TestimonialCard
+              quote="The seamless integration of clinical analysis with standard cognitive domains makes this the most efficient screening tool my clinic has used."
+              author="Michael Chen"
+              role="Geriatric Care Specialist"
+            />
+            <TestimonialCard
+              quote="Finally, a cognitive assessment platform designed with both clinical rigor and an intuitive user experience in mind."
+              author="Dr. Elena Carter"
+              role="Clinical Psychologist"
+            />
+          </div>
+        </section>
+      </ScrollReveal>
 
       {/* ── FAQ ────────────────────────────────────────────────────────── */}
-      <section className="relative z-10 w-full max-w-4xl mx-auto px-8 py-20 text-center mb-10">
-        <h3 className="text-[#8B0000] font-bold uppercase tracking-[0.3em] text-[10px] mb-6">
-          Common Questions
-        </h3>
-        <h2 className="text-4xl font-black mb-16 tracking-tighter text-[#1A1A1A]">
-          Frequently Asked Questions
-        </h2>
-        <Suspense
-          fallback={
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-16 skeleton rounded" />
-              ))}
-            </div>
-          }
-        >
-          <FAQAccordion
-            items={[
-              {
-                question: "Is Invento Espirit a diagnostic tool?",
-                answer:
-                  "No, Invento is a screening tool designed to detect early indicators of cognitive decline. It should be used alongside professional medical evaluation, not as a replacement for diagnosis.",
-              },
-              {
-                question: "How is my data protected?",
-                answer:
-                  "We utilize AES-256 clinical-grade encryption for all patient data. Anonymous screening data is processed securely to ensure complete privacy compliance.",
-              },
-              {
-                question: "How long does the assessment take?",
-                answer:
-                  "The full cognitive assessment typically takes between 3 to 5 minutes, providing rapid, real-time results and clinical insights.",
-              },
-            ]}
-          />
-        </Suspense>
-      </section>
+      <ScrollReveal>
+        <section className="relative z-10 w-full max-w-4xl mx-auto px-8 py-20 text-center mb-10">
+          <h3 className="text-[#8B0000] font-bold uppercase tracking-[0.3em] text-[10px] mb-6">
+            Common Questions
+          </h3>
+          <h2 className="text-4xl font-black mb-16 tracking-tighter text-[#1A1A1A]">
+            Frequently Asked Questions
+          </h2>
+          <Suspense
+            fallback={
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-16 skeleton rounded" />
+                ))}
+              </div>
+            }
+          >
+            <FAQAccordion
+              items={[
+                {
+                  question: "Is Invento a diagnostic tool?",
+                  answer:
+                    "No, Invento is a screening tool designed to detect early indicators of cognitive decline. It should be used alongside professional medical evaluation, not as a replacement for diagnosis.",
+                },
+                {
+                  question: "How is my data protected?",
+                  answer:
+                    "We utilize AES-256 clinical-grade encryption for all patient data. Anonymous screening data is processed securely to ensure complete privacy compliance.",
+                },
+                {
+                  question: "How long does the assessment take?",
+                  answer:
+                    "The full cognitive assessment typically takes between 3 to 5 minutes, providing rapid, real-time results and clinical insights.",
+                },
+              ]}
+            />
+          </Suspense>
+        </section>
+      </ScrollReveal>
 
       {/* ── Research Roadmap ───────────────────────────────────────────── */}
-      <section className="relative z-10 w-full max-w-7xl mx-auto px-8 py-20 text-center mb-32">
-        <h3 className="text-[#8B0000] font-bold uppercase tracking-[0.3em] text-[10px] mb-6">
-          Upcoming Innovation
-        </h3>
-        <h2 className="text-4xl font-black mb-16 tracking-tighter text-[#1A1A1A]">
-          Research Roadmap
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-10">
-          <RoadmapTag title="Speech Pattern Detection" status="active" />
-          <RoadmapTag title="Writing Analysis" status="pending" />
-          <RoadmapTag title="Longitudinal Tracking" status="pending" />
-          <RoadmapTag title="Doctor Export Protocol" status="pending" />
-        </div>
-      </section>
+      <ScrollReveal>
+        <section className="relative z-10 w-full max-w-7xl mx-auto px-8 py-20 text-center mb-32">
+          <h3 className="text-[#8B0000] font-bold uppercase tracking-[0.3em] text-[10px] mb-6">
+            Upcoming Innovation
+          </h3>
+          <h2 className="text-4xl font-black mb-16 tracking-tighter text-[#1A1A1A]">
+            Research Roadmap
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-10">
+            <RoadmapTag title="Speech Pattern Detection" status="active" />
+            <RoadmapTag title="Writing Analysis" status="pending" />
+            <RoadmapTag title="Longitudinal Tracking" status="pending" />
+            <RoadmapTag title="Doctor Export Protocol" status="pending" />
+          </div>
+        </section>
+      </ScrollReveal>
 
       {/* ── Footer / Disclaimer ────────────────────────────────────────── */}
       <footer className="relative z-10 w-full max-w-5xl mx-auto px-8 py-20 border-t border-[#1A1A1A]/5 text-center">
@@ -266,14 +277,14 @@ function StepCard({
   icon: React.ReactNode;
 }) {
   return (
-    <div className="bg-white p-8 border border-[#1A1A1A]/5 flex flex-col items-center text-center space-y-4 shadow-sm hover:shadow-md transition-shadow">
-      <div className="text-[40px] font-black italic text-[#1A1A1A]/5 select-none tracking-tighter">
+    <div className="bg-white p-8 border border-[#1A1A1A]/5 flex flex-col items-center text-center space-y-4 shadow-sm hover:shadow-2xl hover:-translate-y-2 hover:border-[#8B0000]/20 transition-all duration-500 group">
+      <div className="text-[40px] font-black italic text-[#1A1A1A]/5 select-none tracking-tighter group-hover:text-[#8B0000]/10 transition-colors">
         {number}
       </div>
-      <div className="w-10 h-10 bg-[#E8E2DE] flex items-center justify-center text-[#8B0000] mb-2">
+      <div className="w-12 h-12 bg-[#E8E2DE] flex items-center justify-center text-[#8B0000] mb-2 group-hover:bg-[#8B0000] group-hover:text-white transition-all duration-500 rounded-full">
         {icon}
       </div>
-      <h3 className="text-sm font-black uppercase tracking-widest text-[#1A1A1A]">{title}</h3>
+      <h3 className="text-sm font-black uppercase tracking-[0.2em] text-[#1A1A1A] group-hover:text-[#8B0000] transition-colors">{title}</h3>
       <p className="text-xs text-[#1A1A1A]/50 font-medium leading-relaxed">{desc}</p>
     </div>
   );
@@ -347,15 +358,13 @@ function HeroStatic() {
           Medical Intelligence V2.5
         </span>
       </div>
-      <h1 className="text-5xl md:text-8xl font-black mb-8 leading-[1.1] tracking-tight text-[#1A1A1A]">
-        AI Cognitive Screening for{" "}
-        <br className="hidden md:block" />
-        Early Dementia Detection.
+      <h1 className="text-5xl md:text-8xl font-black mb-8 leading-[1.1] tracking-tighter text-[#1A1A1A] italic">
+        Precision Cognitive <br className="hidden md:block" />
+        Screening Protocol.
       </h1>
-      <p className="text-lg md:text-2xl text-[#1A1A1A]/60 mb-12 max-w-3xl mx-auto font-medium leading-relaxed">
-        A 5-minute AI powered cognitive assessment that evaluates memory,
-        attention, executive function and orientation to identify early signs
-        of cognitive decline.
+      <p className="text-lg md:text-2xl text-[#1A1A1A]/60 mb-12 max-w-3xl mx-auto font-medium leading-relaxed italic">
+        A 5-minute diagnostic cognitive assessment evaluating memory,
+        attention, executive function and orientation to established clinical benchmarks.
       </p>
       <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
         <Link

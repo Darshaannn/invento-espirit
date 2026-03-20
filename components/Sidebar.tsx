@@ -19,7 +19,7 @@ import { useSession, signOut } from "next-auth/react";
 const NAV_ITEMS = [
   { name: "Overview", href: "/dashboard", icon: LayoutGrid, size: 20 },
   { name: "History", href: "/dashboard/history", icon: History, size: 20 },
-  { name: "Brain Games", href: "/dashboard/games", icon: Gamepad2, size: 20 },
+  { name: "Neural Training", href: "/dashboard/games", icon: Gamepad2, size: 20 },
 ] as const;
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -155,10 +155,18 @@ const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
                 />
                 <span>{item.name}</span>
                 {isActive && (
-                  <motion.div
-                    layoutId="activeNav"
-                    className="absolute left-0 w-[2px] h-6 bg-[#8B0000] shadow-[0_0_10px_#8B0000]"
-                  />
+                  <>
+                    <motion.div
+                      layoutId="activeNav"
+                      className="absolute left-0 w-[2px] h-6 bg-[#8B0000] shadow-[0_0_10px_#8B0000]"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#8B0000]/5 to-transparent pointer-events-none" />
+                    <motion.div
+                      className="absolute left-0 top-0 w-full h-[1px] bg-[#8B0000]/20"
+                      animate={{ top: ['0%', '100%', '0%'] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                    />
+                  </>
                 )}
               </Link>
             );

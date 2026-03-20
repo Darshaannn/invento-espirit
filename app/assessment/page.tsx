@@ -121,9 +121,9 @@ export default function Assessment() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-[#0F0A1F] flex items-center justify-center">
+            <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
                 <div className="text-center">
-                    <div className="w-12 h-12 border-4 border-[#9D50FF]/20 border-t-[#9D50FF] animate-spin mx-auto mb-4" />
+                    <div className="w-12 h-12 border-4 border-[#8B0000]/20 border-t-[#8B0000] animate-spin mx-auto mb-4" />
                     <p className="text-white/40 font-black uppercase tracking-widest text-[10px]">Loading Assessment...</p>
                 </div>
             </div>
@@ -132,10 +132,10 @@ export default function Assessment() {
 
     if (questions.length === 0) {
         return (
-            <div className="min-h-screen bg-[#0F0A1F] flex items-center justify-center">
+            <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
                 <div className="text-center">
                     <p className="text-white/60 mb-6">Could not load questions. Please try again.</p>
-                    <Link href="/screening" className="bg-[#9D50FF] text-white px-8 py-3 font-bold">Go Back</Link>
+                    <Link href="/screening" className="bg-[#8B0000] text-white px-8 py-3 font-bold">Go Back</Link>
                 </div>
             </div>
         );
@@ -145,14 +145,14 @@ export default function Assessment() {
     const progress = ((currentIdx + 1) / questions.length) * 100;
 
     return (
-        <div className="min-h-screen bg-[#0F0A1F] text-white flex flex-col font-sans selection:bg-[#9D50FF] selection:text-white relative overflow-hidden">
+        <div className="min-h-screen bg-[#0A0A0A] text-white flex flex-col font-sans selection:bg-[#8B0000] selection:text-white relative overflow-hidden">
             {/* Background radial gradient */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#2a1b55] filter blur-[150px] opacity-20 pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#8B0000]/10 filter blur-[150px] opacity-20 pointer-events-none" />
 
             {/* HEADER */}
             <header className="flex justify-between items-center px-8 py-6 relative z-10">
                 <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-[#9D50FF] flex items-center justify-center">
+                    <div className="w-8 h-8 bg-[#8B0000] flex items-center justify-center">
                         <Brain size={18} className="text-white" />
                     </div>
                     <span className="font-bold text-lg tracking-wide">Invento Assessment</span>
@@ -170,7 +170,7 @@ export default function Assessment() {
             {/* PROGRESS BAR */}
             <div className="w-full h-0.5 bg-white/5 relative z-10">
                 <motion.div
-                    className="h-full bg-[#9D50FF]"
+                    className="h-full bg-[#8B0000]"
                     animate={{ width: `${progress}%` }}
                     transition={{ duration: 0.5 }}
                 />
@@ -178,11 +178,11 @@ export default function Assessment() {
 
             {/* MAIN CONTENT */}
             <main className="flex-1 flex items-center justify-center p-6 relative z-10">
-                <div className="w-full max-w-4xl bg-[#130D26]/80 backdrop-blur-xl border border-white/10 p-10 md:p-14 shadow-2xl relative">
+                <div className="w-full max-w-4xl bg-[#1A1A1A]/80 backdrop-blur-xl border border-white/10 p-10 md:p-14 shadow-2xl relative">
                     {/* Question Header */}
                     <div className="flex justify-between items-start mb-8">
                         <div>
-                            <h2 className="text-[#9D50FF] text-xs font-bold uppercase tracking-widest mb-1">
+                            <h2 className="text-[#8B0000] text-xs font-bold uppercase tracking-widest mb-1">
                                 Question {currentIdx + 1} of {questions.length}
                             </h2>
                             <p className="text-gray-400 text-sm">{q.domain}</p>
@@ -190,7 +190,7 @@ export default function Assessment() {
                         <div className="relative w-10 h-10 flex items-center justify-center">
                             <svg className="w-full h-full -rotate-90" viewBox="0 0 36 36">
                                 <path className="text-[#1A142E]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="2.5" />
-                                <path className="text-[#9D50FF]" strokeDasharray={`${progress}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="2.5" />
+                                <path className="text-[#8B0000]" strokeDasharray={`${progress}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="2.5" />
                             </svg>
                             <span className="absolute text-[9px] font-bold">{Math.round(progress)}%</span>
                         </div>
@@ -221,11 +221,11 @@ export default function Assessment() {
                                 key={i}
                                 onClick={() => setSelectedOption(opt)}
                                 className={`p-4 border-2 text-left font-medium transition-all duration-200 flex items-center gap-3 ${selectedOption === opt
-                                    ? 'bg-[#5B21B6]/20 border-[#9D50FF] shadow-[0_0_20px_rgba(157,80,255,0.3)]'
-                                    : 'bg-[#1A142E] border-white/5 hover:bg-[#251B3D] text-gray-300'
+                                    ? 'bg-[#8B0000]/10 border-[#8B0000] shadow-[0_0_20px_rgba(139,0,0,0.3)]'
+                                    : 'bg-white/5 border-white/5 hover:bg-white/10 text-gray-300'
                                     }`}
                             >
-                                <span className={`w-6 h-6 flex items-center justify-center text-xs font-bold border shrink-0 ${selectedOption === opt ? 'border-[#9D50FF] text-[#9D50FF] bg-[#9D50FF]/10' : 'border-white/10 text-gray-500'
+                                <span className={`w-6 h-6 flex items-center justify-center text-xs font-bold border shrink-0 ${selectedOption === opt ? 'border-[#8B0000] text-[#8B0000] bg-[#8B0000]/10' : 'border-white/10 text-gray-500'
                                     }`}>
                                     {selectedOption === opt ? <CheckCircle2 size={14} /> : String.fromCharCode(65 + i)}
                                 </span>
@@ -253,8 +253,8 @@ export default function Assessment() {
                             onClick={handleNext}
                             disabled={!selectedOption}
                             className={`px-8 py-3 font-bold shadow-lg transition-all ${selectedOption
-                                ? 'bg-[#9D50FF] text-white hover:bg-[#8338ec] hover:scale-105 active:scale-95 shadow-[#9D50FF]/25'
-                                : 'bg-[#9D50FF]/20 text-white/30 cursor-not-allowed'
+                                ? 'bg-[#8B0000] text-white hover:bg-red-700 hover:scale-105 active:scale-95 shadow-red-900/25'
+                                : 'bg-[#8B0000]/20 text-white/30 cursor-not-allowed'
                                 }`}
                         >
                             {currentIdx === questions.length - 1 ? 'Submit Assessment' : 'Next Question →'}
@@ -269,7 +269,7 @@ export default function Assessment() {
                     {questions.map((_, i) => (
                         <div
                             key={i}
-                            className={`transition-all duration-300 ${i === currentIdx ? 'w-4 h-1.5 bg-[#9D50FF]' : i < currentIdx ? 'w-1.5 h-1.5 bg-white/40' : 'w-1.5 h-1.5 bg-white/10'
+                            className={`transition-all duration-300 ${i === currentIdx ? 'w-4 h-1.5 bg-[#8B0000]' : i < currentIdx ? 'w-1.5 h-1.5 bg-white/40' : 'w-1.5 h-1.5 bg-white/10'
                                 }`}
                         />
                     ))}

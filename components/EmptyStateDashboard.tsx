@@ -60,7 +60,7 @@ const EmptyStateDashboard = memo(function EmptyStateDashboard() {
           </h1>
 
           <p className="text-white/40 text-xl font-medium max-w-2xl mx-auto mb-16 leading-relaxed italic border-l-2 border-[#8B0000]/20 pl-8 text-left">
-            Personalized AI-driven neurological baselining. Join over{" "}
+            Precision neurological baselining and diagnostic measurement. Join over{" "}
             <span className="text-white font-black italic">12,400+ patients</span> who
             trust our clinical sync for early detection.
           </p>
@@ -89,9 +89,9 @@ const EmptyStateDashboard = memo(function EmptyStateDashboard() {
             {STATS.map(({ value, label, Icon, color }) => (
               <div
                 key={label}
-                className="bg-white/5 p-8 border border-white/10 text-center backdrop-blur-md shadow-2xl relative overflow-hidden"
+                className="bg-white/5 p-8 border border-white/10 text-center backdrop-blur-md shadow-2xl relative overflow-hidden group hover:bg-white/[0.07] hover:-translate-y-2 transition-all duration-500"
               >
-                <div className="absolute top-0 left-0 w-full h-1 bg-[#8B0000]/20" />
+                <div className="absolute top-0 left-0 w-full h-1 bg-[#8B0000]/20 group-hover:bg-[#8B0000] transition-colors" />
                 <div className="flex justify-center mb-4">
                   <Icon className={color} size={24} aria-hidden />
                 </div>

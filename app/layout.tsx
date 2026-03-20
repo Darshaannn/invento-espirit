@@ -12,7 +12,7 @@
 import "./globals.css";
 import React from "react";
 import type { Metadata, Viewport } from "next";
-import { Outfit, Fraunces } from "next/font/google";
+import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import { AuthProvider } from "@/components/AuthProvider";
 
 // Primary UI font — replaces the CSS @import for Outfit+Plus Jakarta Sans
@@ -24,36 +24,35 @@ const outfit = Outfit({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-// Display / serif font used in headings
-const fraunces = Fraunces({
+// Display font for headers
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-jakarta",
   display: "swap",
   preload: true,
-  weight: ["700", "900"],
+  weight: ["700", "800"],
 });
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 export const metadata: Metadata = {
   title: {
-    default: "Invento | AI Cognitive Screening",
+    default: "Invento | Clinical Cognitive Screening",
     template: "%s | Invento",
   },
   description:
-    "Detect early signs of dementia risk through advanced AI-powered cognitive screenings. Trustworthy, secure, and clinically informed.",
+    "Detect early signs of cognitive decline through precision diagnostic screenings. Trusted repository for neural health tracking.",
   keywords: [
     "cognitive screening",
-    "dementia detection",
-    "memory test",
-    "AI health",
-    "Alzheimer screening",
+    "memory assessment",
+    "clinical health",
+    "neural tracking",
     "cognitive decline",
   ],
   authors: [{ name: "Invento Medical" }],
   openGraph: {
-    title: "Invento — AI Cognitive Screening",
+    title: "Invento — Precision Cognitive Screening",
     description:
-      "A 5-minute AI cognitive assessment for early dementia detection.",
+      "A 5-minute clinical assessment for neural health monitoring.",
     url: "https://invento-espirit-wp8m.vercel.app",
     siteName: "Invento",
     type: "website",
@@ -77,14 +76,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${outfit.variable} ${fraunces.variable}`}
+      className={`${outfit.variable} ${jakarta.variable}`}
       suppressHydrationWarning
     >
       <head>
         {/* Prefetch MongoDB Atlas DNS — shaves ~50-150ms off first API call */}
         <link rel="dns-prefetch" href="//cluster0.p0vt4ii.mongodb.net" />
-        {/* Prefetch Gemini API */}
-        <link rel="dns-prefetch" href="//generativelanguage.googleapis.com" />
       </head>
       <body className="antialiased font-sans">
         <AuthProvider>{children}</AuthProvider>

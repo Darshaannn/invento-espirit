@@ -18,7 +18,7 @@
 @theme {
   /* Font variables injected by next/font in layout.tsx — no @import needed */
   --font-sans: var(--font-outfit), 'Inter', system-ui, sans-serif;
-  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-display: var(--font-jakarta), 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
@@ -59,7 +59,8 @@ body {
     radial-gradient(circle at 100% 100%, rgba(255, 77, 77, 0.05) 0%, transparent 40%);
   filter: blur(80px);
   will-change: transform;
-  transform: translateZ(0); /* Force GPU composite */
+  transform: translateZ(0);
+  /* Force GPU composite */
 }
 
 /* ─── Premium Buttons ───────────────────────────────────────────────────────── */
@@ -108,8 +109,15 @@ body {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-10px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .skeleton {
@@ -119,15 +127,28 @@ body {
 }
 
 @keyframes skeleton-pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }
 
-/* ─── Chart Specific ───────────────────────────────────────────────────────── */
-.glass-chart {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+/* ─── Scroll Effects ────────────────────────────────────────────────────────── */
+.reveal-on-scroll {
+  @apply opacity-0 translate-y-10 transition-all duration-1000;
+}
+
+.reveal-on-scroll.visible {
+  @apply opacity-100 translate-y-0;
+}
+
+.hover-lift {
+  @apply transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl;
 }
 
 /* ─── Print Protocol ────────────────────────────────────────────────────────── */
@@ -144,11 +165,14 @@ body {
     print-color-adjust: exact !important;
   }
 
-  nav, button, .ambient-bg {
+  nav,
+  button,
+  .ambient-bg {
     display: none !important;
   }
 
-  .glass-1, .glass-2 {
+  .glass-1,
+  .glass-2 {
     background: white !important;
     border: 1px solid #ddd !important;
     backdrop-filter: none !important;
