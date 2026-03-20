@@ -48,26 +48,49 @@ export default function LandingPage() {
       />
 
       {/* ── Navigation ─────────────────────────────────────────────────── */}
-      <nav className="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center max-w-7xl mx-auto">
-        <Link href="/" className="flex items-center gap-3 group">
-          <Logo size={40} showText={true} />
-        </Link>
+      <nav id="main-nav" className="fixed top-0 w-full z-50 transition-all duration-500 border-b border-transparent">
+        <div className="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center group/nav">
+          <Link href="/" className="flex items-center gap-3 group transition-transform duration-300 hover:scale-[1.02]">
+            <Logo size={42} showText={true} />
+          </Link>
 
-        <div className="hidden md:flex items-center gap-8 text-sm font-bold uppercase tracking-widest text-white/40">
-          <Link href="/dashboard" className="hover:text-white/90 transition-colors">
-            Dashboard
-          </Link>
-          <Link href="/assessment" className="hover:text-white/90 transition-colors">
-            Assessment
-          </Link>
-          <Link
-            href="/login"
-            className="px-6 py-2 border border-white/10 hover:bg-white/5 transition-all text-white flex items-center justify-center font-bold"
-          >
-            Login
-          </Link>
+          <div className="hidden md:flex items-center gap-10">
+            {['Dashboard', 'Assessment', 'Clinical Protocol'].map((item) => (
+              <Link 
+                key={item}
+                href={`/${item.toLowerCase().replace(' ', '-')}`} 
+                className="text-[11px] font-black uppercase tracking-[0.2em] text-white/40 hover:text-white transition-all relative group/link"
+              >
+                {item}
+                <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-gradient-to-r from-purple-500 to-cyan-500 group-hover/link:w-full transition-all duration-300" />
+              </Link>
+            ))}
+            
+            <Link
+              href="/login"
+              className="ml-4 px-8 py-2.5 bg-white text-black text-[11px] font-black uppercase tracking-widest hover:bg-transparent hover:text-white border border-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-white/20"
+            >
+              Access Portal
+            </Link>
+          </div>
         </div>
       </nav>
+
+      {/* Script to handle scroll effect (inline since we are in a client component but want simple logic) */}
+      <script dangerouslySetInnerHTML={{ __html: `
+        window.addEventListener('scroll', () => {
+          const nav = document.getElementById('main-nav');
+          if (window.scrollY > 50) {
+            nav.classList.add('bg-black/60', 'backdrop-blur-xl', 'py-1', 'border-white/5');
+            nav.querySelector('.max-w-7xl').classList.remove('py-4');
+            nav.querySelector('.max-w-7xl').classList.add('py-2');
+          } else {
+            nav.classList.remove('bg-black/60', 'backdrop-blur-xl', 'py-1', 'border-white/5');
+            nav.querySelector('.max-w-7xl').classList.add('py-4');
+            nav.querySelector('.max-w-7xl').classList.remove('py-2');
+          }
+        });
+      `}} />
 
       {/* ── Hero ───────────────────────────────────────────────────────── */}
       {/* HeroAnimations wraps the motion divs; if JS hasn't loaded yet,     */}
