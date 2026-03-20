@@ -9,7 +9,8 @@
 
 import React, { useState, useCallback, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { LayoutGrid, History, Gamepad2, Settings, Brain } from "lucide-react";
+import { LayoutGrid, History, Gamepad2, Settings } from "lucide-react";
+import { Logo } from "./Logo";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -121,11 +122,8 @@ const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
         aria-label="Sidebar navigation"
       >
         {/* ── Brand ─────────────────────────────────────────────────── */}
-        <div className="flex items-center gap-3 px-6 py-8">
-          <div className="w-8 h-8 bg-[#8B0000] flex items-center justify-center shadow-[0_0_15px_rgba(139,0,0,0.3)]">
-            <Brain size={18} className="text-white" aria-hidden />
-          </div>
-          <h1 className="font-black text-xs tracking-[0.3em] text-white/90 uppercase italic">Invento</h1>
+        <div className="px-6 py-8">
+          <Logo size={32} showText={true} />
         </div>
 
         {/* ── Nav ────────────────────────────────────────────────────── */}
