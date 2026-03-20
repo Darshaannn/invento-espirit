@@ -23,6 +23,7 @@ const ScreeningPage = () => {
     const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
     const [instructionTimer, setInstructionTimer] = useState<number | null>(null);
     const [isShowingIntake, setIsShowingIntake] = useState(true);
+    const [activeProfile, setActiveProfile] = useState<string>('');
     const [intakeData, setIntakeData] = useState({
         age: '',
         gender: '',
@@ -99,7 +100,12 @@ const ScreeningPage = () => {
     const fetchQuestions = async (data?: any) => {
         setLoading(true);
         try {
-            const queryParams = data ? `?age=${data.age}&symptoms=${data.symptoms.join(',')}` : '';
+            // Build encoded params — symptoms are space-separated keywords, encode the whole string
+            const ageParam = data?.age ? encodeURIComponent(data.age) : 'adult';
+            const symptomsParam = data?.symptoms?.length
+                ? encodeURIComponent(data.symptoms.join(' '))
+                : '';
+            const queryParams = `?age=${ageParam}&symptoms=${symptomsParam}`;
             const res = await fetch(`/api/questions${queryParams}`);
 
             if (!res.ok) {
@@ -109,6 +115,10 @@ const ScreeningPage = () => {
             }
 
             const selected = await res.json();
+            // Capture the active profile from response header
+            const profile = res.headers.get('X-Assessment-Profile') || '';
+            setActiveProfile(profile);
+
             if (selected.length > 0) {
                 setQuestions(selected);
                 setLoading(false);
@@ -117,7 +127,7 @@ const ScreeningPage = () => {
                 const firstQ = selected[0];
                 const isInst = firstQ.question.toLowerCase().startsWith('instruction') ||
                     firstQ.subType === 'instruction' ||
-                    firstQ.question.toLowerCase().includes('remember');
+                    firstQ.type === 'instruction';
 
                 setIsShowingInstruction(isInst);
             } else {
@@ -360,11 +370,11 @@ const ScreeningPage = () => {
                                     onChange={(e) => setIntakeData({ ...intakeData, age: e.target.value })}
                                 >
                                     <option value="">Select Age</option>
-                                    <option value="18-35">18-35</option>
-                                    <option value="36-50">36-50</option>
-                                    <option value="51-65">51-65</option>
-                                    <option value="66-80">66-80</option>
-                                    <option value="80+">80+</option>
+                                    <option value="child">Under 18 (Youth)</option>
+                                    <option value="18-35">18 – 35 (Young Adult)</option>
+                                    <option value="36-50">36 – 50 (Adult)</option>
+                                    <option value="51-65">51 – 65 (Mid Senior)</option>
+                                    <option value="senior">66+ (Senior)</option>
                                 </select>
                             </div>
 
@@ -390,10 +400,12 @@ const ScreeningPage = () => {
                                 <label className="text-[10px] font-black uppercase tracking-widest text-[#1A1A1A]/40 block ml-2">Current Symptoms (Select all that apply)</label>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     {[
-                                        { id: 'memory', label: 'Recent Memory Loss' },
-                                        { id: 'confusion', label: 'Confusion with Time/Place' },
-                                        { id: 'language', label: 'Difficulty Finding Words' },
-                                        { id: 'judgment', label: 'Poor or Decreased Judgment' }
+                                        { id: 'memory forgetful', label: 'Recent Memory Loss' },
+                                        { id: 'confusion disoriented time place', label: 'Confusion with Time or Place' },
+                                        { id: 'focus distracted attention', label: 'Poor Focus or Concentration' },
+                                        { id: 'reasoning planning executive', label: 'Difficulty Planning or Reasoning' },
+                                        { id: 'language words recall', label: 'Difficulty Finding Words' },
+                                        { id: 'judgment reasoning', label: 'Poor Judgment or Decisions' }
                                     ].map(s => (
                                         <button
                                             key={s.id}
@@ -450,9 +462,26 @@ const ScreeningPage = () => {
         <div className="min-h-screen bg-[#F5F1EE] text-[#1A1A1A] flex flex-col items-center p-6 md:p-12 relative font-sans scroll-smooth">
             <div className="max-w-[1400px] w-full flex flex-col relative z-10">
 
-
                 {/* CENTERED FOCUS LAYOUT */}
                 <div className="flex-1 flex flex-col items-center justify-center min-h-0 py-8">
+                    {/* Profile badge + domain tag strip */}
+                    <div className="max-w-4xl w-full flex items-center justify-between mb-4 px-1">
+                        <div className="flex items-center gap-3">
+                            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-black/20">Domain</span>
+                            <div className={`px-3 py-1 bg-gradient-to-r ${gradientClass} text-white text-[9px] font-black uppercase tracking-widest`}>
+                                {q.domain}
+                            </div>
+                        </div>
+                        {activeProfile && (
+                            <div className="flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 bg-[#8B0000] rounded-full animate-pulse" />
+                                <span className="text-[9px] font-black uppercase tracking-[0.25em] text-black/40">
+                                    {activeProfile} Protocol
+                                </span>
+                            </div>
+                        )}
+                    </div>
+
                     {/* CENTERED QUESTIONS CONTAINER */}
                     <div className="max-w-4xl w-full flex flex-col">
                         <AnimatePresence mode="wait">
