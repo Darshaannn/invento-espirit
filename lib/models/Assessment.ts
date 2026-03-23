@@ -23,11 +23,17 @@ export interface IAssessment extends Document {
         Orientation: number;
     };
     overallScore: number;
+    mocaEquivalent?: number;
+    mmseEquivalent?: number;
+    aceIII?: number;
+    miniCog?: number;
+    sage?: number;
+    impairmentLevel?: "none" | "mild" | "moderate" | "severe";
     riskTier: "low" | "moderate" | "high";
     aiInsights: string;
     recommendations: string[];
     followUpAdvised: boolean;
-    totalTimeMs: number;
+    totalTimeSec: number;
     completedAt: Date;
 }
 
@@ -59,11 +65,17 @@ const AssessmentSchema = new Schema<IAssessment>(
         },
 
         overallScore: { type: Number, required: true, min: 0, max: 100 },
+        mocaEquivalent: { type: Number, min: 0, max: 30 },
+        mmseEquivalent: { type: Number, min: 0, max: 30 },
+        aceIII: { type: Number, min: 0, max: 100 },
+        miniCog: { type: Number, min: 0, max: 5 },
+        sage: { type: Number, min: 0, max: 22 },
+        impairmentLevel: { type: String, enum: ["none", "mild", "moderate", "severe"] },
         riskTier: { type: String, enum: ["low", "moderate", "high"], required: true },
         aiInsights: { type: String, default: "" },
         recommendations: [{ type: String }],
         followUpAdvised: { type: Boolean, default: false },
-        totalTimeMs: { type: Number, default: 0 },
+        totalTimeSec: { type: Number, default: 0 },
         completedAt: { type: Date, default: Date.now },
     },
     {

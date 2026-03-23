@@ -34,7 +34,7 @@ This file gives AI assistants full context about the project so they can help im
 ## Project Structure
 
 ```
-c:/Darshan/Innvento/          ← REPOSITORY ROOT (and Next.js root)
+c:/Darshan/Innvento/          ← REPOSITORY ROOT
 ├── app/                      ← Next.js App Router pages & API routes
 │   ├── page.tsx              ← Landing page (public homepage)
 │   ├── layout.tsx            ← Root layout (SessionProvider wrapper)
@@ -47,8 +47,8 @@ c:/Darshan/Innvento/          ← REPOSITORY ROOT (and Next.js root)
 │   │   └── dashboard/
 │   │       ├── page.tsx      ← Main dashboard (scores, chart, domain breakdown)
 │   │       ├── history/page.tsx ← Test history list
-│   │       └── games/page.tsx   ← Brain games (upcoming feature placeholder)
-│   └── api/                  ← All API routes (ALL have export const dynamic = 'force-dynamic')
+│   │       └── games/page.tsx   ← Brain games (Word Recall, Number Span, etc.)
+│   └── api/                  ← All API routes
 │       ├── auth/[...nextauth]/route.ts   ← Auth.js handler
 │       ├── assessments/route.ts          ← GET all assessments (history)
 │       ├── assessments/latest/route.ts   ← GET most recent assessment
@@ -59,39 +59,25 @@ c:/Darshan/Innvento/          ← REPOSITORY ROOT (and Next.js root)
 │       └── seed-questions/route.ts       ← Seed questions into DB (dev only)
 │
 ├── components/               ← Shared React components
-│   ├── Sidebar.tsx           ← Dashboard sidebar with nav + profile + settings
+│   ├── Sidebar.tsx           ← Dashboard sidebar
 │   ├── DashboardLayout.tsx   ← Wraps dashboard pages with sidebar
-│   └── EmptyStateDashboard.tsx ← Shown when user has no test history
+│   ├── EmptyStateDashboard.tsx ← Shown when user has no test history
+│   └── ui/                   ← Specific UI components
+│       ├── mesh-background.tsx ← Smooth shader background
+│       └── hero-section-with-smooth-bg-shader.tsx ← Reference hero component
 │
 ├── lib/                      ← Core utilities and shared logic
-│   ├── auth.ts               ← Auth.js config (credentials provider, MongoDB adapter)
-│   ├── dbConnect.ts          ← Mongoose connection cache (prevents re-connections)
-│   ├── models/
-│   │   ├── Assessment.ts     ← Mongoose schema for assessment results
-│   │   └── User.ts           ← Mongoose schema for users
-│   ├── services/
-│   │   └── gemini.ts         ← Google Gemini AI integration for cognitive analysis
-│   └── utils/
-│       └── export.ts         ← PDF export helper (html2canvas + jsPDF)
+│   ├── auth.ts               ← Auth.js config
+│   ├── dbConnect.ts          ← Mongoose connection singleton
+│   ├── models/               ← Mongoose schemas
+│   ├── services/             ← External services (AI/Gemini)
+│   └── utils/                ← Helper functions
 │
-├── data/                     ← Static question bank
-│   └── questions.json        ← 30 cognitive screening questions (Memory, Attention, Executive, Orientation)
-│
+├── data/                     ← Question bank (JSON)
 ├── hooks/                    ← Custom React hooks
-│   └── useAssessment.ts      ← Manages assessment state across the screening flow
-│
 ├── public/                   ← Static assets
-│   ├── hero-brain.png
-│   └── vibrant_health_lifestyle.png
-│
-├── backend/                  ← Python scripts (NOT deployed, local data tools only)
-│   └── (Python data processing scripts)
-│
-├── backend/                  ← Python ML/data utils (not deployed to Vercel)
-├── expand_questions.py       ← Python script to expand question bank
-├── questions_output.json     ← Output from expand_questions.py
-├── .env.local                ← Local secrets (NEVER commit)
-├── next.config.ts            ← Next.js config (ESLint + TS errors ignored during build)
+├── .env.local                ← Local secrets
+├── next.config.ts            ← Next.js config
 ├── CLAUDE.md                 ← This file
 └── package.json
 ```

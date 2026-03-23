@@ -12,7 +12,7 @@ export default function Instructions() {
                     <div className="w-8 h-8 bg-[#8B0000] flex items-center justify-center">
                         <div className="w-4 h-4 bg-white rotate-12" />
                     </div>
-                    <span className="font-bold text-xl tracking-wider uppercase tracking-[0.2em] text-[#1A1A1A]">Invento.</span>
+                    <span className="font-light text-xl tracking-wider uppercase tracking-[0.2em] text-[#1A1A1A]">Invento.</span>
                 </div>
                 <div className="flex gap-4">
                     <button className="p-2 bg-black/5 hover:bg-black/10 transition-colors">
@@ -30,32 +30,32 @@ export default function Instructions() {
 
                     <div className="flex justify-between items-start mb-10 relative z-10">
                         <div>
-                            <h1 className="text-4xl font-black mb-2 tracking-tighter text-[#1A1A1A]">Cognitive Screening Protocol</h1>
+                            <h1 className="text-4xl font-light mb-2 tracking-tighter text-[#1A1A1A]">Cognitive Screening Protocol</h1>
                             <p className="text-[#1A1A1A]/50 font-medium italic">Clinical-grade behavioral assessment and mental baseline mapping.</p>
                         </div>
-                        <div className="flex items-center gap-2 bg-[#8B0000]/5 px-4 py-2 text-xs font-bold tracking-wide text-[#8B0000] border border-[#8B0000]/10">
+                        <div className="flex items-center gap-2 bg-[#8B0000]/5 px-4 py-2 text-xs font-light tracking-wide text-[#8B0000] border border-[#8B0000]/10">
                             <Clock size={14} /> ~5 MINS
                         </div>
                     </div>
 
                     {/* DETAILS CARD */}
                     <div className="bg-[#F5F1EE] border border-[#1A1A1A]/5 p-8 mb-10 relative z-10">
-                        <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#1A1A1A]/40 mb-6">Assessment Blueprint</h3>
+                        <h3 className="text-[10px] font-light uppercase tracking-[0.4em] text-[#1A1A1A]/40 mb-6">Assessment Blueprint</h3>
                         <div className="grid grid-cols-2 gap-6">
                             <div className="space-y-1">
-                                <p className="text-3xl font-black tracking-tighter text-[#1A1A1A]">25</p>
-                                <p className="text-[9px] font-bold text-[#1A1A1A]/40 uppercase tracking-widest">Questions</p>
+                                <p className="text-3xl font-light tracking-tighter text-[#1A1A1A]">25</p>
+                                <p className="text-[9px] font-light text-[#1A1A1A]/40 uppercase tracking-widest">Questions</p>
                             </div>
                             <div className="space-y-1">
-                                <p className="text-3xl font-black tracking-tighter text-[#1A1A1A]">4</p>
-                                <p className="text-[9px] font-bold text-[#1A1A1A]/40 uppercase tracking-widest">Core Domains</p>
+                                <p className="text-3xl font-light tracking-tighter text-[#1A1A1A]">4</p>
+                                <p className="text-[9px] font-light text-[#1A1A1A]/40 uppercase tracking-widest">Core Domains</p>
                             </div>
                         </div>
                         <div className="mt-8 pt-8 border-t border-[#1A1A1A]/5 grid grid-cols-2 gap-y-4">
                             {['Memory', 'Attention', 'Executive Function', 'Orientation'].map((domain) => (
                                 <div key={domain} className="flex items-center gap-3">
                                     <div className="w-1.5 h-1.5 bg-[#8B0000]" />
-                                    <span className="text-xs font-bold text-[#1A1A1A]/60">{domain}</span>
+                                    <span className="text-xs font-light text-[#1A1A1A]/60">{domain}</span>
                                 </div>
                             ))}
                         </div>
@@ -68,14 +68,14 @@ export default function Instructions() {
                                 <Activity size={20} className="text-[#8B0000]" />
                             </div>
                             <div>
-                                <h4 className="font-bold text-lg leading-none mb-1 text-[#1A1A1A]">Diagnostic Analysis.</h4>
+                                <h4 className="font-light text-lg leading-none mb-1 text-[#1A1A1A]">Diagnostic Analysis.</h4>
                                 <p className="text-[#1A1A1A]/50 text-sm leading-relaxed italic">Our system analyzes accuracy, response latency, and decision-making patterns to evaluate cognitive consistency.</p>
                             </div>
                         </div>
                     </div>
 
                     {/* CTA */}
-                    <Link href="/screening" className="w-full group bg-[#1A1A1A] p-6 flex items-center justify-center gap-4 font-black uppercase tracking-widest text-sm text-white shadow-xl hover:bg-black hover:scale-[1.02] active:scale-[0.98] transition-all">
+                    <Link href="/screening" className="w-full group bg-[#1A1A1A] p-6 flex items-center justify-center gap-4 font-light uppercase tracking-widest text-sm text-white shadow-xl hover:bg-black hover:scale-[1.02] active:scale-[0.98] transition-all">
                         Start Screening Assessment <ArrowRight className="group-hover:translate-x-1 transition-transform" />
                     </Link>
 
@@ -92,7 +92,7 @@ export default function Instructions() {
             </main>
 
             {/* FOOTER */}
-            <footer className="py-6 text-center text-[10px] text-[#1A1A1A]/30 uppercase tracking-widest font-bold">
+            <footer className="py-6 text-center text-[10px] text-[#1A1A1A]/30 uppercase tracking-widest font-light">
                 © 2026 Invento Espirit. Clinical Diagnostic Protocol V2.5
             </footer>
 

@@ -12,7 +12,7 @@
 import "./globals.css";
 import React from "react";
 import type { Metadata, Viewport } from "next";
-import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { Outfit, Oswald } from "next/font/google";
 import { AuthProvider } from "@/components/AuthProvider";
 
 // Primary UI font — replaces the CSS @import for Outfit+Plus Jakarta Sans
@@ -25,12 +25,12 @@ const outfit = Outfit({
 });
 
 // Display font for headers
-const jakarta = Plus_Jakarta_Sans({
+const oswald = Oswald({
   subsets: ["latin"],
-  variable: "--font-jakarta",
+  variable: "--font-oswald",
   display: "swap",
   preload: true,
-  weight: ["700", "800"],
+  weight: ["300", "400", "500", "600", "700"], // Including 300 specifically
 });
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -84,7 +84,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${outfit.variable} ${jakarta.variable}`}
+      className={`${outfit.variable} ${oswald.variable}`}
       suppressHydrationWarning
     >
       <head>

@@ -77,8 +77,8 @@ export const Logo = ({ size = 32, showText = false, className = "" }) => {
 
             {showText && (
                 <div className="flex flex-col">
-                    <span className="font-black text-2xl tracking-tighter uppercase text-white leading-none">Invento</span>
-                    <span className="text-[7px] font-black tracking-[0.3em] uppercase text-white/40 leading-none mt-1">Invento Esprit <span className="text-purple-500">Gen-Z</span></span>
+                    <span className="font-light text-2xl tracking-tighter uppercase text-white leading-none">Invento</span>
+                    <span className="text-[7px] font-light tracking-[0.3em] uppercase text-white/40 leading-none mt-1">Invento Esprit <span className="text-purple-500">Gen-Z</span></span>
                 </div>
             )}
         </div>

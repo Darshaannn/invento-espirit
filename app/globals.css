@@ -18,7 +18,7 @@
 @theme {
   /* Font variables injected by next/font in layout.tsx — no @import needed */
   --font-sans: var(--font-outfit), 'Inter', system-ui, sans-serif;
-  --font-display: var(--font-jakarta), 'Inter', system-ui, sans-serif;
+  --font-display: var(--font-oswald), 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 }
 
@@ -31,6 +31,17 @@ body {
   margin: 0;
   scrollbar-gutter: stable;
   -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.01em;
 }
 
 /* ─── Glassmorphism ─────────────────────────────────────────────────────────── */

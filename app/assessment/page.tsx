@@ -124,7 +124,7 @@ export default function Assessment() {
             <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
                 <div className="text-center">
                     <div className="w-12 h-12 border-4 border-[#8B0000]/20 border-t-[#8B0000] animate-spin mx-auto mb-4" />
-                    <p className="text-white/40 font-black uppercase tracking-widest text-[10px]">Loading Assessment...</p>
+                    <p className="text-white/40 font-light uppercase tracking-widest text-[10px]">Loading Assessment...</p>
                 </div>
             </div>
         );
@@ -135,7 +135,7 @@ export default function Assessment() {
             <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center">
                 <div className="text-center">
                     <p className="text-white/60 mb-6">Could not load questions. Please try again.</p>
-                    <Link href="/screening" className="bg-[#8B0000] text-white px-8 py-3 font-bold">Go Back</Link>
+                    <Link href="/screening" className="bg-[#8B0000] text-white px-8 py-3 font-light">Go Back</Link>
                 </div>
             </div>
         );
@@ -155,12 +155,12 @@ export default function Assessment() {
                     <div className="w-8 h-8 bg-[#8B0000] flex items-center justify-center">
                         <Brain size={18} className="text-white" />
                     </div>
-                    <span className="font-bold text-lg tracking-wide">Invento Assessment</span>
+                    <span className="font-light text-lg tracking-wide">Invento Assessment</span>
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <div className={`px-4 py-2 border flex items-center gap-2 text-sm font-bold transition-all ${timerBorder} ${timeLeft <= 5 ? 'animate-pulse' : ''}`}>
-                        <span className={`text-xs font-black uppercase tracking-widest ${timerColor}`}>
+                    <div className={`px-4 py-2 border flex items-center gap-2 text-sm font-light transition-all ${timerBorder} ${timeLeft <= 5 ? 'animate-pulse' : ''}`}>
+                        <span className={`text-xs font-light uppercase tracking-widest ${timerColor}`}>
                             {String(Math.floor(timeLeft / 60)).padStart(2, '0')} : {String(timeLeft % 60).padStart(2, '0')}
                         </span>
                     </div>
@@ -182,7 +182,7 @@ export default function Assessment() {
                     {/* Question Header */}
                     <div className="flex justify-between items-start mb-8">
                         <div>
-                            <h2 className="text-[#8B0000] text-xs font-bold uppercase tracking-widest mb-1">
+                            <h2 className="text-[#8B0000] text-xs font-light uppercase tracking-widest mb-1">
                                 Question {currentIdx + 1} of {questions.length}
                             </h2>
                             <p className="text-gray-400 text-sm">{q.domain}</p>
@@ -192,12 +192,12 @@ export default function Assessment() {
                                 <path className="text-[#1A142E]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="2.5" />
                                 <path className="text-[#8B0000]" strokeDasharray={`${progress}, 100`} d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="2.5" />
                             </svg>
-                            <span className="absolute text-[9px] font-bold">{Math.round(progress)}%</span>
+                            <span className="absolute text-[9px] font-light">{Math.round(progress)}%</span>
                         </div>
                     </div>
 
                     {/* Timer hint */}
-                    <p className={`text-[10px] font-black uppercase tracking-widest mb-6 transition-colors ${timerColor}`}>
+                    <p className={`text-[10px] font-light uppercase tracking-widest mb-6 transition-colors ${timerColor}`}>
                         {timeLeft <= 5 ? '⚠️ Time almost up!' : timeLeft <= 10 ? '⏱ Less than 10 seconds remaining' : 'Time remaining for this question'}
                     </p>
 
@@ -208,7 +208,7 @@ export default function Assessment() {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
-                            className="text-2xl md:text-3xl font-bold text-center mb-12 leading-tight"
+                            className="text-2xl md:text-3xl font-light text-center mb-12 leading-tight"
                         >
                             {q.question}
                         </motion.h1>
@@ -225,7 +225,7 @@ export default function Assessment() {
                                     : 'bg-white/5 border-white/5 hover:bg-white/10 text-gray-300'
                                     }`}
                             >
-                                <span className={`w-6 h-6 flex items-center justify-center text-xs font-bold border shrink-0 ${selectedOption === opt ? 'border-[#8B0000] text-[#8B0000] bg-[#8B0000]/10' : 'border-white/10 text-gray-500'
+                                <span className={`w-6 h-6 flex items-center justify-center text-xs font-light border shrink-0 ${selectedOption === opt ? 'border-[#8B0000] text-[#8B0000] bg-[#8B0000]/10' : 'border-white/10 text-gray-500'
                                     }`}>
                                     {selectedOption === opt ? <CheckCircle2 size={14} /> : String.fromCharCode(65 + i)}
                                 </span>
@@ -252,7 +252,7 @@ export default function Assessment() {
                         <button
                             onClick={handleNext}
                             disabled={!selectedOption}
-                            className={`px-8 py-3 font-bold shadow-lg transition-all ${selectedOption
+                            className={`px-8 py-3 font-light shadow-lg transition-all ${selectedOption
                                 ? 'bg-[#8B0000] text-white hover:bg-red-700 hover:scale-105 active:scale-95 shadow-red-900/25'
                                 : 'bg-[#8B0000]/20 text-white/30 cursor-not-allowed'
                                 }`}

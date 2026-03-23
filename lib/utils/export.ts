@@ -8,9 +8,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 export interface ExportOptions {
-  elementId:  string;
-  filename?:  string;
-  darkBg?:    boolean; // set true if element has dark background
+  elementId: string;
+  filename?: string;
+  darkBg?: boolean; // set true if element has dark background
 }
 
 export async function exportToPDF({
@@ -22,31 +22,29 @@ export async function exportToPDF({
   if (!element) throw new Error(`Element #${elementId} not found`);
 
   // Dynamic import — loaded only when this function is called
-  const [{ default: jsPDF }, { default: html2canvas }] = await Promise.all([
+  // html-to-image is used instead of html2canvas to properly support Tailwind v4 oklab/oklch colors
+  const [{ default: jsPDF }, { toPng }] = await Promise.all([
     import("jspdf"),
-    import("html2canvas"),
+    import("html-to-image"),
   ]);
 
-  const canvas = await html2canvas(element, {
-    scale:           2,
-    useCORS:         true,
-    logging:         false,
+  const imgData = await toPng(element, {
+    pixelRatio: 2,
     backgroundColor: darkBg ? "#1A1A1A" : "#F5F1EE",
-    // Scroll to top of element before capturing
-    windowWidth:     element.scrollWidth,
-    windowHeight:    element.scrollHeight,
+    skipAutoScale: true,
   });
 
-  const imgData   = canvas.toDataURL("image/png");
-  const pdf       = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-  const pageW     = pdf.internal.pageSize.getWidth();
-  const pageH     = pdf.internal.pageSize.getHeight();
-  const margin    = 10; // mm
-  const imgW      = pageW - margin * 2;
-  const imgH      = (canvas.height * imgW) / canvas.width;
+  const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+  const pageW = pdf.internal.pageSize.getWidth();
+  const pageH = pdf.internal.pageSize.getHeight();
+  const margin = 10; // mm
+  const imgW = pageW - margin * 2;
 
-  let heightLeft  = imgH;
-  let yPosition   = margin;
+  // Calculate proportion based on DOM element size
+  const imgH = (element.scrollHeight * imgW) / element.scrollWidth;
+
+  let heightLeft = imgH;
+  let yPosition = margin;
   let isFirstPage = true;
 
   while (heightLeft > 0) {
@@ -54,9 +52,16 @@ export async function exportToPDF({
 
     pdf.addImage(imgData, "PNG", margin, yPosition, imgW, imgH);
     heightLeft -= pageH - margin * 2;
-    yPosition  = -(pageH - margin * 2 - margin) + (imgH - heightLeft);
+    yPosition = -(pageH - margin * 2 - margin) + (imgH - heightLeft);
     isFirstPage = false;
   }
 
   pdf.save(filename);
+}
+
+/**
+ * Simplified wrapper for the clinical report page
+ */
+export async function exportReportToPDF(elementId: string, filename: string): Promise<void> {
+  return exportToPDF({ elementId, filename, darkBg: false });
 }

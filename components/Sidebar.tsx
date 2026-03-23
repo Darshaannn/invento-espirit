@@ -42,13 +42,13 @@ const SettingsPopup = memo(function SettingsPopup({
   return (
     <div className="absolute bottom-full left-4 right-4 mb-3 bg-[#111111] border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl overflow-hidden z-50">
       <button
-        className="w-full text-left px-4 py-4 text-[10px] uppercase tracking-widest text-white/50 hover:bg-white/5 hover:text-white/90 transition-colors border-b border-white/5 font-black"
+        className="w-full text-left px-4 py-4 text-[10px] uppercase tracking-widest text-white/50 hover:bg-white/5 hover:text-white/90 transition-colors border-b border-white/5 font-light"
         onClick={onClose}
       >
         Edit Profile
       </button>
       <button
-        className="w-full text-left px-4 py-4 text-[10px] uppercase tracking-widest text-[#8B0000] hover:bg-[#8B0000]/10 transition-colors font-black"
+        className="w-full text-left px-4 py-4 text-[10px] uppercase tracking-widest text-[#8B0000] hover:bg-[#8B0000]/10 transition-colors font-light"
         onClick={handleLogout}
       >
         Logout Session
@@ -73,7 +73,7 @@ const UserAvatar = memo(function UserAvatar() {
             sizes="40px"
           />
         ) : (
-          <div className="w-full h-full bg-[#1A1A1A] flex items-center justify-center font-black text-white/80 text-xs">
+          <div className="w-full h-full bg-[#1A1A1A] flex items-center justify-center font-light text-white/80 text-xs">
             {session?.user?.name?.charAt(0).toUpperCase() ?? "U"}
           </div>
         )}
@@ -81,10 +81,10 @@ const UserAvatar = memo(function UserAvatar() {
         <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#8B0000] border border-[#0A0A0A] shadow-[0_0_8px_#8B0000]" />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-[11px] font-black text-white/90 truncate uppercase tracking-tight">
+        <p className="text-[11px] font-light text-white/90 truncate uppercase tracking-tight">
           {session?.user?.name ?? "Guest User"}
         </p>
-        <p className="text-[9px] text-white/30 truncate font-bold uppercase tracking-wider">
+        <p className="text-[9px] text-white/30 truncate font-light uppercase tracking-wider">
           {session?.user?.email ?? "Session Active"}
         </p>
       </div>
@@ -136,7 +136,7 @@ const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
                 key={item.href}
                 href={item.href}
                 onClick={onClose}
-                className={`w-full flex items-center gap-4 px-5 py-4 transition-all duration-300 group font-black text-[10px] uppercase tracking-[0.2em] relative overflow-hidden ${isActive
+                className={`w-full flex items-center gap-4 px-5 py-4 transition-all duration-300 group font-light text-[10px] uppercase tracking-[0.2em] relative overflow-hidden ${isActive
                   ? "text-white"
                   : "text-white/40 hover:text-white/90 hover:bg-white/5"
                   }`}
@@ -177,7 +177,7 @@ const Sidebar = memo(function Sidebar({ isOpen, onClose }: SidebarProps) {
 
           <button
             onClick={toggleSettings}
-            className={`flex items-center gap-4 px-4 py-3 transition-all w-full text-[10px] uppercase tracking-widest font-black ${isSettingsOpen
+            className={`flex items-center gap-4 px-4 py-3 transition-all w-full text-[10px] uppercase tracking-widest font-light ${isSettingsOpen
               ? "text-white bg-white/5"
               : "text-white/40 hover:text-white/80 hover:bg-white/5"
               }`}

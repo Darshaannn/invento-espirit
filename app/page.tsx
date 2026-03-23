@@ -26,6 +26,10 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { HeroStatic as HeroStaticComp } from "@/components/DynamicWrappers";
 import { Logo } from "@/components/Logo";
 
+const MeshBackground = dynamic(() => import("@/components/ui/mesh-background").then(mod => mod.MeshBackground), {
+  ssr: false,
+});
+
 const HeroAnimations = dynamic(() => import("@/components/HeroAnimations"), {
   loading: () => <HeroStaticComp />,
   ssr: false,
@@ -36,15 +40,13 @@ const FAQAccordion = dynamic(() => import("@/components/FAQAccordion"), { ssr: f
 // ─── Page (Server Component) ─────────────────────────────────────────────────
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white/90 relative overflow-hidden flex flex-col items-center justify-center font-sans tracking-tight">
-      {/* Decorative glow — pure CSS, no JS */}
-      <div
-        aria-hidden
-        className="absolute top-0 left-0 w-[500px] h-[500px] bg-purple-600/10 filter blur-[150px] opacity-50 pointer-events-none"
-      />
-      <div
-        aria-hidden
-        className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-cyan-600/10 filter blur-[150px] opacity-50 pointer-events-none"
+    <div className="min-h-screen text-white/90 relative flex flex-col items-center justify-center font-sans tracking-tight bg-transparent isolate">
+      <MeshBackground
+        colors={["#72b9bb", "#b5d9d9", "#ffd1bd", "#ffebe0", "#8cc5b8", "#dbf4a4"]}
+        speed={0.8}
+        distortion={1.2}
+        swirl={0.6}
+        veilOpacity="bg-black/20"
       />
 
       {/* ── Navigation ─────────────────────────────────────────────────── */}
@@ -56,19 +58,19 @@ export default function LandingPage() {
 
           <div className="hidden md:flex items-center gap-10">
             {['Dashboard', 'Assessment', 'Clinical Protocol'].map((item) => (
-              <Link 
+              <Link
                 key={item}
-                href={`/${item.toLowerCase().replace(' ', '-')}`} 
-                className="text-[11px] font-black uppercase tracking-[0.2em] text-white/40 hover:text-white transition-all relative group/link"
+                href={`/${item.toLowerCase().replace(' ', '-')}`}
+                className="text-[11px] font-light uppercase tracking-[0.2em] text-white/40 hover:text-white transition-all relative group/link"
               >
                 {item}
                 <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-gradient-to-r from-purple-500 to-cyan-500 group-hover/link:w-full transition-all duration-300" />
               </Link>
             ))}
-            
+
             <Link
               href="/login"
-              className="ml-4 px-8 py-2.5 bg-white text-black text-[11px] font-black uppercase tracking-widest hover:bg-transparent hover:text-white border border-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-white/20"
+              className="ml-4 px-8 py-2.5 bg-white text-black text-[11px] font-light uppercase tracking-widest hover:bg-transparent hover:text-white border border-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-white/20"
             >
               Access Portal
             </Link>
@@ -77,17 +79,24 @@ export default function LandingPage() {
       </nav>
 
       {/* Script to handle scroll effect (inline since we are in a client component but want simple logic) */}
-      <script dangerouslySetInnerHTML={{ __html: `
+      <script dangerouslySetInnerHTML={{
+        __html: `
         window.addEventListener('scroll', () => {
           const nav = document.getElementById('main-nav');
+          if (!nav) return;
+          const inner = nav.querySelector('.max-w-7xl');
           if (window.scrollY > 50) {
             nav.classList.add('bg-black/60', 'backdrop-blur-xl', 'py-1', 'border-white/5');
-            nav.querySelector('.max-w-7xl').classList.remove('py-4');
-            nav.querySelector('.max-w-7xl').classList.add('py-2');
+            if (inner) {
+              inner.classList.remove('py-4');
+              inner.classList.add('py-2');
+            }
           } else {
             nav.classList.remove('bg-black/60', 'backdrop-blur-xl', 'py-1', 'border-white/5');
-            nav.querySelector('.max-w-7xl').classList.add('py-4');
-            nav.querySelector('.max-w-7xl').classList.remove('py-2');
+            if (inner) {
+              inner.classList.add('py-4');
+              inner.classList.remove('py-2');
+            }
           }
         });
       `}} />
@@ -108,7 +117,7 @@ export default function LandingPage() {
           className="relative z-10 w-full max-w-7xl px-8 py-32 border-t border-white/5"
         >
           <div className="text-center mb-20">
-            <h2 className="text-4xl font-black mb-4 tracking-tighter text-white/90">
+            <h2 className="text-4xl font-light mb-4 tracking-tighter text-white/90">
               How Our Diagnostic Screening Works
             </h2>
             <p className="text-white/60 max-w-2xl mx-auto font-medium">
@@ -150,7 +159,7 @@ export default function LandingPage() {
         <section className="relative z-10 w-full max-w-7xl px-8 py-32 bg-white/5 border border-white/5 mb-32">
           <div className="flex flex-col md:flex-row gap-20 items-center">
             <div className="flex-1">
-              <h2 className="text-5xl font-black mb-8 tracking-tighter text-white/90">
+              <h2 className="text-5xl font-light mb-8 tracking-tighter text-white/90">
                 Clinical Domains Tested.
               </h2>
               <div className="grid gap-8">
@@ -166,10 +175,10 @@ export default function LandingPage() {
                 className="absolute inset-0 bg-gradient-to-br from-[#8B0000]/20 to-transparent opacity-50 group-hover:opacity-100 transition-opacity"
               />
               <div className="relative z-10">
-                <p className="text-[10px] font-black uppercase tracking-widest text-[#E8E2DE]/60 mb-2">
+                <p className="text-[10px] font-light uppercase tracking-widest text-[#E8E2DE]/60 mb-2">
                   Diagnostic Accuracy
                 </p>
-                <h4 className="text-4xl font-black text-white">98.4%</h4>
+                <h4 className="text-4xl font-light text-white">98.4%</h4>
               </div>
               <p className="relative z-10 mt-auto text-xs text-white/40 leading-relaxed italic">
                 "Precision calibration allows Invento to align against clinical
@@ -182,10 +191,10 @@ export default function LandingPage() {
 
       <ScrollReveal>
         <section className="relative z-10 w-full max-w-7xl px-8 py-20 mb-20">
-          <h3 className="text-[#8B0000] font-bold uppercase tracking-[0.3em] text-[10px] mb-6 text-center">
+          <h3 className="text-[#8B0000] font-light uppercase tracking-[0.3em] text-[10px] mb-6 text-center">
             Clinical Trust
           </h3>
-          <h2 className="text-4xl font-black mb-16 tracking-tighter text-white/90 text-center text-display">
+          <h2 className="text-4xl font-light mb-16 tracking-tighter text-white/90 text-center text-display">
             What Professionals Say
           </h2>
           <div className="grid md:grid-cols-3 gap-8 text-left">
@@ -211,10 +220,10 @@ export default function LandingPage() {
       {/* ── FAQ ────────────────────────────────────────────────────────── */}
       <ScrollReveal>
         <section className="relative z-10 w-full max-w-4xl mx-auto px-8 py-20 text-center mb-10">
-          <h3 className="text-[#8B0000] font-bold uppercase tracking-[0.3em] text-[10px] mb-6">
+          <h3 className="text-[#8B0000] font-light uppercase tracking-[0.3em] text-[10px] mb-6">
             Common Questions
           </h3>
-          <h2 className="text-4xl font-black mb-16 tracking-tighter text-white/90">
+          <h2 className="text-4xl font-light mb-16 tracking-tighter text-white/90">
             Frequently Asked Questions
           </h2>
           <Suspense
@@ -252,10 +261,10 @@ export default function LandingPage() {
       {/* ── Research Roadmap ───────────────────────────────────────────── */}
       <ScrollReveal>
         <section className="relative z-10 w-full max-w-7xl mx-auto px-8 py-20 text-center mb-32">
-          <h3 className="text-[#8B0000] font-bold uppercase tracking-[0.3em] text-[10px] mb-6">
+          <h3 className="text-[#8B0000] font-light uppercase tracking-[0.3em] text-[10px] mb-6">
             Upcoming Innovation
           </h3>
-          <h2 className="text-4xl font-black mb-16 tracking-tighter text-white/90">
+          <h2 className="text-4xl font-light mb-16 tracking-tighter text-white/90">
             Research Roadmap
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-10">
@@ -269,7 +278,7 @@ export default function LandingPage() {
 
       <footer className="relative z-10 w-full max-w-5xl mx-auto px-8 py-20 border-t border-white/5 text-center">
         <div className="max-w-2xl mx-auto space-y-4">
-          <p className="text-[10px] font-black uppercase tracking-widest text-[#8B0000]/60">
+          <p className="text-[10px] font-light uppercase tracking-widest text-[#8B0000]/60">
             Important Medical Disclaimer
           </p>
           <p className="text-xs text-white/40 leading-relaxed font-medium">
@@ -303,13 +312,13 @@ function StepCard({
 }) {
   return (
     <div className="bg-white/5 p-8 border border-white/5 flex flex-col items-center text-center space-y-4 shadow-sm hover:shadow-2xl hover:-translate-y-2 hover:border-[#8B0000]/20 transition-all duration-500 group">
-      <div className="text-[40px] font-black italic text-white/5 select-none tracking-tighter group-hover:text-[#8B0000]/10 transition-colors">
+      <div className="text-[40px] font-light italic text-white/5 select-none tracking-tighter group-hover:text-[#8B0000]/10 transition-colors">
         {number}
       </div>
       <div className="w-12 h-12 bg-[#E8E2DE] flex items-center justify-center text-[#8B0000] mb-2 group-hover:bg-[#8B0000] group-hover:text-white transition-all duration-500 rounded-full">
         {icon}
       </div>
-      <h3 className="text-sm font-black uppercase tracking-[0.2em] text-white/90 group-hover:text-[#8B0000] transition-colors">{title}</h3>
+      <h3 className="text-sm font-light uppercase tracking-[0.2em] text-white/90 group-hover:text-[#8B0000] transition-colors">{title}</h3>
       <p className="text-xs text-white/50 font-medium leading-relaxed">{desc}</p>
     </div>
   );
@@ -320,7 +329,7 @@ function DomainItem({ title, desc }: { title: string; desc: string }) {
     <div className="flex items-start gap-4 group">
       <div className="w-1.5 h-1.5 bg-[#8B0000]/20 mt-2.5 shrink-0 group-hover:scale-150 transition-transform" />
       <div>
-        <h4 className="text-[13px] font-bold group-hover:text-[#8B0000] transition-colors uppercase tracking-widest text-white/80">
+        <h4 className="text-[13px] font-light group-hover:text-[#8B0000] transition-colors uppercase tracking-widest text-white/80">
           {title}
         </h4>
         <p className="text-white/40 text-sm font-medium leading-relaxed">{desc}</p>
@@ -338,7 +347,7 @@ function RoadmapTag({ title, status }: { title: string; status: "active" | "pend
         }`}
     >
       <p
-        className={`text-[10px] font-black tracking-widest uppercase ${status === "active" ? "text-[#8B0000]" : "text-white/30"
+        className={`text-[10px] font-light tracking-widest uppercase ${status === "active" ? "text-[#8B0000]" : "text-white/30"
           }`}
       >
         {title}
@@ -365,8 +374,8 @@ function TestimonialCard({
         {quote}
       </p>
       <div>
-        <p className="text-xs font-black uppercase tracking-widest text-white/90">{author}</p>
-        <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest mt-1">
+        <p className="text-xs font-light uppercase tracking-widest text-white/90">{author}</p>
+        <p className="text-[10px] text-white/40 font-light uppercase tracking-widest mt-1">
           {role}
         </p>
       </div>
@@ -379,11 +388,11 @@ function HeroStatic() {
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="mb-8 inline-flex items-center gap-3 px-5 py-2.5 bg-[#8B0000]/5 border border-[#8B0000]/20">
-        <span className="text-[#8B0000] font-bold uppercase tracking-[0.2em] text-[10px]">
+        <span className="text-[#8B0000] font-light uppercase tracking-[0.2em] text-[10px]">
           Medical Intelligence V2.5
         </span>
       </div>
-      <h1 className="text-5xl md:text-8xl font-black mb-8 leading-[1.1] tracking-tighter text-white/90 italic">
+      <h1 className="text-5xl md:text-8xl font-light mb-8 leading-[1.1] tracking-tighter text-white/90 italic">
         Precision Cognitive <br className="hidden md:block" />
         Screening Protocol.
       </h1>
@@ -394,7 +403,7 @@ function HeroStatic() {
       <div className="flex flex-col md:flex-row items-center justify-center gap-4 w-full">
         <Link
           href="/screening"
-          className="bg-white text-black hover:bg-white/90 w-full md:w-auto text-lg px-12 py-5 font-bold flex items-center justify-center gap-3 shadow-xl transition-colors"
+          className="bg-white text-black hover:bg-white/90 w-full md:w-auto text-lg px-12 py-5 font-light flex items-center justify-center gap-3 shadow-xl transition-colors"
         >
           Start Screening
           <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden>
@@ -403,7 +412,7 @@ function HeroStatic() {
         </Link>
         <Link
           href="#how-it-works"
-          className="px-12 py-5 border border-white/10 text-white font-bold hover:bg-white/5 transition-colors w-full md:w-auto text-center"
+          className="px-12 py-5 border border-white/10 text-white font-light hover:bg-white/5 transition-colors w-full md:w-auto text-center"
         >
           Learn How It Works
         </Link>

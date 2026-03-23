@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useSpeechToText } from '../../hooks/useSpeechToText';
+import type { QuestionResponse } from "@/lib/utils/clinicalScoring";
 
 const ScreeningPage = () => {
     const router = useRouter();
@@ -22,6 +23,7 @@ const ScreeningPage = () => {
     const [textInput, setTextInput] = useState("");
     const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
     const [instructionTimer, setInstructionTimer] = useState<number | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [isShowingIntake, setIsShowingIntake] = useState(true);
     const [activeProfile, setActiveProfile] = useState<string>('');
     const [intakeData, setIntakeData] = useState({
@@ -46,17 +48,37 @@ const ScreeningPage = () => {
             const currentQ = questions[currentIdx];
             if (!currentQ || isShowingInstruction) return;
 
+            const lowerTranscript = transcript.trim().toLowerCase();
+
             if (currentQ.type === 'choice') {
-                // Auto-match transcript to options
-                const match = currentQ.options.find((opt: string) =>
-                    transcript.toLowerCase().includes(opt.toLowerCase()) ||
-                    opt.toLowerCase().includes(transcript.toLowerCase())
+                // 1. Try matching by letter (Option A, A, etc)
+                const letters = ['a', 'b', 'c', 'd'];
+                let match = null;
+
+                // Match "option A", "option B" or just "A", "B", "C", "D"
+                const letterMatch = letters.find(l =>
+                    lowerTranscript === l ||
+                    lowerTranscript === `option ${l}` ||
+                    lowerTranscript.startsWith(`choice ${l}`)
                 );
+
+                if (letterMatch) {
+                    const idx = letters.indexOf(letterMatch);
+                    if (idx < currentQ.options.length) {
+                        match = currentQ.options[idx];
+                    }
+                }
+
+                // 2. Fallback to existing text-based match if no letter matched
+                if (!match) {
+                    match = currentQ.options.find((opt: string) =>
+                        lowerTranscript.includes(opt.toLowerCase()) ||
+                        opt.toLowerCase().includes(lowerTranscript)
+                    );
+                }
+
                 if (match) {
                     setSelectedChoice(match);
-                    // Explicitly click confirm for them if user said it? 
-                    // No, let them see it selected first for a split second or auto-record if very confident.
-                    // User requested "ans get selected", lets auto-advance on high confidence
                     setTimeout(() => recordAnswer(match), 500);
                     stopListening();
                 }
@@ -222,14 +244,21 @@ const ScreeningPage = () => {
             : val === currentQ.correct;
 
         const newAnswers = [...answers];
-        newAnswers[currentIdx] = {
-            questionId: currentQ.id,
-            domain: currentQ.domain,
-            selected: val,
-            correct: currentQ.correct,
-            time: duration,
-            isCorrect: isCorrect
-        };
+        // Instruction guard: only record answers for non-instruction questions
+        if (!currentQ.subType || currentQ.subType !== "instruction") {
+            newAnswers[currentIdx] = {
+                questionId: currentQ.id,
+                domain: currentQ.domain,
+                selected: val,
+                correct: currentQ.correct,
+                time: duration,
+                isCorrect: isCorrect
+            };
+        } else {
+            // Fill with a marker so currentIdx mapping stays consistent if needed, 
+            // or we can handle holes in validAnswers filter
+            newAnswers[currentIdx] = null;
+        }
         setAnswers(newAnswers);
         setTextInput("");
         setSelectedChoice(null);
@@ -266,25 +295,26 @@ const ScreeningPage = () => {
     };
 
     const finishTest = async () => {
+        setIsSubmitting(true);
         // Filter out holes in the answers array (e.g. from instructions or skips)
         const validAnswers = answers.filter(a => a !== undefined && a !== null);
 
+        // Map to QuestionResponse shape required by clinicalScoring.ts
+        const responses: QuestionResponse[] = validAnswers.map(a => ({
+            questionId: a.questionId,
+            domain: a.domain?.includes('Executive') ? 'Executive Function' : a.domain,
+            selectedAnswer: a.selected,
+            correctAnswer: a.correct || "",
+            timeTakenMs: a.time * 1000,
+            skipped: false,
+            difficulty: questions.find(q => q.id === a.questionId)?.difficulty || "medium"
+        }));
+
         const payload = {
-            sessionId: `session_${Date.now()}`,
-            questions: validAnswers.map(a => ({
-                questionId: a.questionId,
-                domain: a.domain?.includes('Executive') ? 'Executive' : a.domain,
-                responseText: a.selected,
-                latencyMs: a.time * 1000,
-                totalTimeMs: a.time * 1000,
-                hesitationFlags: a.time > 10
-            })),
-            scores: {
-                accuracy: validAnswers.length > 0
-                    ? (validAnswers.filter(a => a.isCorrect).length / validAnswers.length) * 100
-                    : 0,
-                overallRisk: 'Low'
-            }
+            responses,
+            ageGroup: intakeData.age,
+            gender: intakeData.gender,
+            symptoms: intakeData.symptoms,
         };
 
         try {
@@ -293,51 +323,29 @@ const ScreeningPage = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
+
+            if (!res.ok) throw new Error(`Submit failed: ${res.status}`);
+
             const result = await res.json();
 
-            // Persist for guest viewing (sessionStorage dies on tab close/refresh-equiv)
-            const reportData = {
-                ...payload,
-                aiAnalysis: result.aiAnalysis,
-                scores: {
-                    accuracy: result.overallScore || payload.scores.accuracy,
-                    overallRisk: result.riskTier || payload.scores.overallRisk
-                },
-                domainScores: result.domainScores || null,
-                timestamp: new Date().toISOString(),
-                success: true
-            };
-            // Save to BOTH storages so dashboard and analysis page can both read it
-            sessionStorage.setItem('latest_assessment', JSON.stringify(reportData));
-            sessionStorage.setItem('screening_report', JSON.stringify(reportData));
-            localStorage.setItem('latest_assessment', JSON.stringify(reportData));
-
-            // Add to localStorage history for history tab
-            const history = JSON.parse(localStorage.getItem('inventoHistory') || '[]');
-            history.unshift({ ...reportData, date: reportData.timestamp });
-            localStorage.setItem('inventoHistory', JSON.stringify(history.slice(0, 10)));
+            // Save to localStorage for guest users AND as a cache for logged-in users
+            localStorage.setItem("invento_last_result", JSON.stringify(result));
 
             // Force a small delay to ensure storage writes before navigation
             setTimeout(() => {
-                router.push('/dashboard');
+                router.push('/report');
             }, 100);
         } catch (err) {
-            console.error("Submission failed", err);
-            // Even if DB fails, allow local results to update dashboard for testing
-            const localData = {
-                ...payload,
-                timestamp: new Date().toISOString(),
-                success: true,
+            console.error("Assessment submit error:", err);
+            // Fallback: save local data if possible, but the prompt emphasizes the new report page
+            localStorage.setItem("invento_last_result", JSON.stringify({
+                error: "Submission failed",
+                completedAt: new Date().toISOString(),
                 isLocalOnly: true
-            };
-            sessionStorage.setItem('latest_assessment', JSON.stringify(localData));
-            localStorage.setItem('latest_assessment', JSON.stringify(localData));
-
-            const history = JSON.parse(localStorage.getItem('inventoHistory') || '[]');
-            history.unshift({ ...localData, date: localData.timestamp });
-            localStorage.setItem('inventoHistory', JSON.stringify(history.slice(0, 10)));
-
-            router.push('/dashboard');
+            }));
+            router.push('/report');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -353,19 +361,19 @@ const ScreeningPage = () => {
                         <div className="absolute top-0 right-0 w-64 h-64 bg-[#8B0000]/5 blur-[60px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
                         <div className="flex items-center gap-3 mb-10">
-                            <div className="w-10 h-10 bg-[#8B0000] flex items-center justify-center text-white font-black text-lg">1</div>
-                            <span className="font-black text-[#1A1A1A]/30 tracking-[0.2em] text-[10px] uppercase">Step 01: Clinical Consultation</span>
+                            <div className="w-10 h-10 bg-[#8B0000] flex items-center justify-center text-white font-light text-lg">1</div>
+                            <span className="font-light text-[#1A1A1A]/30 tracking-[0.2em] text-[10px] uppercase">Step 01: Clinical Consultation</span>
                         </div>
 
-                        <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#1A1A1A] mb-4">Intake & Health Check.</h2>
+                        <h2 className="text-4xl md:text-5xl font-light tracking-tight text-[#1A1A1A] mb-4">Intake & Health Check.</h2>
                         <p className="text-[#1A1A1A]/50 font-medium mb-12 text-lg">Provide clinical context to calibrate the diagnostic engine.</p>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
                             {/* Age */}
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[#1A1A1A]/40 block ml-2">Age Group</label>
+                                <label className="text-[10px] font-light uppercase tracking-widest text-[#1A1A1A]/40 block ml-2">Age Group</label>
                                 <select
-                                    className="w-full h-16 bg-[#F5F1EE] px-6 font-bold text-[#1A1A1A] border-none focus:ring-2 focus:ring-[#8B0000]/20 outline-none appearance-none"
+                                    className="w-full h-16 bg-[#F5F1EE] px-6 font-light text-[#1A1A1A] border-none focus:ring-2 focus:ring-[#8B0000]/20 outline-none appearance-none"
                                     value={intakeData.age}
                                     onChange={(e) => setIntakeData({ ...intakeData, age: e.target.value })}
                                 >
@@ -380,13 +388,13 @@ const ScreeningPage = () => {
 
                             {/* Gender */}
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[#1A1A1A]/40 block ml-2">Gender</label>
+                                <label className="text-[10px] font-light uppercase tracking-widest text-[#1A1A1A]/40 block ml-2">Gender</label>
                                 <div className="flex gap-3">
                                     {['Male', 'Female', 'Other'].map(g => (
                                         <button
                                             key={g}
                                             onClick={() => setIntakeData({ ...intakeData, gender: g })}
-                                            className={`flex-1 h-16 font-bold transition-all ${intakeData.gender === g ? 'bg-[#8B0000] text-white' : 'bg-[#F5F1EE] text-[#1A1A1A]/40 hover:bg-[#E8E2DE]'}`}
+                                            className={`flex-1 h-16 font-light transition-all ${intakeData.gender === g ? 'bg-[#8B0000] text-white' : 'bg-[#F5F1EE] text-[#1A1A1A]/40 hover:bg-[#E8E2DE]'}`}
                                         >
                                             {g}
                                         </button>
@@ -397,7 +405,7 @@ const ScreeningPage = () => {
 
                             {/* Symptoms */}
                             <div className="space-y-3 md:col-span-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-[#1A1A1A]/40 block ml-2">Current Symptoms (Select all that apply)</label>
+                                <label className="text-[10px] font-light uppercase tracking-widest text-[#1A1A1A]/40 block ml-2">Current Symptoms (Select all that apply)</label>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     {[
                                         { id: 'memory forgetful', label: 'Recent Memory Loss' },
@@ -415,7 +423,7 @@ const ScreeningPage = () => {
                                                     : [...intakeData.symptoms, s.id];
                                                 setIntakeData({ ...intakeData, symptoms: newSymptoms });
                                             }}
-                                            className={`h-16 px-6 font-bold text-left transition-all flex justify-between items-center ${intakeData.symptoms.includes(s.id) ? 'bg-[#8B0000]/10 border-2 border-[#8B0000] text-[#1A1A1A]' : 'bg-[#F5F1EE] text-[#1A1A1A]/40'}`}
+                                            className={`h-16 px-6 font-light text-left transition-all flex justify-between items-center ${intakeData.symptoms.includes(s.id) ? 'bg-[#8B0000]/10 border-2 border-[#8B0000] text-[#1A1A1A]' : 'bg-[#F5F1EE] text-[#1A1A1A]/40'}`}
                                         >
                                             {s.label}
                                             {intakeData.symptoms.includes(s.id) && <CheckCircle2 size={18} className="text-[#8B0000]" />}
@@ -431,7 +439,7 @@ const ScreeningPage = () => {
                                 whileTap={{ scale: 0.98 }}
                                 disabled={!intakeData.age || !intakeData.gender}
                                 onClick={handleIntakeSubmit}
-                                className={`px-16 py-6 font-black uppercase tracking-widest flex items-center gap-3 transition-all shadow-2xl ${(!intakeData.age || !intakeData.gender) ? 'bg-[#1A1A1A]/10 text-white/40 cursor-not-allowed' : 'bg-[#1A1A1A] text-white hover:bg-black'}`}
+                                className={`px-16 py-6 font-light uppercase tracking-widest flex items-center gap-3 transition-all shadow-2xl ${(!intakeData.age || !intakeData.gender) ? 'bg-[#1A1A1A]/10 text-white/40 cursor-not-allowed' : 'bg-[#1A1A1A] text-white hover:bg-black'}`}
                             >
                                 Initiate Assessment <ArrowRight size={20} />
                             </motion.button>
@@ -467,15 +475,15 @@ const ScreeningPage = () => {
                     {/* Profile badge + domain tag strip */}
                     <div className="max-w-4xl w-full flex items-center justify-between mb-4 px-1">
                         <div className="flex items-center gap-3">
-                            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-black/20">Domain</span>
-                            <div className={`px-3 py-1 bg-gradient-to-r ${gradientClass} text-white text-[9px] font-black uppercase tracking-widest`}>
+                            <span className="text-[9px] font-light uppercase tracking-[0.3em] text-black/20">Domain</span>
+                            <div className={`px-3 py-1 bg-gradient-to-r ${gradientClass} text-white text-[9px] font-light uppercase tracking-widest`}>
                                 {q.domain}
                             </div>
                         </div>
                         {activeProfile && (
                             <div className="flex items-center gap-2">
                                 <div className="w-1.5 h-1.5 bg-[#8B0000] rounded-full animate-pulse" />
-                                <span className="text-[9px] font-black uppercase tracking-[0.25em] text-black/40">
+                                <span className="text-[9px] font-light uppercase tracking-[0.25em] text-black/40">
                                     {activeProfile} Protocol
                                 </span>
                             </div>
@@ -501,16 +509,16 @@ const ScreeningPage = () => {
                                     {/* QUESTION TEXT */}
                                     <div className="relative z-10 mb-10">
                                         <div className="flex items-center gap-4 mb-6">
-                                            <span className="text-lg font-bold text-white/90">{currentIdx + 1}.</span>
+                                            <span className="text-lg font-light text-white/90">{currentIdx + 1}.</span>
                                             {!isShowingInstruction && (
                                                 <div className="flex items-center gap-2 px-3 py-1 bg-black/20 border border-white/10">
                                                     <Timer size={12} className="text-white/40" />
-                                                    <span className="text-xs font-bold text-white tabular-nums">{responseTime}s</span>
+                                                    <span className="text-xs font-light text-white tabular-nums">{responseTime}s</span>
                                                 </div>
                                             )}
                                         </div>
 
-                                        <h3 className="text-2xl md:text-3xl font-bold leading-[1.2] text-white tracking-tight">
+                                        <h3 className="text-2xl md:text-3xl font-light leading-[1.2] text-white tracking-tight">
                                             {q.question.replace(/^Instruction:?\s*/i, '')}
                                         </h3>
                                     </div>
@@ -528,7 +536,7 @@ const ScreeningPage = () => {
                                                     <Shield size={32} className="text-white/80 relative z-10" />
                                                 </div>
                                                 <div className="flex flex-col items-center">
-                                                    <h4 className="text-[13px] font-black tracking-[0.2em] text-white/80 mb-3 uppercase">
+                                                    <h4 className="text-[13px] font-light tracking-[0.2em] text-white/80 mb-3 uppercase">
                                                         Get Ready
                                                     </h4>
                                                     <p className="text-[15px] font-medium text-white/50 leading-relaxed max-w-md text-center">
@@ -536,8 +544,8 @@ const ScreeningPage = () => {
                                                     </p>
                                                 </div>
                                                 <div className="mt-8 flex flex-col items-center gap-3">
-                                                    <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/40">
-                                                        Automated transition in <span className="text-white font-bold">{instructionTimer}s</span>
+                                                    <span className="text-[10px] font-light tracking-[0.2em] uppercase text-white/40">
+                                                        Automated transition in <span className="text-white font-light">{instructionTimer}s</span>
                                                     </span>
                                                     <div className="w-32 h-1 bg-white/10 rounded-full overflow-hidden">
                                                         <motion.div
@@ -564,7 +572,7 @@ const ScreeningPage = () => {
                                                                             : 'bg-black/20 text-white/60 hover:bg-black/30 hover:text-white border border-white/5'
                                                                         }`}
                                                                 >
-                                                                    <span className="font-bold text-lg md:text-xl tracking-tight relative z-10">{opt}</span>
+                                                                    <span className="font-light text-lg md:text-xl tracking-tight relative z-10">{opt}</span>
                                                                     <div className={`w-8 h-8 flex items-center justify-center transition-all
                                                                         ${selectedChoice === opt ? 'bg-[#8B0000] text-white shadow-lg' : 'bg-white/10 text-white/30 group-hover:bg-white/20'}`}>
                                                                         {selectedChoice === opt ? <CheckCircle2 size={18} /> : String.fromCharCode(65 + i)}
@@ -580,7 +588,7 @@ const ScreeningPage = () => {
                                                             value={textInput}
                                                             onChange={(e) => setTextInput(e.target.value)}
                                                             placeholder={isListening ? "Listening to neural input..." : "Type or speak your answer..."}
-                                                            className="w-full p-8 bg-black/20 border border-white/5 text-xl font-bold text-white placeholder:text-white/20 focus:outline-none focus:bg-black/30 transition-all resize-none min-h-[200px]"
+                                                            className="w-full p-8 bg-black/20 border border-white/5 text-xl font-light text-white placeholder:text-white/20 focus:outline-none focus:bg-black/30 transition-all resize-none min-h-[200px]"
                                                         />
                                                     </div>
                                                 )}
@@ -600,29 +608,29 @@ const ScreeningPage = () => {
                                                     }`}
                                             >
                                                 {isListening ? <Activity size={20} /> : <Mic size={20} />}
-                                                <span className="text-[10px] font-black uppercase tracking-widest">{isListening ? 'Listening...' : 'Voice Assistant'}</span>
+                                                <span className="text-[10px] font-light uppercase tracking-widest">{isListening ? 'Listening...' : 'Voice Assistant'}</span>
                                             </button>
 
                                             <div className="flex items-center gap-6 w-full justify-between">
                                                 {currentIdx > 0 ? (
                                                     <button
                                                         onClick={() => setCurrentIdx(prev => prev - 1)}
-                                                        className="px-12 py-5 bg-[#E8E2DE] text-[#1A1A1A]/60 hover:text-[#1A1A1A] text-sm font-bold transition-all hover:bg-[#DED8D4]"
+                                                        className="px-12 py-5 bg-[#E8E2DE] text-[#1A1A1A]/60 hover:text-[#1A1A1A] text-sm font-light transition-all hover:bg-[#DED8D4]"
                                                     >
                                                         Back
                                                     </button>
                                                 ) : <div />}
 
                                                 <button
-                                                    disabled={!isShowingInstruction && (q.type === 'choice' ? !selectedChoice : !textInput.trim())}
+                                                    disabled={isSubmitting || (!isShowingInstruction && (q.type === 'choice' ? !selectedChoice : !textInput.trim()))}
                                                     onClick={handleNext}
-                                                    className={`px-16 py-5 font-bold text-sm transition-all shadow-xl
-                                                        ${!isShowingInstruction && (q.type === 'choice' ? !selectedChoice : !textInput.trim())
+                                                    className={`px-16 py-5 font-light text-sm transition-all shadow-xl
+                                                        ${(isSubmitting || (!isShowingInstruction && (q.type === 'choice' ? !selectedChoice : !textInput.trim())))
                                                             ? 'bg-[#1A1A1A]/5 text-[#1A1A1A]/20 cursor-not-allowed'
                                                             : 'bg-[#1A1A1A] text-white hover:bg-black active:scale-95'
                                                         }`}
                                                 >
-                                                    {currentIdx === questions.length - 1 ? 'Quantify Results' : 'Next step'}
+                                                    {isSubmitting ? 'Syncing...' : (currentIdx === questions.length - 1 ? 'Quantify Results' : 'Next step')}
                                                 </button>
                                             </div>
                                         </div>
@@ -634,10 +642,10 @@ const ScreeningPage = () => {
                 </div>
 
                 <div className="my-16 flex justify-between items-center px-4 opacity-30 border-t border-black/5 pt-8">
-                    <p className="text-black font-black uppercase tracking-[0.5em] text-[10px]">Medical screening Engine v2.5.0</p>
+                    <p className="text-black font-light uppercase tracking-[0.5em] text-[10px]">Medical screening Engine v2.5.0</p>
                     <div className="flex items-center gap-2">
                         <div className="w-1.5 h-1.5 bg-green-500 animate-pulse" />
-                        <span className="text-[10px] font-black uppercase tracking-widest text-black">Precision Verified</span>
+                        <span className="text-[10px] font-light uppercase tracking-widest text-black">Precision Verified</span>
                     </div>
                 </div>
             </div>

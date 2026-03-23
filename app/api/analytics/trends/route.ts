@@ -24,6 +24,9 @@ export async function GET() {
         $project: {
           _id: 0,
           overallScore: 1,
+          mocaEquivalent: 1,
+          mmseEquivalent: 1,
+          impairmentLevel: 1,
           riskTier: 1,
           completedAt: 1,
           domainScores: 1,
