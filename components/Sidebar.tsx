@@ -20,7 +20,6 @@ import { useSession, signOut } from "next-auth/react";
 const NAV_ITEMS = [
   { name: "Overview", href: "/dashboard", icon: LayoutGrid, size: 20 },
   { name: "History", href: "/dashboard/history", icon: History, size: 20 },
-  { name: "Neural Training", href: "/dashboard/games", icon: Gamepad2, size: 20 },
 ] as const;
 
 // ─── Types ────────────────────────────────────────────────────────────────────

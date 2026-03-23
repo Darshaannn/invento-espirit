@@ -11,25 +11,25 @@ import { buildClinicalScores } from "@/lib/utils/clinicalScoring";
 export const dynamic = "force-dynamic";
 
 const ResponseSchema = z.object({
-  questionId:     z.number(),
-  domain:         z.enum(["Memory", "Attention", "Executive Function", "Orientation"]),
+  questionId: z.number(),
+  domain: z.enum(["Memory", "Attention", "Executive Function", "Orientation"]),
   selectedAnswer: z.string().nullable(),
-  correctAnswer:  z.string(),
-  timeTakenMs:    z.number().min(0).max(120_000),
-  skipped:        z.boolean(),
-  difficulty:     z.enum(["easy", "medium", "hard"]),
+  correctAnswer: z.string(),
+  timeTakenMs: z.number().min(0).max(120_000),
+  skipped: z.boolean(),
+  difficulty: z.enum(["easy", "medium", "hard"]),
 });
 
 const SubmitSchema = z.object({
   responses: z.array(ResponseSchema).min(1).max(40),
-  ageGroup:  z.string(),
-  gender:    z.string().optional(),
-  symptoms:  z.array(z.string()).optional(),
+  ageGroup: z.string(),
+  gender: z.string().optional(),
+  symptoms: z.array(z.string()).optional(),
 });
 
 export async function POST(request: NextRequest) {
   try {
-    const body   = await request.json();
+    const body = await request.json();
     const parsed = SubmitSchema.safeParse(body);
 
     if (!parsed.success) {
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         ageGroup,
         gender,
         symptoms,
-        skippedCount:   responses.filter(r => r.skipped).length,
+        skippedCount: responses.filter(r => r.skipped).length,
         avgResponseSec,
         totalTimeSec,
       }).catch(err => {
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
     const result = {
       clinicalScores,
       geminiInsights: geminiResult,
-      completedAt:    new Date().toISOString(),
+      completedAt: new Date().toISOString(),
       totalTimeSec,
       ageGroup,
       symptoms,
@@ -81,23 +81,24 @@ export async function POST(request: NextRequest) {
     if (session?.user) {
       await dbConnect();
       await Assessment.create({
-        userId:      (session.user as any).id,
+        userId: (session.user as any).id,
         ageGroup, gender, symptoms, responses,
         domainScores: {
-          Memory:            clinicalScores.domainScores["Memory"],
-          Attention:         clinicalScores.domainScores["Attention"],
+          Memory: clinicalScores.domainScores["Memory"],
+          Attention: clinicalScores.domainScores["Attention"],
           ExecutiveFunction: clinicalScores.domainScores["Executive Function"],
-          Orientation:       clinicalScores.domainScores["Orientation"],
+          Orientation: clinicalScores.domainScores["Orientation"],
         },
-        overallScore:    clinicalScores.overall,
-        mocaEquivalent:  clinicalScores.moca,
-        mmseEquivalent:  clinicalScores.mmse,
-        riskTier:        clinicalScores.riskTier,
+        overallScore: clinicalScores.overall,
+        mocaEquivalent: clinicalScores.moca,
+        mmseEquivalent: clinicalScores.mmse,
+        riskTier: clinicalScores.riskTier,
         impairmentLevel: clinicalScores.impairment,
-        aiInsights:      geminiResult?.clinicalSummary ?? "",
+        aiInsights: geminiResult?.clinicalSummary ?? "",
         recommendations: geminiResult?.recommendations ?? [],
+        geminiInsights: geminiResult,
         totalTimeSec,
-        completedAt:     new Date(),
+        completedAt: new Date(),
       });
     }
 

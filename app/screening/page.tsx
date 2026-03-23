@@ -331,6 +331,16 @@ const ScreeningPage = () => {
             // Save to localStorage for guest users AND as a cache for logged-in users
             localStorage.setItem("invento_last_result", JSON.stringify(result));
 
+            // Add to the local history list for the history overview page
+            try {
+                const existingHistory = JSON.parse(localStorage.getItem("inventoHistory") || "[]");
+                const historyArray = Array.isArray(existingHistory) ? existingHistory : (existingHistory ? [existingHistory] : []);
+                historyArray.unshift(result); // Put the newest assessment at the top
+                localStorage.setItem("inventoHistory", JSON.stringify(historyArray));
+            } catch (e) {
+                console.error("Failed to append to inventoHistory", e);
+            }
+
             // Force a small delay to ensure storage writes before navigation
             setTimeout(() => {
                 router.push('/report');

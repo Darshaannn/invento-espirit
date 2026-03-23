@@ -80,6 +80,8 @@ export default function Dashboard() {
     const [selectedDomain, setSelectedDomain] = useState<DomainScore | null>(null);
     const [exporting, setExporting] = useState(false);
     const [analysisStep, setAnalysisStep] = useState(0);
+    const [locationQuery, setLocationQuery] = useState("");
+    const [mapQuery, setMapQuery] = useState("");
 
     const analysisMessages = [
         "Initializing cognitive diagnostic sweep...",
@@ -614,6 +616,67 @@ export default function Dashboard() {
 
                             {/* Scanning glow effect on hover */}
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#8B0000]/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[2000ms] pointer-events-none" />
+                        </div>
+                    </div>
+
+                    {/* SPECIALIST CONSULTATION SECTION */}
+                    <div className="lg:col-span-12 mt-12">
+                        <div className="bg-white/[0.02] border border-white/5 p-10 md:p-12 relative overflow-hidden group backdrop-blur-sm">
+                            {/* Corner Accents */}
+                            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/20 group-hover:border-[#8B0000]/40 transition-colors" />
+                            <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/20 group-hover:border-[#8B0000]/40 transition-colors" />
+                            <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/20 group-hover:border-[#8B0000]/40 transition-colors" />
+                            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/20 group-hover:border-[#8B0000]/40 transition-colors" />
+
+                            <div className="relative z-10 flex flex-col gap-8">
+                                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                                    <div>
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <div className="w-1.5 h-1.5 bg-[#8B0000]" />
+                                            <span className="text-[10px] font-light uppercase tracking-[0.4em] text-white/50 italic">Medical Routing Protocol</span>
+                                        </div>
+                                        <h3 className="text-2xl md:text-3xl font-light uppercase italic tracking-tighter text-white">Consult a Specialist</h3>
+                                        <p className="text-xs font-light text-white/40 mt-2 uppercase tracking-widest">Locate specialized dementia care and neurology facilities.</p>
+                                    </div>
+                                    <div className="flex w-full md:w-auto h-14 border border-white/10 bg-[#0A0A0A] overflow-hidden group/search focus-within:border-[#8B0000]/40 transition-colors">
+                                        <input
+                                            type="text"
+                                            value={locationQuery}
+                                            onChange={(e) => setLocationQuery(e.target.value)}
+                                            onKeyDown={(e) => e.key === 'Enter' && setMapQuery(locationQuery)}
+                                            placeholder="Enter your City or Address..."
+                                            className="bg-transparent border-none outline-none text-white font-light text-sm px-6 w-full md:w-[300px] placeholder:text-white/20"
+                                        />
+                                        <button
+                                            onClick={() => setMapQuery(locationQuery)}
+                                            className="px-8 bg-white/5 hover:bg-[#8B0000]/20 text-[10px] uppercase font-light tracking-[0.3em] text-white/80 transition-colors border-l border-white/10"
+                                        >
+                                            Search
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <AnimatePresence>
+                                    {mapQuery && (
+                                        <motion.div
+                                            initial={{ opacity: 0, height: 0 }}
+                                            animate={{ opacity: 1, height: "auto" }}
+                                            exit={{ opacity: 0, height: 0 }}
+                                            className="w-full h-[400px] border border-white/10 bg-[#0A0A0A] relative mt-4 overflow-hidden"
+                                        >
+                                            <iframe
+                                                width="100%"
+                                                height="100%"
+                                                style={{ border: 0 }}
+                                                loading="lazy"
+                                                allowFullScreen
+                                                referrerPolicy="no-referrer-when-downgrade"
+                                                src={`https://maps.google.com/maps?q=dementia+doctor+hospital+neurologist+in+${encodeURIComponent(mapQuery)}&t=&z=12&ie=UTF8&iwloc=&output=embed`}
+                                            />
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
                         </div>
                     </div>
                 </div>

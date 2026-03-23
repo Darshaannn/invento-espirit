@@ -15,31 +15,31 @@ if (!process.env.GEMINI_API_KEY) {
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const CONFIG: GenerationConfig = {
-  temperature:      0.25,  // very low — clinical content must be consistent
-  maxOutputTokens:  900,   // enough for full structured JSON
+  temperature: 0.25,  // very low — clinical content must be consistent
+  maxOutputTokens: 900,   // enough for full structured JSON
   responseMimeType: "application/json",
 };
 
 // ─── Input ────────────────────────────────────────────────────────────────────
 export interface GeminiInput {
   clinicalScores: ClinicalScores;
-  ageGroup:       string;
-  gender?:        string;
-  symptoms:       string[];
-  skippedCount:   number;
+  ageGroup: string;
+  gender?: string;
+  symptoms: string[];
+  skippedCount: number;
   avgResponseSec: number;
-  totalTimeSec:   number;
+  totalTimeSec: number;
 }
 
 // ─── Output ───────────────────────────────────────────────────────────────────
 export interface GeminiOutput {
-  clinicalSummary:    string;   // 2-3 sentences, measured clinical tone
-  domainInsights:     Record<string, string>; // per-domain plain-English insight
-  keyFindings:        string[]; // 3–4 bullet observations
-  recommendations:    string[]; // 3–4 actionable next steps
-  screeningContext:   string;   // 1 sentence: what these scores mean in context of clinical tools
-  followUpAdvised:    boolean;
-  urgencyLevel:       "routine" | "soon" | "prompt" | "urgent";
+  clinicalSummary: string;   // 2-3 sentences, measured clinical tone
+  domainInsights: Record<string, string>; // per-domain plain-English insight
+  keyFindings: string[]; // 3–4 bullet observations
+  recommendations: string[]; // 3–4 actionable next steps
+  screeningContext: string;   // 1 sentence: what these scores mean in context of clinical tools
+  followUpAdvised: boolean;
+  urgencyLevel: "routine" | "soon" | "prompt" | "urgent";
 }
 
 // ─── Main analysis function ───────────────────────────────────────────────────
@@ -126,10 +126,10 @@ Rules:
 - For "prompt": suggest specialist referral within days
 - For "urgent": recommend immediate medical evaluation`;
 
-  const result = await model.generateContent(prompt);
-  const text   = result.response.text().trim();
-
   try {
+    const result = await model.generateContent(prompt);
+    const text = result.response.text().trim();
+
     const parsed = JSON.parse(text) as GeminiOutput;
     // Validate structure
     if (!parsed.clinicalSummary || !parsed.recommendations || !parsed.domainInsights) {
@@ -137,22 +137,22 @@ Rules:
     }
     return parsed;
   } catch (err) {
-    console.error("[Gemini] Parse failed:", text.slice(0, 200));
+    console.error("[Gemini] Execution/Parse failed:", err);
     return buildFallback(input);
   }
 }
 
 // ─── Fallback (if Gemini fails) ───────────────────────────────────────────────
 function buildFallback(input: GeminiInput): GeminiOutput {
-  const cs  = input.clinicalScores;
+  const cs = input.clinicalScores;
   const ctx = IMPAIRMENT_CONTEXT[cs.impairment];
   return {
     clinicalSummary: `MoCA-equivalent score of ${cs.moca}/30 and MMSE-equivalent of ${cs.mmse}/30 places this result in the "${ctx.label}" category. ${ctx.description} This is a screening result only and does not constitute a clinical diagnosis.`,
     domainInsights: {
-      "Memory":             `Memory score of ${cs.domainScores["Memory"]}/100 — ${cs.domainFlags["Memory"] ? "below the screening threshold; this domain warrants close monitoring." : "within acceptable range for this assessment."}`,
-      "Attention":          `Attention score of ${cs.domainScores["Attention"]}/100 — ${cs.domainFlags["Attention"] ? "below threshold; sustained attention tasks may be affected." : "within acceptable range."}`,
+      "Memory": `Memory score of ${cs.domainScores["Memory"]}/100 — ${cs.domainFlags["Memory"] ? "below the screening threshold; this domain warrants close monitoring." : "within acceptable range for this assessment."}`,
+      "Attention": `Attention score of ${cs.domainScores["Attention"]}/100 — ${cs.domainFlags["Attention"] ? "below threshold; sustained attention tasks may be affected." : "within acceptable range."}`,
       "Executive Function": `Executive Function score of ${cs.domainScores["Executive Function"]}/100 — ${cs.domainFlags["Executive Function"] ? "below threshold; higher-order reasoning and planning tasks showed difficulty." : "within acceptable range."}`,
-      "Orientation":        `Orientation score of ${cs.domainScores["Orientation"]}/100 — ${cs.domainFlags["Orientation"] ? "below threshold; awareness of time and context may be affected." : "within acceptable range."}`,
+      "Orientation": `Orientation score of ${cs.domainScores["Orientation"]}/100 — ${cs.domainFlags["Orientation"] ? "below threshold; awareness of time and context may be affected." : "within acceptable range."}`,
     },
     keyFindings: [
       `MoCA-equivalent: ${cs.moca}/30 (normal ≥26)`,
@@ -171,9 +171,9 @@ function buildFallback(input: GeminiInput): GeminiOutput {
     screeningContext: `These scores are equivalent to what would typically be observed on standard clinical tools such as the MoCA and MMSE used by neurologists and geriatricians.`,
     followUpAdvised: cs.impairment !== "none",
     urgencyLevel:
-      cs.impairment === "none"     ? "routine"
-      : cs.impairment === "mild"   ? "soon"
-      : cs.impairment === "moderate" ? "prompt"
-      : "urgent",
+      cs.impairment === "none" ? "routine"
+        : cs.impairment === "mild" ? "soon"
+          : cs.impairment === "moderate" ? "prompt"
+            : "urgent",
   };
 }

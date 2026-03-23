@@ -29,6 +29,7 @@ export async function GET() {
         riskTier: 1,
         aiInsights: 1,
         recommendations: 1,
+        geminiInsights: 1,
         completedAt: 1,
         totalTimeSec: 1,
         ageGroup: 1,
@@ -66,7 +67,7 @@ export async function GET() {
         },
         riskTier: latest.riskTier ?? "low",
       },
-      geminiInsights: {
+      geminiInsights: latest.geminiInsights || {
         clinicalSummary: latest.aiInsights ?? "",
         domainInsights: { Memory: "", Attention: "", "Executive Function": "", Orientation: "" },
         keyFindings: [],

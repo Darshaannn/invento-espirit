@@ -32,6 +32,7 @@ export interface IAssessment extends Document {
     riskTier: "low" | "moderate" | "high";
     aiInsights: string;
     recommendations: string[];
+    geminiInsights?: any;
     followUpAdvised: boolean;
     totalTimeSec: number;
     completedAt: Date;
@@ -74,6 +75,7 @@ const AssessmentSchema = new Schema<IAssessment>(
         riskTier: { type: String, enum: ["low", "moderate", "high"], required: true },
         aiInsights: { type: String, default: "" },
         recommendations: [{ type: String }],
+        geminiInsights: { type: Schema.Types.Mixed },
         followUpAdvised: { type: Boolean, default: false },
         totalTimeSec: { type: Number, default: 0 },
         completedAt: { type: Date, default: Date.now },

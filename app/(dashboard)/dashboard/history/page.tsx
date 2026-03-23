@@ -20,6 +20,13 @@ interface AssessmentHistory {
     };
     overallScore?: number;
     riskTier?: string;
+    clinicalScores?: {
+        overall: number;
+        riskTier: string;
+    };
+    geminiInsights?: {
+        clinicalSummary: string;
+    };
 }
 
 const ITEMS_PER_PAGE = 10;
@@ -43,7 +50,9 @@ export default function HistoryPage() {
                 try {
                     const res = await fetch('/api/assessments');
                     const result = await res.json();
-                    if (result.success) {
+                    if (result.assessments) {
+                        setHistory(result.assessments);
+                    } else if (result.data) {
                         setHistory(result.data);
                     }
                 } catch (err) {
@@ -63,7 +72,7 @@ export default function HistoryPage() {
                         setHistory([]);
                     }
                 } else {
-                    const localData = sessionStorage.getItem('latest_assessment');
+                    const localData = localStorage.getItem('invento_last_result') || sessionStorage.getItem('latest_assessment');
                     if (localData) {
                         try {
                             const parsed = JSON.parse(localData);
@@ -87,8 +96,8 @@ export default function HistoryPage() {
     const filteredHistory = history.filter(item => {
         if (!item) return false;
         const query = searchQuery.toLowerCase();
-        const sId = (item.sessionId || item._id || "").toLowerCase();
-        const summary = (item.aiAnalysis?.summary || item.aiInsights || "").toLowerCase();
+        const sId = (item.sessionId || item._id || "Local").toLowerCase();
+        const summary = (item.aiAnalysis?.summary || item.aiInsights || item.geminiInsights?.clinicalSummary || "").toLowerCase();
         return sId.includes(query) || summary.includes(query);
     });
 
@@ -178,8 +187,8 @@ export default function HistoryPage() {
 
                 {/* Records List */}
                 <div className="space-y-6">
-                    {paginatedHistory.length > 0 ? paginatedHistory.map((item) => (
-                        <div key={item.sessionId} className="group bg-white/5 border border-white/10 p-8 hover:border-[#8B0000]/40 transition-all cursor-default relative overflow-hidden flex flex-col md:flex-row md:items-center gap-10 backdrop-blur-sm">
+                    {paginatedHistory.length > 0 ? paginatedHistory.map((item, index) => (
+                        <div key={item.sessionId || item._id || `local-${index}`} className="group bg-white/5 border border-white/10 p-8 hover:border-[#8B0000]/40 transition-all cursor-default relative overflow-hidden flex flex-col md:flex-row md:items-center gap-10 backdrop-blur-sm">
                             <div className="flex items-center gap-6 min-w-[280px]">
                                 <div className="p-4 bg-white/5 text-[#8B0000] border border-white/5 group-hover:bg-[#8B0000] group-hover:text-white transition-colors">
                                     <Calendar size={24} />
@@ -194,23 +203,23 @@ export default function HistoryPage() {
 
                             <div className="flex-1">
                                 <p className="text-[10px] font-black text-white/30 uppercase tracking-widest leading-none mb-2">Session Protocol ID</p>
-                                <p className="font-mono text-xs text-white/50 font-bold truncate max-w-[200px] bg-white/5 px-3 py-1 inline-block border border-white/5">{item.sessionId}</p>
+                                <p className="font-mono text-xs text-white/50 font-bold truncate max-w-[200px] bg-white/5 px-3 py-1 inline-block border border-white/5">{item.sessionId || item._id || "Local-Session"}</p>
                             </div>
 
                             <div className="flex flex-wrap items-center gap-12">
                                 <div className="min-w-[140px]">
                                     <p className="text-[10px] font-black text-white/30 uppercase tracking-widest leading-none mb-3">Neural Risk</p>
-                                    <span className={`px-5 py-2 text-[10px] font-black uppercase tracking-[0.2em] shadow-sm ${(item.scores?.overallRisk === 'Low' || item.riskTier === 'Low') ? 'bg-green-600/20 text-green-500 border border-green-500/20' :
-                                        (item.scores?.overallRisk === 'Moderate' || item.riskTier === 'Moderate') ? 'bg-amber-600/20 text-amber-500 border border-amber-500/20' :
+                                    <span className={`px-5 py-2 text-[10px] font-black uppercase tracking-[0.2em] shadow-sm ${(item.scores?.overallRisk === 'Low' || item.riskTier === 'Low' || item.clinicalScores?.riskTier === 'Low') ? 'bg-green-600/20 text-green-500 border border-green-500/20' :
+                                        (item.scores?.overallRisk === 'Moderate' || item.riskTier === 'Moderate' || item.clinicalScores?.riskTier === 'Moderate') ? 'bg-amber-600/20 text-amber-500 border border-amber-500/20' :
                                             'bg-[#8B0000]/20 text-[#ff4444] border border-[#8B0000]/40'
                                         }`}>
-                                        {item.riskTier || item.scores?.overallRisk || 'N/A'}
+                                        {item.riskTier || item.scores?.overallRisk || item.clinicalScores?.riskTier || 'N/A'}
                                     </span>
                                 </div>
 
                                 <div className="min-w-[120px]">
                                     <p className="text-[10px] font-black text-white/30 uppercase tracking-widest leading-none mb-2">Precision</p>
-                                    <p className="font-black text-white/90 text-2xl italic tracking-tighter">{item.overallScore || item.scores?.accuracy || 0}<span className="text-[10px] ml-1 opacity-30">%</span></p>
+                                    <p className="font-black text-white/90 text-2xl italic tracking-tighter">{item.overallScore || item.scores?.accuracy || item.clinicalScores?.overall || 0}<span className="text-[10px] ml-1 opacity-30">%</span></p>
                                 </div>
 
                                 <Link
