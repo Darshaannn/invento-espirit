@@ -358,7 +358,7 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-stretch gap-4 min-w-[320px]">
+                    <div className="flex flex-col sm:flex-row items-stretch gap-4 w-full md:w-auto">
                         <button
                             onClick={handleExport}
                             disabled={exporting}
@@ -649,7 +649,7 @@ export default function Dashboard() {
                                         />
                                         <button
                                             onClick={() => setMapQuery(locationQuery)}
-                                            className="px-8 bg-white/5 hover:bg-[#8B0000]/20 text-[10px] uppercase font-light tracking-[0.3em] text-white/80 transition-colors border-l border-white/10"
+                                            className="px-4 md:px-8 bg-white/5 hover:bg-[#8B0000]/20 text-[10px] uppercase font-light tracking-[0.3em] text-white/80 transition-colors border-l border-white/10 shrink-0"
                                         >
                                             Search
                                         </button>

@@ -26,11 +26,11 @@ export default function Instructions() {
 
             {/* MAIN CONTENT CENTERED */}
             <main className="flex-1 flex items-center justify-center p-6">
-                <div className="w-full max-w-2xl bg-white border border-[#1A1A1A]/5 p-12 shadow-xl relative overflow-hidden">
+                <div className="w-full max-w-2xl bg-white border border-[#1A1A1A]/5 p-6 md:p-12 shadow-xl relative overflow-hidden">
 
-                    <div className="flex justify-between items-start mb-10 relative z-10">
+                    <div className="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-0 mb-10 relative z-10">
                         <div>
-                            <h1 className="text-4xl font-light mb-2 tracking-tighter text-[#1A1A1A]">Cognitive Screening Protocol</h1>
+                            <h1 className="text-3xl md:text-4xl font-light mb-2 tracking-tighter text-[#1A1A1A]">Cognitive Screening Protocol</h1>
                             <p className="text-[#1A1A1A]/50 font-medium italic">Clinical-grade behavioral assessment and mental baseline mapping.</p>
                         </div>
                         <div className="flex items-center gap-2 bg-[#8B0000]/5 px-4 py-2 text-xs font-light tracking-wide text-[#8B0000] border border-[#8B0000]/10">
@@ -39,7 +39,7 @@ export default function Instructions() {
                     </div>
 
                     {/* DETAILS CARD */}
-                    <div className="bg-[#F5F1EE] border border-[#1A1A1A]/5 p-8 mb-10 relative z-10">
+                    <div className="bg-[#F5F1EE] border border-[#1A1A1A]/5 p-6 md:p-8 mb-10 relative z-10">
                         <h3 className="text-[10px] font-light uppercase tracking-[0.4em] text-[#1A1A1A]/40 mb-6">Assessment Blueprint</h3>
                         <div className="grid grid-cols-2 gap-6">
                             <div className="space-y-1">
@@ -75,8 +75,8 @@ export default function Instructions() {
                     </div>
 
                     {/* CTA */}
-                    <Link href="/screening" className="w-full group bg-[#1A1A1A] p-6 flex items-center justify-center gap-4 font-light uppercase tracking-widest text-sm text-white shadow-xl hover:bg-black hover:scale-[1.02] active:scale-[0.98] transition-all">
-                        Start Screening Assessment <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                    <Link href="/screening" className="w-full group bg-[#1A1A1A] p-4 md:p-6 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 font-light uppercase tracking-widest text-xs md:text-sm text-white shadow-xl hover:bg-black hover:scale-[1.02] active:scale-[0.98] transition-all text-center">
+                        Start Screening Assessment <ArrowRight className="hidden md:block group-hover:translate-x-1 transition-transform" />
                     </Link>
 
                     {/* DISCLAIMER */}

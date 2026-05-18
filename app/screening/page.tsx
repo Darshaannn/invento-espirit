@@ -366,7 +366,7 @@ const ScreeningPage = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-white p-12 md:p-16 border border-[#1A1A1A]/5 shadow-2xl relative overflow-hidden group"
+                        className="bg-white p-8 md:p-16 border border-[#1A1A1A]/5 shadow-2xl relative overflow-hidden group"
                     >
                         <div className="absolute top-0 right-0 w-64 h-64 bg-[#8B0000]/5 blur-[60px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
@@ -449,7 +449,7 @@ const ScreeningPage = () => {
                                 whileTap={{ scale: 0.98 }}
                                 disabled={!intakeData.age || !intakeData.gender}
                                 onClick={handleIntakeSubmit}
-                                className={`px-16 py-6 font-light uppercase tracking-widest flex items-center gap-3 transition-all shadow-2xl ${(!intakeData.age || !intakeData.gender) ? 'bg-[#1A1A1A]/10 text-white/40 cursor-not-allowed' : 'bg-[#1A1A1A] text-white hover:bg-black'}`}
+                                className={`px-8 py-4 md:px-16 md:py-6 font-light text-sm md:text-base uppercase tracking-widest flex items-center justify-center gap-3 transition-all shadow-2xl w-full md:w-auto ${(!intakeData.age || !intakeData.gender) ? 'bg-[#1A1A1A]/10 text-white/40 cursor-not-allowed' : 'bg-[#1A1A1A] text-white hover:bg-black'}`}
                             >
                                 Initiate Assessment <ArrowRight size={20} />
                             </motion.button>
@@ -511,7 +511,7 @@ const ScreeningPage = () => {
                                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                                 className="flex-1 flex flex-col"
                             >
-                                <div className={`bg-[#0A0A0A] border border-white/5 p-12 md:p-16 flex flex-col flex-1 shadow-2xl relative overflow-hidden group`}>
+                                <div className={`bg-[#0A0A0A] border border-white/5 p-6 md:p-16 flex flex-col flex-1 shadow-2xl relative overflow-hidden group`}>
                                     {/* Subtle glowing orbs for premium HUD feel */}
                                     <div className={`absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br ${gradientClass} opacity-[0.07] blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none group-hover:opacity-[0.1] transition-opacity duration-700`} />
                                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 blur-[80px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
@@ -582,7 +582,7 @@ const ScreeningPage = () => {
                                                                             : 'bg-black/20 text-white/60 hover:bg-black/30 hover:text-white border border-white/5'
                                                                         }`}
                                                                 >
-                                                                    <span className="font-light text-lg md:text-xl tracking-tight relative z-10">{opt}</span>
+                                                                    <span className="font-light text-base md:text-xl tracking-tight relative z-10">{opt}</span>
                                                                     <div className={`w-8 h-8 flex items-center justify-center transition-all
                                                                         ${selectedChoice === opt ? 'bg-[#8B0000] text-white shadow-lg' : 'bg-white/10 text-white/30 group-hover:bg-white/20'}`}>
                                                                         {selectedChoice === opt ? <CheckCircle2 size={18} /> : String.fromCharCode(65 + i)}
@@ -608,10 +608,10 @@ const ScreeningPage = () => {
 
                                     {/* FOOTER: MIC & NEXT */}
                                     {!isShowingInstruction && (
-                                        <div className="mt-auto flex justify-between items-center relative z-10 pt-8 border-t border-white/5">
+                                        <div className="mt-auto flex flex-col md:flex-row justify-between items-stretch md:items-center gap-6 relative z-10 pt-8 border-t border-white/5">
                                             <button
                                                 onClick={isListening ? stopListening : startListening}
-                                                className={`flex items-center gap-3 px-6 py-4 border transition-all 
+                                                className={`flex justify-center items-center gap-3 px-6 py-4 border transition-all w-full md:w-auto
                                                     ${isListening
                                                         ? 'bg-red-500 border-white text-white animate-pulse'
                                                         : 'bg-white/5 border-white/10 text-white/80 hover:bg-white/10 hover:border-white/20'
@@ -621,11 +621,11 @@ const ScreeningPage = () => {
                                                 <span className="text-[10px] font-light uppercase tracking-widest">{isListening ? 'Listening...' : 'Voice Assistant'}</span>
                                             </button>
 
-                                            <div className="flex items-center gap-6 w-full justify-between">
+                                            <div className="flex flex-row items-center gap-4 w-full md:w-auto justify-between md:justify-end">
                                                 {currentIdx > 0 ? (
                                                     <button
                                                         onClick={() => setCurrentIdx(prev => prev - 1)}
-                                                        className="px-12 py-5 bg-[#E8E2DE] text-[#1A1A1A]/60 hover:text-[#1A1A1A] text-sm font-light transition-all hover:bg-[#DED8D4]"
+                                                        className="px-8 md:px-12 py-4 md:py-5 bg-[#E8E2DE] text-[#1A1A1A]/60 hover:text-[#1A1A1A] text-sm font-light transition-all hover:bg-[#DED8D4] text-center"
                                                     >
                                                         Back
                                                     </button>
@@ -634,7 +634,7 @@ const ScreeningPage = () => {
                                                 <button
                                                     disabled={isSubmitting || (!isShowingInstruction && (q.type === 'choice' ? !selectedChoice : !textInput.trim()))}
                                                     onClick={handleNext}
-                                                    className={`px-16 py-5 font-light text-sm transition-all shadow-xl
+                                                    className={`px-8 md:px-16 py-4 md:py-5 font-light text-sm transition-all shadow-xl text-center flex-1 md:flex-none
                                                         ${(isSubmitting || (!isShowingInstruction && (q.type === 'choice' ? !selectedChoice : !textInput.trim())))
                                                             ? 'bg-[#1A1A1A]/5 text-[#1A1A1A]/20 cursor-not-allowed'
                                                             : 'bg-[#1A1A1A] text-white hover:bg-black active:scale-95'

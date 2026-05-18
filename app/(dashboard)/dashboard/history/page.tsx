@@ -189,7 +189,7 @@ export default function HistoryPage() {
                 <div className="space-y-6">
                     {paginatedHistory.length > 0 ? paginatedHistory.map((item, index) => (
                         <div key={item.sessionId || item._id || `local-${index}`} className="group bg-white/5 border border-white/10 p-8 hover:border-[#8B0000]/40 transition-all cursor-default relative overflow-hidden flex flex-col md:flex-row md:items-center gap-10 backdrop-blur-sm">
-                            <div className="flex items-center gap-6 min-w-[280px]">
+                            <div className="flex items-center gap-6 w-full md:w-auto">
                                 <div className="p-4 bg-white/5 text-[#8B0000] border border-white/5 group-hover:bg-[#8B0000] group-hover:text-white transition-colors">
                                     <Calendar size={24} />
                                 </div>
@@ -253,7 +253,7 @@ export default function HistoryPage() {
                                 <button
                                     key={i + 1}
                                     onClick={() => setCurrentPage(i + 1)}
-                                    className={`w-16 h-16 border border-white/10 font-black text-[11px] transition-all shadow-sm ${currentPage === i + 1 ? 'bg-white text-black scale-110' : 'bg-white/5 text-white/30 hover:text-white hover:bg-white/10'
+                                    className={`w-12 h-12 md:w-16 md:h-16 border border-white/10 font-black text-[11px] transition-all shadow-sm ${currentPage === i + 1 ? 'bg-white text-black scale-110' : 'bg-white/5 text-white/30 hover:text-white hover:bg-white/10'
                                         }`}
                                 >
                                     {(i + 1).toString().padStart(2, '0')}

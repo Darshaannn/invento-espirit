@@ -56,21 +56,23 @@ export default function LandingPage() {
             <Logo size={42} showText={true} />
           </Link>
 
-          <div className="hidden md:flex items-center gap-10">
-            {['Dashboard', 'Assessment', 'Clinical Protocol'].map((item) => (
-              <Link
-                key={item}
-                href={`/${item.toLowerCase().replace(' ', '-')}`}
-                className="text-[11px] font-light uppercase tracking-[0.2em] text-white/40 hover:text-white transition-all relative group/link"
-              >
-                {item}
-                <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-gradient-to-r from-purple-500 to-cyan-500 group-hover/link:w-full transition-all duration-300" />
-              </Link>
-            ))}
+          <div className="flex items-center gap-4 md:gap-10">
+            <div className="hidden md:flex items-center gap-10">
+              {['Dashboard', 'Assessment', 'Clinical Protocol'].map((item) => (
+                <Link
+                  key={item}
+                  href={`/${item.toLowerCase().replace(' ', '-')}`}
+                  className="text-[11px] font-light uppercase tracking-[0.2em] text-white/40 hover:text-white transition-all relative group/link"
+                >
+                  {item}
+                  <span className="absolute -bottom-2 left-0 w-0 h-[1px] bg-gradient-to-r from-purple-500 to-cyan-500 group-hover/link:w-full transition-all duration-300" />
+                </Link>
+              ))}
+            </div>
 
             <Link
               href="/login"
-              className="ml-4 px-8 py-2.5 bg-white text-black text-[11px] font-light uppercase tracking-widest hover:bg-transparent hover:text-white border border-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-white/20"
+              className="px-6 py-2.5 md:px-8 bg-white text-black text-[10px] md:text-[11px] font-light uppercase tracking-widest hover:bg-transparent hover:text-white border border-white transition-all duration-300 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-white/20"
             >
               Access Portal
             </Link>
@@ -197,7 +199,7 @@ export default function LandingPage() {
           <h2 className="text-4xl font-light mb-16 tracking-tighter text-white/90 text-center text-display">
             What Professionals Say
           </h2>
-          <div className="grid md:grid-cols-3 gap-8 text-left">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
             <TestimonialCard
               quote="Invento's latency tracking provides a nuance that traditional pen-and-paper tests completely miss."
               author="Dr. Sarah Jenkins"
